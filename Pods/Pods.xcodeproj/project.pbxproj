@@ -1,0 +1,790 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1329294071D1976E42F115F7 /* Pods-HomeBeacon-Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 04785A5572C7E0EBC66A752C /* Pods-HomeBeacon-Alamofire-dummy.m */; };
+		1E48393BD3BD3C783E4C5DFD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F554C8B9F4A4752569D88B /* Foundation.framework */; };
+		35C5A235050DBE6DA7171274 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F554C8B9F4A4752569D88B /* Foundation.framework */; };
+		3984AA8CAAE9E14FA3F43C0D /* Pods-HomeBeacon-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BCD690DA59E345BEE0F108 /* Pods-HomeBeacon-dummy.m */; };
+		41DDFCC28436B4532BDE5C89 /* Pods-HomeBeaconTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E21F7B4E47BC12F55E80DC /* Pods-HomeBeaconTests-dummy.m */; };
+		47C72585EE2B050576F6257A /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AA0955FE1D0A2696E3549D /* Alamofire.swift */; };
+		5441D295C17DF1F11B8AA411 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AA0955FE1D0A2696E3549D /* Alamofire.swift */; };
+		60A22BB1CACFB17FD6CCDA8A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F554C8B9F4A4752569D88B /* Foundation.framework */; };
+		84D35101C39579334599CA69 /* Pods-HomeBeaconTests-Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D530BCBE84C28D057153CF /* Pods-HomeBeaconTests-Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		897D98DC4E2747317A301D80 /* Pods-HomeBeacon-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F71DFA9916C77F277413C493 /* Pods-HomeBeacon-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8A908363B5EF6A3CD0D5EC75 /* Pods-HomeBeacon-Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F08F4146D4D5E03305B95FD9 /* Pods-HomeBeacon-Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		99DBE7EAE56B455B9388F8A6 /* Pods-HomeBeaconTests-Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9779063169EA2B35FB73CAF6 /* Pods-HomeBeaconTests-Alamofire-dummy.m */; };
+		9AC26C8C839C896B4505EC8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F554C8B9F4A4752569D88B /* Foundation.framework */; };
+		C60653FAEBCB7C6CF9B3CCA2 /* Pods-HomeBeaconTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C369B31A5CCB0924E2FF0A0 /* Pods-HomeBeaconTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A92A8329C1BB4C8963874D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 430E2F2376ECE4F747DDB35E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0F54FDF059F4ADAB7797D455;
+			remoteInfo = "Pods-HomeBeacon-Alamofire";
+		};
+		BA1A3FE7B0A38D1169DA9BD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 430E2F2376ECE4F747DDB35E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE4CF237B96C9F8465F09BDA;
+			remoteInfo = "Pods-HomeBeaconTests-Alamofire";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0456C5466DBDB5624C3861DD /* Pods-HomeBeacon-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-HomeBeacon-acknowledgements.plist"; sourceTree = "<group>"; };
+		04785A5572C7E0EBC66A752C /* Pods-HomeBeacon-Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-HomeBeacon-Alamofire-dummy.m"; sourceTree = "<group>"; };
+		09D6318E4B6CE2CFBD710AA8 /* Pods-HomeBeacon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeBeacon.debug.xcconfig"; sourceTree = "<group>"; };
+		0C369B31A5CCB0924E2FF0A0 /* Pods-HomeBeaconTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HomeBeaconTests-umbrella.h"; sourceTree = "<group>"; };
+		15FA17A1C1EC41DA1BAE7457 /* Pods-HomeBeacon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeBeacon.release.xcconfig"; sourceTree = "<group>"; };
+		18AA0955FE1D0A2696E3549D /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
+		22DC1762BE7EE3E907A5B61A /* Pods-HomeBeaconTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-HomeBeaconTests-resources.sh"; sourceTree = "<group>"; };
+		25D889D3396384F50FCEABDA /* Pods-HomeBeacon-Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeBeacon-Alamofire.xcconfig"; sourceTree = "<group>"; };
+		2933100A985E61523E6EEEF9 /* Pods-HomeBeacon-Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-HomeBeacon-Alamofire.modulemap"; sourceTree = "<group>"; };
+		29D530BCBE84C28D057153CF /* Pods-HomeBeaconTests-Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Pods-HomeBeaconTests-Alamofire-umbrella.h"; path = "../Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire-umbrella.h"; sourceTree = "<group>"; };
+		30F58B52D0A7CD94FE55DD29 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DD855A4E6884E3CFA888C10 /* Pods-HomeBeacon-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-HomeBeacon-frameworks.sh"; sourceTree = "<group>"; };
+		3F1D7DE3C395AA8762A26E69 /* Pods-HomeBeaconTests-Alamofire-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeBeaconTests-Alamofire-Private.xcconfig"; path = "../Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire-Private.xcconfig"; sourceTree = "<group>"; };
+		42050A49FD3CBE3697DDD325 /* Pods_HomeBeacon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeBeacon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47E87A8A5E598748CBBF78A3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5040FEB0C43A221F538CA68C /* Pods-HomeBeaconTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-HomeBeaconTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		66EAE5F0D7022D832C5F5CA4 /* Pods-HomeBeacon-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HomeBeacon-environment.h"; sourceTree = "<group>"; };
+		6D6D64340EAA421C5D9DE64C /* Pods-HomeBeaconTests-Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeBeaconTests-Alamofire.xcconfig"; path = "../Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire.xcconfig"; sourceTree = "<group>"; };
+		6F8C4CF8F4DD772D4E7511C7 /* Pods-HomeBeaconTests-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HomeBeaconTests-environment.h"; sourceTree = "<group>"; };
+		70F554C8B9F4A4752569D88B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		79218D6595D1C56AF15321EC /* Pods-HomeBeacon-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-HomeBeacon-resources.sh"; sourceTree = "<group>"; };
+		7FC43FF132411286A03AB708 /* Pods-HomeBeaconTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-HomeBeaconTests.modulemap"; sourceTree = "<group>"; };
+		8D447596B617D2931BB17EE4 /* Pods-HomeBeaconTests-Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; name = "Pods-HomeBeaconTests-Alamofire.modulemap"; path = "../Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire.modulemap"; sourceTree = "<group>"; };
+		94E21F7B4E47BC12F55E80DC /* Pods-HomeBeaconTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-HomeBeaconTests-dummy.m"; sourceTree = "<group>"; };
+		973B2DEEE1C82926D0FD5425 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9779063169EA2B35FB73CAF6 /* Pods-HomeBeaconTests-Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Pods-HomeBeaconTests-Alamofire-dummy.m"; path = "../Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire-dummy.m"; sourceTree = "<group>"; };
+		9DC128A8ACA64EB3B556232F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A013FB66041141A6C9F8817F /* Pods-HomeBeacon.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-HomeBeacon.modulemap"; sourceTree = "<group>"; };
+		A6078A464404788C9BA25A43 /* Pods-HomeBeaconTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeBeaconTests.release.xcconfig"; sourceTree = "<group>"; };
+		A7C54115A4586E7AA4251AF2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../Pods-HomeBeaconTests-Alamofire/Info.plist"; sourceTree = "<group>"; };
+		AA6047C9FF94DEA0A13292A2 /* Pods-HomeBeacon-Alamofire-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeBeacon-Alamofire-Private.xcconfig"; sourceTree = "<group>"; };
+		AFB892E7754F3D801013440E /* Pods-HomeBeacon-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-HomeBeacon-acknowledgements.markdown"; sourceTree = "<group>"; };
+		C3BCD690DA59E345BEE0F108 /* Pods-HomeBeacon-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-HomeBeacon-dummy.m"; sourceTree = "<group>"; };
+		CB33A6846AF1E35F1AE51FB0 /* Pods-HomeBeaconTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeBeaconTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CCBDD6AA90F5D1C01E258DDC /* Pods-HomeBeacon-Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HomeBeacon-Alamofire-prefix.pch"; sourceTree = "<group>"; };
+		D134E68DD64E80F1E2EC552B /* Pods-HomeBeaconTests-Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Pods-HomeBeaconTests-Alamofire-prefix.pch"; path = "../Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire-prefix.pch"; sourceTree = "<group>"; };
+		D1578D8603D204D3ACB1C1FA /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		D3CBB6D8079F7394C1515CA9 /* Pods-HomeBeaconTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-HomeBeaconTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		DB0DF746DEEDB692EDB5279F /* Pods_HomeBeaconTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeBeaconTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4D17413E2A0FF0E4BED3D61 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F08F4146D4D5E03305B95FD9 /* Pods-HomeBeacon-Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HomeBeacon-Alamofire-umbrella.h"; sourceTree = "<group>"; };
+		F71DFA9916C77F277413C493 /* Pods-HomeBeacon-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HomeBeacon-umbrella.h"; sourceTree = "<group>"; };
+		F84D6D6473AB50E33F5A5118 /* Pods-HomeBeaconTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-HomeBeaconTests-frameworks.sh"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1465FBCF32890457781F6820 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E48393BD3BD3C783E4C5DFD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E6009F701F0F03AE360C88F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60A22BB1CACFB17FD6CCDA8A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91D2DF23F84B1B56C0D163D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AC26C8C839C896B4505EC8D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A4A8610BFB272BE3E24681E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				35C5A235050DBE6DA7171274 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3F6945E5AE447925DD53ECD5 /* Pods-HomeBeaconTests */ = {
+			isa = PBXGroup;
+			children = (
+				9DC128A8ACA64EB3B556232F /* Info.plist */,
+				7FC43FF132411286A03AB708 /* Pods-HomeBeaconTests.modulemap */,
+				D3CBB6D8079F7394C1515CA9 /* Pods-HomeBeaconTests-acknowledgements.markdown */,
+				5040FEB0C43A221F538CA68C /* Pods-HomeBeaconTests-acknowledgements.plist */,
+				94E21F7B4E47BC12F55E80DC /* Pods-HomeBeaconTests-dummy.m */,
+				6F8C4CF8F4DD772D4E7511C7 /* Pods-HomeBeaconTests-environment.h */,
+				F84D6D6473AB50E33F5A5118 /* Pods-HomeBeaconTests-frameworks.sh */,
+				22DC1762BE7EE3E907A5B61A /* Pods-HomeBeaconTests-resources.sh */,
+				0C369B31A5CCB0924E2FF0A0 /* Pods-HomeBeaconTests-umbrella.h */,
+				CB33A6846AF1E35F1AE51FB0 /* Pods-HomeBeaconTests.debug.xcconfig */,
+				A6078A464404788C9BA25A43 /* Pods-HomeBeaconTests.release.xcconfig */,
+			);
+			name = "Pods-HomeBeaconTests";
+			path = "Target Support Files/Pods-HomeBeaconTests";
+			sourceTree = "<group>";
+		};
+		424474268D04D4DC7C102D2A /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				973B2DEEE1C82926D0FD5425 /* Info.plist */,
+				A7C54115A4586E7AA4251AF2 /* Info.plist */,
+				2933100A985E61523E6EEEF9 /* Pods-HomeBeacon-Alamofire.modulemap */,
+				25D889D3396384F50FCEABDA /* Pods-HomeBeacon-Alamofire.xcconfig */,
+				AA6047C9FF94DEA0A13292A2 /* Pods-HomeBeacon-Alamofire-Private.xcconfig */,
+				04785A5572C7E0EBC66A752C /* Pods-HomeBeacon-Alamofire-dummy.m */,
+				CCBDD6AA90F5D1C01E258DDC /* Pods-HomeBeacon-Alamofire-prefix.pch */,
+				F08F4146D4D5E03305B95FD9 /* Pods-HomeBeacon-Alamofire-umbrella.h */,
+				8D447596B617D2931BB17EE4 /* Pods-HomeBeaconTests-Alamofire.modulemap */,
+				6D6D64340EAA421C5D9DE64C /* Pods-HomeBeaconTests-Alamofire.xcconfig */,
+				3F1D7DE3C395AA8762A26E69 /* Pods-HomeBeaconTests-Alamofire-Private.xcconfig */,
+				9779063169EA2B35FB73CAF6 /* Pods-HomeBeaconTests-Alamofire-dummy.m */,
+				D134E68DD64E80F1E2EC552B /* Pods-HomeBeaconTests-Alamofire-prefix.pch */,
+				29D530BCBE84C28D057153CF /* Pods-HomeBeaconTests-Alamofire-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-HomeBeacon-Alamofire";
+			sourceTree = "<group>";
+		};
+		48A8BAB622DD9296DF1ABDF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E0F497B6CAF62A17538015E /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4E0F497B6CAF62A17538015E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				70F554C8B9F4A4752569D88B /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		92A4E006A1F2017A8E74A0F6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C0AF2E6C1761750F69E9C0E4 /* Alamofire */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AC286A3B62791379E7032490 = {
+			isa = PBXGroup;
+			children = (
+				D1578D8603D204D3ACB1C1FA /* Podfile */,
+				48A8BAB622DD9296DF1ABDF2 /* Frameworks */,
+				92A4E006A1F2017A8E74A0F6 /* Pods */,
+				EAC346073BDF07D7F2317A1E /* Products */,
+				DE984574BD41D86E0ADDE326 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		AFB5403D399B594DC2CABA15 /* Pods-HomeBeacon */ = {
+			isa = PBXGroup;
+			children = (
+				47E87A8A5E598748CBBF78A3 /* Info.plist */,
+				A013FB66041141A6C9F8817F /* Pods-HomeBeacon.modulemap */,
+				AFB892E7754F3D801013440E /* Pods-HomeBeacon-acknowledgements.markdown */,
+				0456C5466DBDB5624C3861DD /* Pods-HomeBeacon-acknowledgements.plist */,
+				C3BCD690DA59E345BEE0F108 /* Pods-HomeBeacon-dummy.m */,
+				66EAE5F0D7022D832C5F5CA4 /* Pods-HomeBeacon-environment.h */,
+				3DD855A4E6884E3CFA888C10 /* Pods-HomeBeacon-frameworks.sh */,
+				79218D6595D1C56AF15321EC /* Pods-HomeBeacon-resources.sh */,
+				F71DFA9916C77F277413C493 /* Pods-HomeBeacon-umbrella.h */,
+				09D6318E4B6CE2CFBD710AA8 /* Pods-HomeBeacon.debug.xcconfig */,
+				15FA17A1C1EC41DA1BAE7457 /* Pods-HomeBeacon.release.xcconfig */,
+			);
+			name = "Pods-HomeBeacon";
+			path = "Target Support Files/Pods-HomeBeacon";
+			sourceTree = "<group>";
+		};
+		C0AF2E6C1761750F69E9C0E4 /* Alamofire */ = {
+			isa = PBXGroup;
+			children = (
+				18AA0955FE1D0A2696E3549D /* Alamofire.swift */,
+				424474268D04D4DC7C102D2A /* Support Files */,
+			);
+			path = Alamofire;
+			sourceTree = "<group>";
+		};
+		DE984574BD41D86E0ADDE326 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				AFB5403D399B594DC2CABA15 /* Pods-HomeBeacon */,
+				3F6945E5AE447925DD53ECD5 /* Pods-HomeBeaconTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		EAC346073BDF07D7F2317A1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E4D17413E2A0FF0E4BED3D61 /* Alamofire.framework */,
+				30F58B52D0A7CD94FE55DD29 /* Alamofire.framework */,
+				42050A49FD3CBE3697DDD325 /* Pods_HomeBeacon.framework */,
+				DB0DF746DEEDB692EDB5279F /* Pods_HomeBeaconTests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		14D4714E42300418A0826D8D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				897D98DC4E2747317A301D80 /* Pods-HomeBeacon-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47053AF874D325B86BEA7312 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84D35101C39579334599CA69 /* Pods-HomeBeaconTests-Alamofire-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA07F31C3E9CCAC82EA3E069 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A908363B5EF6A3CD0D5EC75 /* Pods-HomeBeacon-Alamofire-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E73C41E47E13D54725C388E3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C60653FAEBCB7C6CF9B3CCA2 /* Pods-HomeBeaconTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0F54FDF059F4ADAB7797D455 /* Pods-HomeBeacon-Alamofire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 71CAD78E055C35F5F8525D6D /* Build configuration list for PBXNativeTarget "Pods-HomeBeacon-Alamofire" */;
+			buildPhases = (
+				78B599E4A073DB237A2582F7 /* Sources */,
+				9A4A8610BFB272BE3E24681E /* Frameworks */,
+				AA07F31C3E9CCAC82EA3E069 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-HomeBeacon-Alamofire";
+			productName = "Pods-HomeBeacon-Alamofire";
+			productReference = E4D17413E2A0FF0E4BED3D61 /* Alamofire.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4FECBE59E4255E233E2F7250 /* Pods-HomeBeacon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CF52F4048B90C8952893AA00 /* Build configuration list for PBXNativeTarget "Pods-HomeBeacon" */;
+			buildPhases = (
+				E0AECE7D3F231B5F83D6DA58 /* Sources */,
+				2E6009F701F0F03AE360C88F /* Frameworks */,
+				14D4714E42300418A0826D8D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8468E086EC70BA5901A3C730 /* PBXTargetDependency */,
+			);
+			name = "Pods-HomeBeacon";
+			productName = "Pods-HomeBeacon";
+			productReference = 42050A49FD3CBE3697DDD325 /* Pods_HomeBeacon.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BE4CF237B96C9F8465F09BDA /* Pods-HomeBeaconTests-Alamofire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E630E42A2BDB05E88528519F /* Build configuration list for PBXNativeTarget "Pods-HomeBeaconTests-Alamofire" */;
+			buildPhases = (
+				1198841C89A77C2784718C20 /* Sources */,
+				1465FBCF32890457781F6820 /* Frameworks */,
+				47053AF874D325B86BEA7312 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-HomeBeaconTests-Alamofire";
+			productName = "Pods-HomeBeaconTests-Alamofire";
+			productReference = 30F58B52D0A7CD94FE55DD29 /* Alamofire.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FFF079EF89EC528D740C703F /* Pods-HomeBeaconTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A3A2EDBD4CF11D8BCE666EF /* Build configuration list for PBXNativeTarget "Pods-HomeBeaconTests" */;
+			buildPhases = (
+				915D438F55813002CA7311D1 /* Sources */,
+				91D2DF23F84B1B56C0D163D7 /* Frameworks */,
+				E73C41E47E13D54725C388E3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2D9AB43953D6093809F66F4B /* PBXTargetDependency */,
+			);
+			name = "Pods-HomeBeaconTests";
+			productName = "Pods-HomeBeaconTests";
+			productReference = DB0DF746DEEDB692EDB5279F /* Pods_HomeBeaconTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		430E2F2376ECE4F747DDB35E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = 7B21CFA2F3A2CC383ECA3A55 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AC286A3B62791379E7032490;
+			productRefGroup = EAC346073BDF07D7F2317A1E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4FECBE59E4255E233E2F7250 /* Pods-HomeBeacon */,
+				0F54FDF059F4ADAB7797D455 /* Pods-HomeBeacon-Alamofire */,
+				FFF079EF89EC528D740C703F /* Pods-HomeBeaconTests */,
+				BE4CF237B96C9F8465F09BDA /* Pods-HomeBeaconTests-Alamofire */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1198841C89A77C2784718C20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5441D295C17DF1F11B8AA411 /* Alamofire.swift in Sources */,
+				99DBE7EAE56B455B9388F8A6 /* Pods-HomeBeaconTests-Alamofire-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78B599E4A073DB237A2582F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47C72585EE2B050576F6257A /* Alamofire.swift in Sources */,
+				1329294071D1976E42F115F7 /* Pods-HomeBeacon-Alamofire-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		915D438F55813002CA7311D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41DDFCC28436B4532BDE5C89 /* Pods-HomeBeaconTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0AECE7D3F231B5F83D6DA58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3984AA8CAAE9E14FA3F43C0D /* Pods-HomeBeacon-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2D9AB43953D6093809F66F4B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-HomeBeaconTests-Alamofire";
+			target = BE4CF237B96C9F8465F09BDA /* Pods-HomeBeaconTests-Alamofire */;
+			targetProxy = BA1A3FE7B0A38D1169DA9BD3 /* PBXContainerItemProxy */;
+		};
+		8468E086EC70BA5901A3C730 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-HomeBeacon-Alamofire";
+			target = 0F54FDF059F4ADAB7797D455 /* Pods-HomeBeacon-Alamofire */;
+			targetProxy = A92A8329C1BB4C8963874D19 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		063D808B31DAF6C58F17033E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F1D7DE3C395AA8762A26E69 /* Pods-HomeBeaconTests-Alamofire-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeaconTests-Alamofire/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = Alamofire;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		117C74EC9DAEC0E3F01666B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA6047C9FF94DEA0A13292A2 /* Pods-HomeBeacon-Alamofire-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-HomeBeacon-Alamofire/Pods-HomeBeacon-Alamofire-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeacon-Alamofire/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeacon-Alamofire/Pods-HomeBeacon-Alamofire.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Alamofire;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		31015765FB0E161A44D12104 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15FA17A1C1EC41DA1BAE7457 /* Pods-HomeBeacon.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeacon/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeacon/Pods-HomeBeacon.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_HomeBeacon;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		38F72AE0E2FC5644B3FDA2A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB33A6846AF1E35F1AE51FB0 /* Pods-HomeBeaconTests.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeaconTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeaconTests/Pods-HomeBeaconTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_HomeBeaconTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		42EB839C6344952A93BCAF8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09D6318E4B6CE2CFBD710AA8 /* Pods-HomeBeacon.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeacon/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeacon/Pods-HomeBeacon.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_HomeBeacon;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4D724699265BBAEF6E54C868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA6047C9FF94DEA0A13292A2 /* Pods-HomeBeacon-Alamofire-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-HomeBeacon-Alamofire/Pods-HomeBeacon-Alamofire-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeacon-Alamofire/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeacon-Alamofire/Pods-HomeBeacon-Alamofire.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = Alamofire;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8040D7549CFA2977B5058B8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F1D7DE3C395AA8762A26E69 /* Pods-HomeBeaconTests-Alamofire-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeaconTests-Alamofire/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeaconTests-Alamofire/Pods-HomeBeaconTests-Alamofire.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Alamofire;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		9F372F1840F5391D52A5DF73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A39A0819915B7229A32A3623 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6078A464404788C9BA25A43 /* Pods-HomeBeaconTests.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeBeaconTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeBeaconTests/Pods-HomeBeaconTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_HomeBeaconTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		ECD73CA67DEAE646400D3D7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1A3A2EDBD4CF11D8BCE666EF /* Build configuration list for PBXNativeTarget "Pods-HomeBeaconTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38F72AE0E2FC5644B3FDA2A8 /* Debug */,
+				A39A0819915B7229A32A3623 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		71CAD78E055C35F5F8525D6D /* Build configuration list for PBXNativeTarget "Pods-HomeBeacon-Alamofire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4D724699265BBAEF6E54C868 /* Debug */,
+				117C74EC9DAEC0E3F01666B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B21CFA2F3A2CC383ECA3A55 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECD73CA67DEAE646400D3D7B /* Debug */,
+				9F372F1840F5391D52A5DF73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CF52F4048B90C8952893AA00 /* Build configuration list for PBXNativeTarget "Pods-HomeBeacon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42EB839C6344952A93BCAF8F /* Debug */,
+				31015765FB0E161A44D12104 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E630E42A2BDB05E88528519F /* Build configuration list for PBXNativeTarget "Pods-HomeBeaconTests-Alamofire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				063D808B31DAF6C58F17033E /* Debug */,
+				8040D7549CFA2977B5058B8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 430E2F2376ECE4F747DDB35E /* Project object */;
+}
