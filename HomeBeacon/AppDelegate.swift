@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     var locationManager: CLLocationManager?
     var lastProximity: CLProximity?
+    var currentLocation: String?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -41,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager!.pausesLocationUpdatesAutomatically = false
         beaconRegion.notifyOnEntry = true
         beaconRegion.notifyOnExit = true
-        beaconRegion.notifyEntryStateOnDisplay = true
+        //beaconRegion.notifyEntryStateOnDisplay = true
         locationManager!.startMonitoringForRegion(beaconRegion)
         locationManager!.startRangingBeaconsInRegion(beaconRegion)
         locationManager!.startUpdatingLocation()
@@ -52,7 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             self.window?.rootViewController = authViewController as? UIViewController
         }
 
-        
         return true
         
     }
@@ -86,13 +86,6 @@ extension AppDelegate: CLLocationManagerDelegate {
         notification.alertBody = message
         
         if(playSound) {
-            // classic star trek communicator beep
-            //	http://www.trekcore.com/audio/
-            //
-            // note: convert mp3 and wav formats into caf using:
-            //	"afconvert -f caff -d LEI16@44100 -c 1 in.wav out.caf"
-            // http://stackoverflow.com/a/10388263
-            
             notification.soundName = "tos_beep.caf";
         }
         
@@ -102,11 +95,8 @@ extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager!,
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
-            //let viewController:ViewController = window!.rootViewController as! ViewController
-            //viewController.beacons = beacons as! [CLBeacon]?
-            //viewController.tableView!.reloadData()
             
-            NSLog("didRangeBeacons");
+            //NSLog("didRangeBeacons");
             var message:String = ""
             
             var playSound = false
@@ -123,11 +113,14 @@ extension AppDelegate: CLLocationManagerDelegate {
                 switch nearestBeacon.proximity {
                 case CLProximity.Far:
                     message = "You are far away from the beacon"
+                    self.currentLocation = "home" 
                     playSound = true
                 case CLProximity.Near:
                     message = "You are near the beacon"
+                    self.currentLocation = "home"
                 case CLProximity.Immediate:
                     message = "You are in the immediate proximity of the beacon"
+                    self.currentLocation = "home"
                 case CLProximity.Unknown:
                     return
                 }
@@ -158,8 +151,8 @@ extension AppDelegate: CLLocationManagerDelegate {
                     "userId": session.userID,
                     "msg": "came home"
                 ]
-                
-                Alamofire.request(.POST, "https://requestlabs.appspot.com/whine/beacon", parameters: parameters)
+                self.currentLocation = "home"                
+                //Alamofire.request(.POST, "https://requestlabs.appspot.com/whine/beacon", parameters: parameters)
                 
             }
             
@@ -180,8 +173,9 @@ extension AppDelegate: CLLocationManagerDelegate {
                     "userId": session.userID,
                     "msg": "left home"
                 ]
+                self.currentLocation = "not home"
                 
-                Alamofire.request(.POST, "https://requestlabs.appspot.com/whine/beacon", parameters: parameters)
+                //Alamofire.request(.POST, "https://requestlabs.appspot.com/whine/beacon", parameters: parameters)
                 
             }
             

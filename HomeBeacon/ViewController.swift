@@ -1,17 +1,30 @@
 
 //  ViewController.swift
-//  iBeaconTemplateSwift
 //
 
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    @IBOutlet var tableView: UITableView?
-    var beacons: [CLBeacon]?
+class ViewController: UIViewController{
+    
+    
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
+    @IBOutlet weak var imageLoc: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        println("get location")
+        println(appDelegate.currentLocation)
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW,
+            Int64(3 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            if (self.appDelegate.currentLocation == "home") {
+                self.imageLoc.image = UIImage(named: "home.png")
+            }
+        }
+    
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -23,52 +36,4 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
 }
 
-extension ViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView,
-        numberOfRowsInSection section: Int) -> Int {
-            if(beacons != nil) {
-                return beacons!.count
-            } else {
-                return 0
-            }
-    }
-    
-    func tableView(tableView: UITableView,
-        cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            var cell:UITableViewCell? =
-            tableView.dequeueReusableCellWithIdentifier("MyIdentifier") as? UITableViewCell
-            
-            if(cell == nil) {
-                cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyIdentifier")
-                cell!.selectionStyle = UITableViewCellSelectionStyle.None
-            }
-            
-            let beacon:CLBeacon = beacons![indexPath.row]
-            var proximityLabel:String! = ""
-            
-            switch beacon.proximity {
-            case CLProximity.Far:
-                proximityLabel = "Far"
-            case CLProximity.Near:
-                proximityLabel = "Near"
-            case CLProximity.Immediate:
-                proximityLabel = "Immediate"
-            case CLProximity.Unknown:
-                proximityLabel = "Unknown"
-            }
-            
-            cell!.textLabel!.text = proximityLabel
-            
-            let detailLabel:String = "Major: \(beacon.major.integerValue), " +
-                "Minor: \(beacon.minor.integerValue), " +
-                "RSSI: \(beacon.rssi as Int), " +
-            "UUID: \(beacon.proximityUUID.UUIDString)"
-            cell!.detailTextLabel!.text = detailLabel
-            
-            return cell!
-    }
-}
 
-extension ViewController: UITableViewDelegate {
-    
-}

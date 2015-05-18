@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zuX-41-AUO">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
@@ -15,15 +15,51 @@
                     <view key="view" contentMode="scaleToFill" id="Cdz-Xe-mpP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLc-er-iLg">
+                                <rect key="frame" x="231" y="281" width="139" height="38"/>
+                                <color key="backgroundColor" red="0.99215686274509807" green="0.52156862745098043" blue="0.027450980392156862" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" title="Login with Phone">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTap:" destination="CGz-s7-ttO" eventType="touchUpInside" id="BqX-q4-vYw"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="wLc-er-iLg" secondAttribute="centerX" id="f5L-sx-0wA"/>
+                            <constraint firstAttribute="centerY" secondItem="wLc-er-iLg" secondAttribute="centerY" id="t1W-UH-pHb"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="loginBtn" destination="wLc-er-iLg" id="lBC-vF-7nI"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="show" id="sfq-mb-WQg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TZe-hK-L8q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="115" y="-107"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kZS-2O-E16">
+            <objects>
+                <navigationController id="zuX-41-AUO" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nB2-lz-AGi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.99215686270000003" green="0.52156862749999999" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="iHE-YF-53K"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qJ4-q7-HVq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-953" y="582"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -37,24 +73,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qAJ-aO-mHX">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="jP6-V4-j5t"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="EII-cT-kbM"/>
-                                </connections>
-                            </tableView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jG8-JD-8sg">
+                                <rect key="frame" x="151" y="150" width="300" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="PR0-aa-M4C"/>
+                                    <constraint firstAttribute="height" constant="300" id="Tso-sd-dia"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are ... " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nky-sf-Ttf">
+                                <rect key="frame" x="224" y="74" width="152" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nky-sf-Ttf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="I12-OG-DCO"/>
+                            <constraint firstAttribute="centerY" secondItem="jG8-JD-8sg" secondAttribute="centerY" id="SYb-RK-kXF"/>
+                            <constraint firstAttribute="centerX" secondItem="jG8-JD-8sg" secondAttribute="centerX" id="iFy-V4-YFS"/>
+                            <constraint firstAttribute="centerX" secondItem="nky-sf-Ttf" secondAttribute="centerX" id="j1x-XS-CXx"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Nsh-jW-1yU"/>
                     <connections>
-                        <outlet property="tableView" destination="qAJ-aO-mHX" id="mpS-6J-d7y"/>
+                        <outlet property="imageLoc" destination="jG8-JD-8sg" id="9su-Nf-zIP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="115" y="615"/>
+            <point key="canvasLocation" x="-8" y="608"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="iHE-YF-53K"/>
+    </inferredMetricsTieBreakers>
 </document>

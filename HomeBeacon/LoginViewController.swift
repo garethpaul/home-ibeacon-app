@@ -1,29 +1,35 @@
 //
 
 import UIKit
-import Accounts
 import TwitterKit
-import TwitterKit
-
 
 class LoginViewController: UIViewController {
     
+    @IBOutlet weak var loginBtn: UIButton!
+    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        let authenticateButton = DGTAuthenticateButton(authenticationCompletion: {
-            (session: DGTSession!, error: NSError!) in
-            // play with Digits session
+        Digits.sharedInstance().logOut()
+        loginBtn.layer.cornerRadius = 5
+        loginBtn.layer.borderWidth = 1
+        loginBtn.layer.borderColor = UIColor.clearColor().CGColor
+    }
+    
+    @IBAction func didTap(sender: AnyObject) {
+        let digits = Digits.sharedInstance()
+        digits.authenticateWithCompletion { (session, error) in
+            print("hi")
+            print(session.phoneNumber)
+            // Inspect session/error objects
             if error != nil {
                 // there was an error
+                println("error")
             } else {
                 //
                 self.performSegueWithIdentifier("show", sender: self)
             }
-        })
-        authenticateButton.center = self.view.center
-        self.view.addSubview(authenticateButton)
-
+        }
+        
     }
     
 }
