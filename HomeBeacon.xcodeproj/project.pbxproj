@@ -20,6 +20,7 @@
 		7F0B88DB1AEDF6D900E9DE40 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F0B88D91AEDF6D900E9DE40 /* TwitterKit.framework */; };
 		7F0B88DC1AEDF6D900E9DE40 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7F0B88DA1AEDF6D900E9DE40 /* TwitterKitResources.bundle */; };
 		7F0B88DE1AEDF70300E9DE40 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0B88DD1AEDF70300E9DE40 /* LoginViewController.swift */; };
+		7F4A3C311B0AF7B1003660AC /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4A3C301B0AF7B1003660AC /* Hex.swift */; };
 		8948E0662DB09CB0A6F91685 /* Pods_HomeBeaconTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184A84B034299B9190B57021 /* Pods_HomeBeaconTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C1443AC94D6421127BD97275 /* Pods_HomeBeacon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D509F5056DFDF4E0F1CC8051 /* Pods_HomeBeacon.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -83,6 +84,7 @@
 		7F0B88DD1AEDF70300E9DE40 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7F44A58A1AEDEAF500B3398E /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Pods-HomeBeacon/Alamofire.framework"; sourceTree = "<group>"; };
 		7F44A58C1AEDEB6200B3398E /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		7F4A3C301B0AF7B1003660AC /* Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
 		7FF77FCD1AEDD1C2007A0DFD /* tos_beep.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = tos_beep.caf; path = "../../../../../../../private/tmp/ibeacon-swift-tutorial/iBeaconTemplateSwift/tos_beep.caf"; sourceTree = "<group>"; };
 		8CEB7611C184D852EF93B286 /* Pods-HomeBeacon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeBeacon.release.xcconfig"; path = "Pods/Target Support Files/Pods-HomeBeacon/Pods-HomeBeacon.release.xcconfig"; sourceTree = "<group>"; };
 		908DA4C736026A43C7FD387E /* Pods-HomeBeacon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeBeacon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HomeBeacon/Pods-HomeBeacon.debug.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				7F094DB81AEDCBB500AE693E /* AppDelegate.swift */,
 				7F094DBA1AEDCBB500AE693E /* ViewController.swift */,
 				7F0B88DD1AEDF70300E9DE40 /* LoginViewController.swift */,
+				7F4A3C301B0AF7B1003660AC /* Hex.swift */,
 				7F094DBC1AEDCBB500AE693E /* Main.storyboard */,
 				7F094DBF1AEDCBB500AE693E /* Images.xcassets */,
 				7F094DC11AEDCBB500AE693E /* LaunchScreen.xib */,
@@ -470,6 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F0B88DE1AEDF70300E9DE40 /* LoginViewController.swift in Sources */,
+				7F4A3C311B0AF7B1003660AC /* Hex.swift in Sources */,
 				7F094DBB1AEDCBB500AE693E /* ViewController.swift in Sources */,
 				7F094DB91AEDCBB500AE693E /* AppDelegate.swift in Sources */,
 			);
