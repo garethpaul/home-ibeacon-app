@@ -39,7 +39,6 @@ Canonical security policy and reporting:
 
 - [`SECURITY.md`](SECURITY.md)
 
-
 Beacon region state can reveal whether someone is home. Do not log, upload, or
 persist home/away data without explicit purpose and user control.
 
