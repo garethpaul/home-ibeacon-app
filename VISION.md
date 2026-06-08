@@ -1,5 +1,8 @@
 ## Home iBeacon App Vision
 
+This document explains the current state and direction of the project.
+Project overview and developer docs: [`README.md`](README.md)
+
 Home iBeacon App is an iOS sample that detects entry and exit from a configured
 region and can send HTTP requests when the device is home or away.
 
