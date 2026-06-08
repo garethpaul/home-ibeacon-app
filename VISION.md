@@ -40,7 +40,7 @@ persist home/away data without explicit purpose and user control.
 
 Remote requests should use HTTPS and local configuration.
 
-## What We Will Not Merge For Now
+## What We Will Not Merge (For Now)
 
 - Hardcoded private endpoints, beacon IDs, or credentials
 - Background tracking beyond the stated region behavior
