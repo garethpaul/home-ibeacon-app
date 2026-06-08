@@ -46,3 +46,6 @@ Remote requests should use HTTPS and local configuration.
 - Background tracking beyond the stated region behavior
 - Silent home/away reporting without documentation
 - Broad dependency migration mixed with location behavior changes
+
+This list is a roadmap guardrail, not a permanent rule.
+Strong user demand and strong technical rationale can change it.
