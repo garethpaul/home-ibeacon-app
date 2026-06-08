@@ -18,9 +18,6 @@ class LoginViewController: UIViewController {
     @IBAction func didTap(sender: AnyObject) {
         let digits = Digits.sharedInstance()
         digits.authenticateWithCompletion { (session, error) in
-            print("hi")
-            print(session.phoneNumber)
-            // Inspect session/error objects
             if error != nil {
                 // there was an error
                 println("error")

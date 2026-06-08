@@ -20,10 +20,11 @@ Priority:
 - Keep beacon UUID, endpoint, and credential assumptions visible
 - Avoid committing Fabric/Twitter credentials, signing material, or location data
 - Maintain the CocoaPods workspace and iOS 8-era dependency context
+- Keep `scripts/check-baseline.py` passing for credential placeholders, plist
+  metadata, CocoaPods lockfiles, source inventory, and disabled network posts
 
 Next priorities:
 
-- Add README setup, beacon configuration, and device verification notes
 - Move server endpoint and beacon values into documented local configuration
 - Modernize Swift, CoreLocation, Alamofire, and Fabric/Twitter dependencies in a
   dedicated pass
@@ -46,6 +47,12 @@ Beacon region state can reveal whether someone is home. Do not log, upload, or
 persist home/away data without explicit purpose and user control.
 
 Remote requests should use HTTPS and local configuration.
+
+Current baseline: `make check` runs `scripts/check-baseline.py` without Xcode.
+It verifies that Fabric/Twitter credentials use local build-setting
+placeholders, phone-number debug logging and dormant phone-number payloads stay
+removed, CocoaPods lockfiles stay in sync, and home/away network reporting
+remains disabled until privacy and consent are documented.
 
 ## What We Will Not Merge (For Now)
 

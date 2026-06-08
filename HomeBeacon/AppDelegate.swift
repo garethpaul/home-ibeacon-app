@@ -145,14 +145,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             manager.startUpdatingLocation()
             
             if Digits.sharedInstance().session() != nil {
-                var session = Digits.sharedInstance().session()
-                let parameters = [
-                    "phoneNumber": session.phoneNumber,
-                    "userId": session.userID,
-                    "msg": "came home"
-                ]
-                self.currentLocation = "home"                
-                //Alamofire.request(.POST, "https://requestlabs.appspot.com/whine/beacon", parameters: parameters)
+                self.currentLocation = "home"
+                // Network reporting is intentionally disabled until endpoint,
+                // payload consent, and retention behavior are documented.
                 
             }
             
@@ -167,15 +162,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             manager.stopUpdatingLocation()
             
             if Digits.sharedInstance().session() != nil {
-                var session = Digits.sharedInstance().session()
-                let parameters = [
-                    "phoneNumber": session.phoneNumber,
-                    "userId": session.userID,
-                    "msg": "left home"
-                ]
                 self.currentLocation = "not home"
-                
-                //Alamofire.request(.POST, "https://requestlabs.appspot.com/whine/beacon", parameters: parameters)
+                // Network reporting is intentionally disabled until endpoint,
+                // payload consent, and retention behavior are documented.
                 
             }
             
@@ -184,5 +173,3 @@ extension AppDelegate: CLLocationManagerDelegate {
             //sendLocalNotificationWithMessage("You exited the region", playSound: true)
     }
 }
-
-

@@ -32,10 +32,14 @@ Helpful reports include:
 - Review found file, document, data, or media parsing flows; changes in those areas should receive security-focused review before merge.
 - Review found database, model, query, or persistence-related code; changes in those areas should receive security-focused review before merge.
 - Dependency manifests detected: Podfile, Podfile.lock. Dependency updates should preserve lockfiles when present and avoid introducing packages without a clear maintenance reason.
+- Fabric and Twitter credentials must be supplied locally through `FABRIC_API_KEY`, `FABRIC_BUILD_SECRET`, `TWITTER_CONSUMER_KEY`, and `TWITTER_CONSUMER_SECRET`. Do not commit real values to plist files, Xcode project build phases, xcconfig files, shell scripts, or documentation.
+- `make check` runs a static privacy baseline that guards against credential literals, phone-number debug logging, dormant phone-number payload assembly, active home/away POST calls, plist drift, and CocoaPods lockfile drift when Xcode is unavailable.
 
 ## Mobile Privacy Notes
 
 If this project requests device permissions such as location, camera, microphone, contacts, Bluetooth, health data, or local storage access, reports should describe the permission involved and whether sensitive data can be accessed, persisted, or transmitted unexpectedly. Please avoid testing against real third-party user data or accounts you do not control.
+
+Beacon enter/exit state can reveal whether someone is home. Any change that re-enables network reporting must document the endpoint, transport security, consent model, retention behavior, and whether phone numbers or Twitter/Digits identifiers are transmitted. Keep phone numbers and Digits user IDs out of dormant request payloads until that contract is explicit.
 
 ## Dependency and Supply Chain Security
 
