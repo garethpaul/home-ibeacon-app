@@ -69,7 +69,7 @@ Run the local static baseline:
 make check
 ```
 
-The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, and active home/away POST calls.
+The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, active location-state device logs, and active home/away POST calls.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -91,12 +91,14 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - Review changes touching file, media, JSON, XML, CSV, OCR, or data parsing; examples from the scan include Fabric.framework/Resources/Info.plist, Fabric.framework/Versions/A/Resources/Info.plist, Fabric.framework/Versions/Current/Resources/Info.plist, HomeBeacon/HomeBeacon/Info.plist, and 6 more.
 - Review changes touching database, model, or persistence code; examples from the scan include TwitterKit.framework/Headers/TWTRTweetTableViewCell.h, TwitterKit.framework/Headers/TWTRTweetViewDelegate.h, TwitterKit.framework/Versions/A/Headers/TWTRTweetTableViewCell.h, TwitterKit.framework/Versions/A/Headers/TWTRTweetViewDelegate.h, and 2 more.
 - Beacon enter/exit state can reveal home occupancy. Do not re-enable network reporting until the endpoint, consent model, retention behavior, and HTTPS transport are documented.
+- Do not re-enable home/away or proximity `NSLog` calls; device logs can expose occupancy during debugging or shared diagnostics.
 
 ## Maintenance Notes
 
 - This looks like an Apple platform project or sample. Xcode, Swift, CocoaPods, and deployment target versions may need to match the original project era.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
+- See `docs/plans/2026-06-08-location-log-privacy.md` for the location-state device log guardrail.
 - Run `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.
 
 ## Contributing

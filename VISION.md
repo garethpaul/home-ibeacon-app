@@ -21,7 +21,8 @@ Priority:
 - Avoid committing Fabric/Twitter credentials, signing material, or location data
 - Maintain the CocoaPods workspace and iOS 8-era dependency context
 - Keep `scripts/check-baseline.py` passing for credential placeholders, plist
-  metadata, CocoaPods lockfiles, source inventory, and disabled network posts
+  metadata, CocoaPods lockfiles, source inventory, disabled device logs, and
+  disabled network posts
 
 Next priorities:
 
@@ -52,7 +53,8 @@ Current baseline: `make check` runs `scripts/check-baseline.py` without Xcode.
 It verifies that Fabric/Twitter credentials use local build-setting
 placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting
-remains disabled until privacy and consent are documented.
+remains disabled until privacy and consent are documented. Beacon proximity and
+home/away state must also stay out of device logs.
 
 ## What We Will Not Merge (For Now)
 

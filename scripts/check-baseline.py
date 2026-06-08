@@ -66,6 +66,7 @@ def main():
         "Fabric.framework/Fabric",
         "TwitterKit.framework/TwitterKit",
         "docs/plans/2026-06-08-ios-privacy-baseline.md",
+        "docs/plans/2026-06-08-location-log-privacy.md",
     ]
 
     for relative_path in required_files:
@@ -84,7 +85,9 @@ def main():
     nested_app_delegate = read("HomeBeacon/HomeBeacon/AppDelegate.swift")
     active_login = strip_swift_line_comments(login)
     active_app_delegate = strip_swift_line_comments(app_delegate)
+    active_delegates = strip_swift_line_comments(app_delegate + "\n" + nested_app_delegate)
     plan = PLAN.read_text(encoding="utf-8") if PLAN.exists() else ""
+    log_plan = read("docs/plans/2026-06-08-location-log-privacy.md")
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -143,6 +146,9 @@ def main():
     require("http://" not in active_app_delegate,
             "Active first-party Swift code must not use plain HTTP endpoints",
             failures)
+    require("NSLog" not in active_delegates,
+            "Beacon region handlers must not write home/away or proximity state to device logs",
+            failures)
 
     for plist_name, plist in [
         ("HomeBeacon/Info.plist", app_plist),
@@ -175,20 +181,23 @@ def main():
     require("*.local.xcconfig" in gitignore and "*.secrets.xcconfig" in gitignore and ".env" in gitignore,
             ".gitignore must exclude local secret configuration files",
             failures)
-    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme,
+    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme,
             "README must document static verification, local credentials, and workspace usage",
             failures)
-    require("scripts/check-baseline.py" in vision and "credential" in vision.lower(),
+    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower(),
             "VISION must describe the privacy baseline and credential guardrails",
             failures)
     require("FABRIC_API_KEY" in security and "TWITTER_CONSUMER_SECRET" in security,
             "SECURITY must document local Fabric/Twitter credential settings",
             failures)
-    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes,
+    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes,
             "CHANGES must record the credential and phone-number payload cleanup",
             failures)
     require("status: completed" in plan,
             "plan must be marked completed",
+            failures)
+    require("status: completed" in log_plan,
+            "location log privacy plan must be marked completed",
             failures)
 
     if shutil.which("xcodebuild"):

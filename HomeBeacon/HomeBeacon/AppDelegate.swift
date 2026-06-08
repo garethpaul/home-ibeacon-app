@@ -87,7 +87,8 @@ extension AppDelegate: CLLocationManagerDelegate {
             viewController.beacons = beacons as! [CLBeacon]?
             viewController.tableView!.reloadData()
             
-            NSLog("didRangeBeacons");
+            // Location-state logging is intentionally disabled to avoid
+            // recording home/away presence in device logs.
             var message:String = ""
             
             var playSound = false
@@ -123,7 +124,8 @@ extension AppDelegate: CLLocationManagerDelegate {
                 lastProximity = CLProximity.Unknown
             }
             
-            NSLog("%@", message)
+            // Location-state logging is intentionally disabled to avoid
+            // recording home/away presence in device logs.
             sendLocalNotificationWithMessage(message, playSound: playSound)
     }
     
@@ -132,7 +134,8 @@ extension AppDelegate: CLLocationManagerDelegate {
             manager.startRangingBeaconsInRegion(region as! CLBeaconRegion)
             manager.startUpdatingLocation()
             
-            NSLog("You entered the region")
+            // Location-state logging is intentionally disabled to avoid
+            // recording home/away presence in device logs.
             sendLocalNotificationWithMessage("You entered the region", playSound: false)
     }
     
@@ -141,9 +144,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             manager.stopRangingBeaconsInRegion(region as! CLBeaconRegion)
             manager.stopUpdatingLocation()
             
-            NSLog("You exited the region")
+            // Location-state logging is intentionally disabled to avoid
+            // recording home/away presence in device logs.
             sendLocalNotificationWithMessage("You exited the region", playSound: true)
     }
 }
-
 

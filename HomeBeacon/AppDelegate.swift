@@ -135,7 +135,8 @@ extension AppDelegate: CLLocationManagerDelegate {
                 lastProximity = CLProximity.Unknown
             }
             
-            NSLog("%@", message)
+            // Location-state logging is intentionally disabled to avoid
+            // recording home/away presence in device logs.
             //sendLocalNotificationWithMessage(message, playSound: playSound)
     }
     
@@ -151,7 +152,8 @@ extension AppDelegate: CLLocationManagerDelegate {
                 
             }
             
-            NSLog("You entered the region")
+            // Location-state logging is intentionally disabled to avoid
+            // recording home/away presence in device logs.
             
             //sendLocalNotificationWithMessage("You entered the region", playSound: false)
     }
@@ -169,7 +171,8 @@ extension AppDelegate: CLLocationManagerDelegate {
             }
             
             
-            NSLog("You exited the region")
+            // Location-state logging is intentionally disabled to avoid
+            // recording home/away presence in device logs.
             //sendLocalNotificationWithMessage("You exited the region", playSound: true)
     }
 }
