@@ -1,5 +1,8 @@
 # home-ibeacon-app
 
+<!-- README-OVERVIEW-IMAGE -->
+![Project overview](docs/readme-overview.svg)
+
 ## Overview
 
 `garethpaul/home-ibeacon-app` is a Apple platform application or Objective-C/Swift sample. A home beacon service. Sends a HTTP request to a server if you enter or leave a "region". 
@@ -75,4 +78,3 @@ When the required SDK or runtime is unavailable, use static checks and source re
 ## Contributing
 
 Keep changes small and tied to the project that is already present in this repository. For code changes, document the toolchain used, avoid committing generated dependency directories or local configuration, and update this README when setup or verification steps change.
-
