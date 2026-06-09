@@ -85,6 +85,8 @@ and retained `currentLocation` state out of active beacon delegates while
 network reporting and notifications are disabled.
 The static baseline also rejects stale status UI reads of removed
 `AppDelegate.currentLocation` state.
+It also keeps beacon-region casts guarded before enter/exit callbacks call
+beacon-only ranging APIs.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -128,6 +130,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - See `docs/plans/2026-06-09-location-state-memory-retention.md` for the
   memory-only location state guardrail.
 - See `docs/plans/2026-06-09-stale-view-location-state.md` for the stale status UI guardrail.
+- See `docs/plans/2026-06-09-beacon-region-cast-guard.md` for guarded
+  beacon-region casts in CoreLocation callbacks.
 - See `docs/plans/2026-06-09-make-gate-aliases.md` for the local gate alias guardrail.
 - See `docs/plans/2026-06-08-hex-parser-invalid-input.md` for the UI hex parser invalid-input guardrail.
 - Run `make lint`, `make test`, `make build`, and `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.

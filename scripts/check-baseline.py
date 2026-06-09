@@ -15,6 +15,7 @@ NOTIFICATION_PERMISSION_PLAN = ROOT / "docs/plans/2026-06-09-location-notificati
 NOTIFICATION_CODE_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-code-removal.md"
 LOCATION_STATE_PLAN = ROOT / "docs/plans/2026-06-09-location-state-memory-retention.md"
 VIEW_STATE_PLAN = ROOT / "docs/plans/2026-06-09-stale-view-location-state.md"
+BEACON_REGION_PLAN = ROOT / "docs/plans/2026-06-09-beacon-region-cast-guard.md"
 
 
 def require(condition, message, failures):
@@ -90,6 +91,7 @@ def main():
         "docs/plans/2026-06-09-location-notification-code-removal.md",
         "docs/plans/2026-06-09-location-state-memory-retention.md",
         "docs/plans/2026-06-09-stale-view-location-state.md",
+        "docs/plans/2026-06-09-beacon-region-cast-guard.md",
     ]
 
     for relative_path in required_files:
@@ -122,6 +124,7 @@ def main():
     notification_code_plan = NOTIFICATION_CODE_PLAN.read_text(encoding="utf-8") if NOTIFICATION_CODE_PLAN.exists() else ""
     location_state_plan = LOCATION_STATE_PLAN.read_text(encoding="utf-8") if LOCATION_STATE_PLAN.exists() else ""
     view_state_plan = VIEW_STATE_PLAN.read_text(encoding="utf-8") if VIEW_STATE_PLAN.exists() else ""
+    beacon_region_plan = BEACON_REGION_PLAN.read_text(encoding="utf-8") if BEACON_REGION_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -215,6 +218,10 @@ def main():
     require("registerUserNotificationSettings" not in active_delegates and "UIUserNotificationSettings" not in active_delegates,
             "App delegates must not request local notification permission while beacon-state notifications are disabled",
             failures)
+    require("region as! CLBeaconRegion" not in active_delegates and
+            active_delegates.count("if let beaconRegion = region as? CLBeaconRegion") >= 4,
+            "App delegates must guard CLRegion values before calling beacon-only ranging APIs",
+            failures)
     require("let scanner = NSScanner(string: cString)" in hex_source and
             "scanner.scanHexInt(&rgbValue)" in hex_source and
             "scanner.atEnd" in hex_source and
@@ -256,16 +263,16 @@ def main():
     require(".PHONY: build check lint test" in makefile and "lint test build: check" in makefile,
             "Makefile must expose lint, test, and build aliases for the local baseline",
             failures)
-    require("make lint" in readme and "make test" in readme and "make build" in readme and "make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "memory-only location state" in readme and "stale status UI" in readme and "invalid hex" in readme.lower(),
+    require("make lint" in readme and "make test" in readme and "make build" in readme and "make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "memory-only location state" in readme and "stale status UI" in readme and "beacon-region casts" in readme and "invalid hex" in readme.lower(),
             "README must document static verification, local credentials, and workspace usage",
             failures)
-    require("scripts/check-baseline.py" in vision and "make lint" in vision and "make test" in vision and "make build" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "local notifications" in vision.lower() and "notification permission" in vision and "notification scheduling" in vision and "memory-only location state" in vision and "stale status UI" in vision and "invalid hex" in vision.lower(),
+    require("scripts/check-baseline.py" in vision and "make lint" in vision and "make test" in vision and "make build" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "local notifications" in vision.lower() and "notification permission" in vision and "notification scheduling" in vision and "memory-only location state" in vision and "stale status UI" in vision and "beacon-region casts" in vision and "invalid hex" in vision.lower(),
             "VISION must describe the privacy baseline and credential guardrails",
             failures)
     require("FABRIC_API_KEY" in security and "TWITTER_CONSUMER_SECRET" in security,
             "SECURITY must document local Fabric/Twitter credential settings",
             failures)
-    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "notification permission" in changes and "notification scheduling" in changes and "memory-only location state" in changes and "stale status UI" in changes and "invalid hex" in changes.lower(),
+    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "notification permission" in changes and "notification scheduling" in changes and "memory-only location state" in changes and "stale status UI" in changes and "beacon-region casts" in changes and "invalid hex" in changes.lower(),
             "CHANGES must record the credential and phone-number payload cleanup",
             failures)
     require("status: completed" in plan,
@@ -294,6 +301,9 @@ def main():
             failures)
     require("status: completed" in view_state_plan,
             "stale view location-state plan must be marked completed",
+            failures)
+    require("status: completed" in beacon_region_plan,
+            "beacon region cast guard plan must be marked completed",
             failures)
 
     if shutil.which("xcodebuild"):

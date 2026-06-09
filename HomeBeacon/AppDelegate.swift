@@ -104,8 +104,10 @@ extension AppDelegate: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager!,
         didEnterRegion region: CLRegion!) {
-            manager.startRangingBeaconsInRegion(region as! CLBeaconRegion)
-            manager.startUpdatingLocation()
+            if let beaconRegion = region as? CLBeaconRegion {
+                manager.startRangingBeaconsInRegion(beaconRegion)
+                manager.startUpdatingLocation()
+            }
             
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.
@@ -115,8 +117,10 @@ extension AppDelegate: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager!,
         didExitRegion region: CLRegion!) {
-            manager.stopRangingBeaconsInRegion(region as! CLBeaconRegion)
-            manager.stopUpdatingLocation()
+            if let beaconRegion = region as? CLBeaconRegion {
+                manager.stopRangingBeaconsInRegion(beaconRegion)
+                manager.stopUpdatingLocation()
+            }
             
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.

@@ -26,6 +26,8 @@ Priority:
   prompts, memory-only location state, stale status UI reads, and network posts
 - Keep `make lint`, `make test`, `make build`, and `make check` available as
   local verification gates
+- Keep beacon-region casts guarded before CoreLocation callbacks call
+  beacon-only ranging APIs
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -66,6 +68,8 @@ the delegates while notification scheduling is disabled.
 Memory-only location state and unused home/away message strings should stay out
 of active delegates while reporting and notifications are disabled.
 Stale status UI code must not read removed `AppDelegate.currentLocation` state.
+Beacon-region casts should stay guarded before enter/exit callbacks call
+beacon-only ranging APIs.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 

@@ -15,6 +15,8 @@
 - Removed unused memory-only location state and dormant home/away message
   strings from active beacon delegates while reporting and notifications remain
   disabled.
+- Guarded beacon-region casts before CoreLocation enter/exit callbacks call
+  beacon-only ranging APIs.
 
 ## 2026-06-08
 
