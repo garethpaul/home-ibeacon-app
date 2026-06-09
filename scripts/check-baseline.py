@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 PLAN = ROOT / "docs/plans/2026-06-08-ios-privacy-baseline.md"
+NOTIFICATION_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-privacy.md"
 
 
 def require(condition, message, failures):
@@ -22,6 +23,15 @@ def read(relative_path):
 
 def strip_swift_line_comments(text):
     return "\n".join(line.split("//", 1)[0] for line in text.splitlines())
+
+
+def active_notification_calls(text):
+    calls = []
+    for line in text.splitlines():
+        stripped = line.strip()
+        if "sendLocalNotificationWithMessage(" in stripped and not stripped.startswith("func "):
+            calls.append(stripped)
+    return calls
 
 
 def parse_plist(relative_path, failures):
@@ -69,6 +79,7 @@ def main():
         "docs/plans/2026-06-08-ios-privacy-baseline.md",
         "docs/plans/2026-06-08-location-log-privacy.md",
         "docs/plans/2026-06-08-hex-parser-invalid-input.md",
+        "docs/plans/2026-06-09-location-notification-privacy.md",
     ]
 
     for relative_path in required_files:
@@ -92,6 +103,7 @@ def main():
     plan = PLAN.read_text(encoding="utf-8") if PLAN.exists() else ""
     log_plan = read("docs/plans/2026-06-08-location-log-privacy.md")
     hex_plan = read("docs/plans/2026-06-08-hex-parser-invalid-input.md")
+    notification_plan = NOTIFICATION_PLAN.read_text(encoding="utf-8") if NOTIFICATION_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -153,6 +165,9 @@ def main():
     require("NSLog" not in active_delegates,
             "Beacon region handlers must not write home/away or proximity state to device logs",
             failures)
+    require(not active_notification_calls(active_delegates),
+            "Beacon region handlers must not display home/away or proximity state in local notifications",
+            failures)
     require("let scanner = NSScanner(string: cString)" in hex_source and
             "scanner.scanHexInt(&rgbValue)" in hex_source and
             "scanner.atEnd" in hex_source and
@@ -191,16 +206,16 @@ def main():
     require("*.local.xcconfig" in gitignore and "*.secrets.xcconfig" in gitignore and ".env" in gitignore,
             ".gitignore must exclude local secret configuration files",
             failures)
-    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "invalid hex" in readme.lower(),
+    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "invalid hex" in readme.lower(),
             "README must document static verification, local credentials, and workspace usage",
             failures)
-    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "invalid hex" in vision.lower(),
+    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "local notifications" in vision.lower() and "invalid hex" in vision.lower(),
             "VISION must describe the privacy baseline and credential guardrails",
             failures)
     require("FABRIC_API_KEY" in security and "TWITTER_CONSUMER_SECRET" in security,
             "SECURITY must document local Fabric/Twitter credential settings",
             failures)
-    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "invalid hex" in changes.lower(),
+    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "invalid hex" in changes.lower(),
             "CHANGES must record the credential and phone-number payload cleanup",
             failures)
     require("status: completed" in plan,
@@ -211,6 +226,9 @@ def main():
             failures)
     require("status: completed" in hex_plan,
             "hex parser invalid-input plan must be marked completed",
+            failures)
+    require("status: completed" in notification_plan,
+            "location notification privacy plan must be marked completed",
             failures)
 
     if shutil.which("xcodebuild"):

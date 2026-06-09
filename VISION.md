@@ -55,8 +55,9 @@ It verifies that Fabric/Twitter credentials use local build-setting
 placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting
 remains disabled until privacy and consent are documented. Beacon proximity and
-home/away state must also stay out of device logs. Invalid hex color strings
-must return the gray fallback instead of partially scanned colors.
+home/away state must also stay out of device logs and local notifications.
+Invalid hex color strings must return the gray fallback instead of partially
+scanned colors.
 
 ## What We Will Not Merge (For Now)
 

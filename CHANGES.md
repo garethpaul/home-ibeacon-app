@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-09
+
+- Disabled remaining beacon-state local notifications in the nested legacy app
+  delegate so home/away and proximity state are not exposed on the lock screen.
+
 ## 2026-06-08
 
 - Removed committed Fabric/Twitter credential literals from the current tree and replaced them with build-setting placeholders.
