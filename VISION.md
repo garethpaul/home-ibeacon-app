@@ -23,7 +23,7 @@ Priority:
 - Keep `scripts/check-baseline.py` passing for credential placeholders, plist
   metadata, CocoaPods lockfiles, source inventory, disabled device logs, and
   removed notification scheduling code, disabled notification permission
-  prompts, and network posts
+  prompts, memory-only location state, and network posts
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -60,6 +60,8 @@ home/away state must also stay out of device logs and local notifications.
 Unused local notification permission prompts stay disabled while those
 notifications are off. Local notification scheduling helpers should stay out of
 the delegates while notification scheduling is disabled.
+Memory-only location state and unused home/away message strings should stay out
+of active delegates while reporting and notifications are disabled.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 

@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     var locationManager: CLLocationManager?
     var lastProximity: CLProximity?
-    var currentLocation: String?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -82,10 +81,6 @@ extension AppDelegate: CLLocationManagerDelegate {
         inRegion region: CLBeaconRegion!) {
             
             //NSLog("didRangeBeacons");
-            var message:String = ""
-            
-            var playSound = false
-            
             if(beacons.count > 0) {
                 let nearestBeacon:CLBeacon = beacons[0]as! CLBeacon
                 
@@ -94,35 +89,17 @@ extension AppDelegate: CLLocationManagerDelegate {
                         return;
                 }
                 lastProximity = nearestBeacon.proximity;
-                
-                switch nearestBeacon.proximity {
-                case CLProximity.Far:
-                    message = "You are far away from the beacon"
-                    self.currentLocation = "home" 
-                    playSound = true
-                case CLProximity.Near:
-                    message = "You are near the beacon"
-                    self.currentLocation = "home"
-                case CLProximity.Immediate:
-                    message = "You are in the immediate proximity of the beacon"
-                    self.currentLocation = "home"
-                case CLProximity.Unknown:
-                    return
-                }
             } else {
                 
                 if(lastProximity == CLProximity.Unknown) {
                     return;
                 }
                 
-                message = "No beacons are nearby"
-                playSound = true
                 lastProximity = CLProximity.Unknown
             }
             
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.
-            //sendLocalNotificationWithMessage(message, playSound: playSound)
     }
     
     func locationManager(manager: CLLocationManager!,
@@ -130,17 +107,10 @@ extension AppDelegate: CLLocationManagerDelegate {
             manager.startRangingBeaconsInRegion(region as! CLBeaconRegion)
             manager.startUpdatingLocation()
             
-            if Digits.sharedInstance().session() != nil {
-                self.currentLocation = "home"
-                // Network reporting is intentionally disabled until endpoint,
-                // payload consent, and retention behavior are documented.
-                
-            }
-            
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.
-            
-            //sendLocalNotificationWithMessage("You entered the region", playSound: false)
+            // Network reporting is intentionally disabled until endpoint,
+            // payload consent, and retention behavior are documented.
     }
     
     func locationManager(manager: CLLocationManager!,
@@ -148,16 +118,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             manager.stopRangingBeaconsInRegion(region as! CLBeaconRegion)
             manager.stopUpdatingLocation()
             
-            if Digits.sharedInstance().session() != nil {
-                self.currentLocation = "not home"
-                // Network reporting is intentionally disabled until endpoint,
-                // payload consent, and retention behavior are documented.
-                
-            }
-            
-            
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.
-            //sendLocalNotificationWithMessage("You exited the region", playSound: true)
+            // Network reporting is intentionally disabled until endpoint,
+            // payload consent, and retention behavior are documented.
     }
 }

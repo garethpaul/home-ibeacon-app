@@ -71,10 +71,6 @@ extension AppDelegate: CLLocationManagerDelegate {
             
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.
-            var message:String = ""
-            
-            var playSound = false
-            
             if(beacons.count > 0) {
                 let nearestBeacon:CLBeacon = beacons[0]as! CLBeacon
                 
@@ -83,26 +79,12 @@ extension AppDelegate: CLLocationManagerDelegate {
                         return;
                 }
                 lastProximity = nearestBeacon.proximity;
-                
-                switch nearestBeacon.proximity {
-                case CLProximity.Far:
-                    message = "You are far away from the beacon"
-                    playSound = true
-                case CLProximity.Near:
-                    message = "You are near the beacon"
-                case CLProximity.Immediate:
-                    message = "You are in the immediate proximity of the beacon"
-                case CLProximity.Unknown:
-                    return
-                }
             } else {
                 
                 if(lastProximity == CLProximity.Unknown) {
                     return;
                 }
                 
-                message = "No beacons are nearby"
-                playSound = true
                 lastProximity = CLProximity.Unknown
             }
             

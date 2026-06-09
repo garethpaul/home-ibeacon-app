@@ -8,6 +8,9 @@
   local notifications remain disabled.
 - Removed unused local notification scheduling helpers from both app delegates
   while beacon-state notification scheduling remains disabled.
+- Removed unused memory-only location state and dormant home/away message
+  strings from active beacon delegates while reporting and notifications remain
+  disabled.
 
 ## 2026-06-08
 

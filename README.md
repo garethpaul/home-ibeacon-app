@@ -70,6 +70,9 @@ make check
 ```
 
 The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, active location-state device logs, active lock-screen local notifications for beacon state, retained local notification scheduling code, unused local notification permission prompts, active home/away POST calls, and invalid hex color parser fallthrough.
+It also guards memory-only location state by keeping unused home/away strings
+and retained `currentLocation` state out of active beacon delegates while
+network reporting and notifications are disabled.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -98,6 +101,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - Do not retain local notification scheduling helpers while beacon-state
   notifications are disabled; unused helper code makes re-enabling easier to
   miss in review.
+- Do not retain memory-only location state or unused home/away message strings
+  while network reporting and beacon-state notifications are disabled.
 
 ## Maintenance Notes
 
@@ -108,6 +113,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - See `docs/plans/2026-06-09-location-notification-privacy.md` for the location-state local notification guardrail.
 - See `docs/plans/2026-06-09-location-notification-permission.md` for the local notification permission guardrail.
 - See `docs/plans/2026-06-09-location-notification-code-removal.md` for the local notification scheduling guardrail.
+- See `docs/plans/2026-06-09-location-state-memory-retention.md` for the
+  memory-only location state guardrail.
 - See `docs/plans/2026-06-08-hex-parser-invalid-input.md` for the UI hex parser invalid-input guardrail.
 - Run `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.
 

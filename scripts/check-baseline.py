@@ -12,6 +12,7 @@ PLAN = ROOT / "docs/plans/2026-06-08-ios-privacy-baseline.md"
 NOTIFICATION_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-privacy.md"
 NOTIFICATION_PERMISSION_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-permission.md"
 NOTIFICATION_CODE_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-code-removal.md"
+LOCATION_STATE_PLAN = ROOT / "docs/plans/2026-06-09-location-state-memory-retention.md"
 
 
 def require(condition, message, failures):
@@ -84,6 +85,7 @@ def main():
         "docs/plans/2026-06-09-location-notification-privacy.md",
         "docs/plans/2026-06-09-location-notification-permission.md",
         "docs/plans/2026-06-09-location-notification-code-removal.md",
+        "docs/plans/2026-06-09-location-state-memory-retention.md",
     ]
 
     for relative_path in required_files:
@@ -110,6 +112,7 @@ def main():
     notification_plan = NOTIFICATION_PLAN.read_text(encoding="utf-8") if NOTIFICATION_PLAN.exists() else ""
     notification_permission_plan = NOTIFICATION_PERMISSION_PLAN.read_text(encoding="utf-8") if NOTIFICATION_PERMISSION_PLAN.exists() else ""
     notification_code_plan = NOTIFICATION_CODE_PLAN.read_text(encoding="utf-8") if NOTIFICATION_CODE_PLAN.exists() else ""
+    location_state_plan = LOCATION_STATE_PLAN.read_text(encoding="utf-8") if LOCATION_STATE_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -171,6 +174,20 @@ def main():
     require("NSLog" not in active_delegates,
             "Beacon region handlers must not write home/away or proximity state to device logs",
             failures)
+    require("currentLocation" not in active_delegates and
+            "var message:String" not in active_delegates and
+            "playSound" not in active_delegates,
+            "Beacon region handlers must not retain unused home/away state or notification payload strings",
+            failures)
+    for location_phrase in [
+        "You are far away from the beacon",
+        "You are near the beacon",
+        "You are in the immediate proximity of the beacon",
+        "No beacons are nearby",
+    ]:
+        require(location_phrase not in active_delegates,
+                f"Beacon region handlers must not retain unused occupancy text: {location_phrase}",
+                failures)
     require(not active_notification_calls(active_delegates),
             "Beacon region handlers must not display home/away or proximity state in local notifications",
             failures)
@@ -178,6 +195,9 @@ def main():
             "scheduleLocalNotification" not in active_delegates and
             "sendLocalNotificationWithMessage" not in active_delegates,
             "App delegates must not retain local notification scheduling code while beacon-state notifications are disabled",
+            failures)
+    require("sendLocalNotificationWithMessage" not in app_delegate + nested_app_delegate,
+            "App delegates must not retain commented local notification call sites",
             failures)
     require("registerUserNotificationSettings" not in active_delegates and "UIUserNotificationSettings" not in active_delegates,
             "App delegates must not request local notification permission while beacon-state notifications are disabled",
@@ -220,16 +240,16 @@ def main():
     require("*.local.xcconfig" in gitignore and "*.secrets.xcconfig" in gitignore and ".env" in gitignore,
             ".gitignore must exclude local secret configuration files",
             failures)
-    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "invalid hex" in readme.lower(),
+    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "memory-only location state" in readme and "invalid hex" in readme.lower(),
             "README must document static verification, local credentials, and workspace usage",
             failures)
-    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "local notifications" in vision.lower() and "notification permission" in vision and "notification scheduling" in vision and "invalid hex" in vision.lower(),
+    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "local notifications" in vision.lower() and "notification permission" in vision and "notification scheduling" in vision and "memory-only location state" in vision and "invalid hex" in vision.lower(),
             "VISION must describe the privacy baseline and credential guardrails",
             failures)
     require("FABRIC_API_KEY" in security and "TWITTER_CONSUMER_SECRET" in security,
             "SECURITY must document local Fabric/Twitter credential settings",
             failures)
-    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "notification permission" in changes and "notification scheduling" in changes and "invalid hex" in changes.lower(),
+    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "notification permission" in changes and "notification scheduling" in changes and "memory-only location state" in changes and "invalid hex" in changes.lower(),
             "CHANGES must record the credential and phone-number payload cleanup",
             failures)
     require("status: completed" in plan,
@@ -249,6 +269,9 @@ def main():
             failures)
     require("status: completed" in notification_code_plan,
             "location notification code-removal plan must be marked completed",
+            failures)
+    require("status: completed" in location_state_plan,
+            "location state memory-retention plan must be marked completed",
             failures)
 
     if shutil.which("xcodebuild"):
