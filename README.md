@@ -3,6 +3,11 @@
 <!-- README-OVERVIEW-IMAGE -->
 ![Project overview](docs/readme-overview.svg)
 
+## Device Preview
+
+<!-- DEVICE-PREVIEW-IMAGE -->
+![Device preview](docs/device-preview.svg)
+
 ## Overview
 
 `garethpaul/home-ibeacon-app` is a Apple platform application or Objective-C/Swift sample. A home beacon service. Sends a HTTP request to a server if you enter or leave a "region". 
