@@ -2,6 +2,8 @@
 
 ## 2026-06-09
 
+- Guarded beacon payload casts in ranging callbacks before updating proximity
+  state or status UI.
 - Added local `make lint`, `make test`, and `make build` gate aliases for the
   static privacy baseline.
 - Removed a stale status UI read of the removed `AppDelegate.currentLocation`

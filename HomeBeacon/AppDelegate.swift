@@ -81,14 +81,16 @@ extension AppDelegate: CLLocationManagerDelegate {
         inRegion region: CLBeaconRegion!) {
             
             //NSLog("didRangeBeacons");
-            if(beacons.count > 0) {
-                let nearestBeacon:CLBeacon = beacons[0]as! CLBeacon
-                
-                if(nearestBeacon.proximity == lastProximity ||
-                    nearestBeacon.proximity == CLProximity.Unknown) {
+            if(beacons != nil && beacons.count > 0) {
+                if let nearestBeacon = beacons[0] as? CLBeacon {
+                    if(nearestBeacon.proximity == lastProximity ||
+                        nearestBeacon.proximity == CLProximity.Unknown) {
                         return;
+                    }
+                    lastProximity = nearestBeacon.proximity;
+                } else {
+                    return;
                 }
-                lastProximity = nearestBeacon.proximity;
             } else {
                 
                 if(lastProximity == CLProximity.Unknown) {

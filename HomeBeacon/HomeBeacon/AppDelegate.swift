@@ -65,20 +65,23 @@ extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager!,
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
-            let viewController:ViewController = window!.rootViewController as! ViewController
-            viewController.beacons = beacons as! [CLBeacon]?
-            viewController.tableView!.reloadData()
+            if let viewController = window?.rootViewController as? ViewController {
+                viewController.beacons = beacons as? [CLBeacon]
+                viewController.tableView?.reloadData()
+            }
             
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.
-            if(beacons.count > 0) {
-                let nearestBeacon:CLBeacon = beacons[0]as! CLBeacon
-                
-                if(nearestBeacon.proximity == lastProximity ||
-                    nearestBeacon.proximity == CLProximity.Unknown) {
+            if(beacons != nil && beacons.count > 0) {
+                if let nearestBeacon = beacons[0] as? CLBeacon {
+                    if(nearestBeacon.proximity == lastProximity ||
+                        nearestBeacon.proximity == CLProximity.Unknown) {
                         return;
+                    }
+                    lastProximity = nearestBeacon.proximity;
+                } else {
+                    return;
                 }
-                lastProximity = nearestBeacon.proximity;
             } else {
                 
                 if(lastProximity == CLProximity.Unknown) {

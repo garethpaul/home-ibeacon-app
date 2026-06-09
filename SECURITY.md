@@ -40,6 +40,8 @@ Helpful reports include:
 If this project requests device permissions such as location, camera, microphone, contacts, Bluetooth, health data, or local storage access, reports should describe the permission involved and whether sensitive data can be accessed, persisted, or transmitted unexpectedly. Please avoid testing against real third-party user data or accounts you do not control.
 
 Beacon enter/exit state can reveal whether someone is home. Any change that re-enables network reporting must document the endpoint, transport security, consent model, retention behavior, and whether phone numbers or Twitter/Digits identifiers are transmitted. Keep phone numbers and Digits user IDs out of dormant request payloads until that contract is explicit.
+Beacon payload casts should stay guarded so unexpected CoreLocation callback
+values do not crash the app while processing privacy-sensitive ranging events.
 
 ## Dependency and Supply Chain Security
 

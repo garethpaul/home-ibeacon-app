@@ -28,6 +28,8 @@ Priority:
   local verification gates
 - Keep beacon-region casts guarded before CoreLocation callbacks call
   beacon-only ranging APIs
+- Keep beacon payload casts guarded before ranging callbacks update proximity
+  state or status UI
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -70,6 +72,8 @@ of active delegates while reporting and notifications are disabled.
 Stale status UI code must not read removed `AppDelegate.currentLocation` state.
 Beacon-region casts should stay guarded before enter/exit callbacks call
 beacon-only ranging APIs.
+Beacon payload casts should stay guarded before ranged beacon arrays update
+status UI or proximity state.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 
