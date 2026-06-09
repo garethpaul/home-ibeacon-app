@@ -69,7 +69,7 @@ Run the local static baseline:
 make check
 ```
 
-The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, active location-state device logs, active lock-screen local notifications for beacon state, active home/away POST calls, and invalid hex color parser fallthrough.
+The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, active location-state device logs, active lock-screen local notifications for beacon state, unused local notification permission prompts, active home/away POST calls, and invalid hex color parser fallthrough.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -93,6 +93,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - Beacon enter/exit state can reveal home occupancy. Do not re-enable network reporting until the endpoint, consent model, retention behavior, and HTTPS transport are documented.
 - Do not re-enable home/away or proximity `NSLog` calls; device logs can expose occupancy during debugging or shared diagnostics.
 - Do not re-enable home/away or proximity local notifications without explicit user-facing consent; lock-screen alerts can expose occupancy.
+- Do not request local notification permission while beacon-state notifications
+  are disabled; permission prompts imply user-facing lock-screen behavior.
 
 ## Maintenance Notes
 
@@ -101,6 +103,7 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - See `VISION.md` for project direction and contribution guardrails.
 - See `docs/plans/2026-06-08-location-log-privacy.md` for the location-state device log guardrail.
 - See `docs/plans/2026-06-09-location-notification-privacy.md` for the location-state local notification guardrail.
+- See `docs/plans/2026-06-09-location-notification-permission.md` for the local notification permission guardrail.
 - See `docs/plans/2026-06-08-hex-parser-invalid-input.md` for the UI hex parser invalid-input guardrail.
 - Run `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.
 

@@ -22,7 +22,7 @@ Priority:
 - Maintain the CocoaPods workspace and iOS 8-era dependency context
 - Keep `scripts/check-baseline.py` passing for credential placeholders, plist
   metadata, CocoaPods lockfiles, source inventory, disabled device logs, and
-  disabled network posts
+  disabled notification permission prompts and network posts
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -56,6 +56,8 @@ placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting
 remains disabled until privacy and consent are documented. Beacon proximity and
 home/away state must also stay out of device logs and local notifications.
+Unused local notification permission prompts stay disabled while those
+notifications are off.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 

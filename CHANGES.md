@@ -4,6 +4,8 @@
 
 - Disabled remaining beacon-state local notifications in the nested legacy app
   delegate so home/away and proximity state are not exposed on the lock screen.
+- Removed the unused local notification permission request while beacon-state
+  local notifications remain disabled.
 
 ## 2026-06-08
 

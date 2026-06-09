@@ -23,10 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Override point for customization after application launch.
         Fabric.with([Twitter()])
         
-        if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
-            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Sound | .Alert | .Badge, categories: nil))
-        }
-
         let uuidString = "2F234454-CF6D-4A0F-ADF2-F4911BA9FFA6"
         let beaconIdentifier = "iBeaconModules.us"
         let beaconUUID:NSUUID = NSUUID(UUIDString: uuidString)!
