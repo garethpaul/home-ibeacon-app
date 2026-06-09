@@ -57,6 +57,7 @@ def main():
         "HomeBeacon.xcodeproj/project.pbxproj",
         "HomeBeacon/Info.plist",
         "HomeBeacon/AppDelegate.swift",
+        "HomeBeacon/Hex.swift",
         "HomeBeacon/LoginViewController.swift",
         "HomeBeacon/ViewController.swift",
         "HomeBeacon/HomeBeacon/Info.plist",
@@ -67,6 +68,7 @@ def main():
         "TwitterKit.framework/TwitterKit",
         "docs/plans/2026-06-08-ios-privacy-baseline.md",
         "docs/plans/2026-06-08-location-log-privacy.md",
+        "docs/plans/2026-06-08-hex-parser-invalid-input.md",
     ]
 
     for relative_path in required_files:
@@ -80,6 +82,7 @@ def main():
     podfile = read("Podfile")
     podlock = read("Podfile.lock")
     project = read("HomeBeacon.xcodeproj/project.pbxproj")
+    hex_source = read("HomeBeacon/Hex.swift")
     login = read("HomeBeacon/LoginViewController.swift")
     app_delegate = read("HomeBeacon/AppDelegate.swift")
     nested_app_delegate = read("HomeBeacon/HomeBeacon/AppDelegate.swift")
@@ -88,6 +91,7 @@ def main():
     active_delegates = strip_swift_line_comments(app_delegate + "\n" + nested_app_delegate)
     plan = PLAN.read_text(encoding="utf-8") if PLAN.exists() else ""
     log_plan = read("docs/plans/2026-06-08-location-log-privacy.md")
+    hex_plan = read("docs/plans/2026-06-08-hex-parser-invalid-input.md")
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -149,6 +153,12 @@ def main():
     require("NSLog" not in active_delegates,
             "Beacon region handlers must not write home/away or proximity state to device logs",
             failures)
+    require("let scanner = NSScanner(string: cString)" in hex_source and
+            "scanner.scanHexInt(&rgbValue)" in hex_source and
+            "scanner.atEnd" in hex_source and
+            "return UIColor.grayColor()" in hex_source,
+            "Hex color parser must reject partially scanned invalid hex strings with the gray fallback",
+            failures)
 
     for plist_name, plist in [
         ("HomeBeacon/Info.plist", app_plist),
@@ -181,16 +191,16 @@ def main():
     require("*.local.xcconfig" in gitignore and "*.secrets.xcconfig" in gitignore and ".env" in gitignore,
             ".gitignore must exclude local secret configuration files",
             failures)
-    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme,
+    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "invalid hex" in readme.lower(),
             "README must document static verification, local credentials, and workspace usage",
             failures)
-    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower(),
+    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "invalid hex" in vision.lower(),
             "VISION must describe the privacy baseline and credential guardrails",
             failures)
     require("FABRIC_API_KEY" in security and "TWITTER_CONSUMER_SECRET" in security,
             "SECURITY must document local Fabric/Twitter credential settings",
             failures)
-    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes,
+    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "invalid hex" in changes.lower(),
             "CHANGES must record the credential and phone-number payload cleanup",
             failures)
     require("status: completed" in plan,
@@ -198,6 +208,9 @@ def main():
             failures)
     require("status: completed" in log_plan,
             "location log privacy plan must be marked completed",
+            failures)
+    require("status: completed" in hex_plan,
+            "hex parser invalid-input plan must be marked completed",
             failures)
 
     if shutil.which("xcodebuild"):

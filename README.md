@@ -69,7 +69,7 @@ Run the local static baseline:
 make check
 ```
 
-The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, active location-state device logs, and active home/away POST calls.
+The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, active location-state device logs, active home/away POST calls, and invalid hex color parser fallthrough.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -99,6 +99,7 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 - See `docs/plans/2026-06-08-location-log-privacy.md` for the location-state device log guardrail.
+- See `docs/plans/2026-06-08-hex-parser-invalid-input.md` for the UI hex parser invalid-input guardrail.
 - Run `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.
 
 ## Contributing
