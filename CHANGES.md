@@ -6,6 +6,8 @@
   delegate so home/away and proximity state are not exposed on the lock screen.
 - Removed the unused local notification permission request while beacon-state
   local notifications remain disabled.
+- Removed unused local notification scheduling helpers from both app delegates
+  while beacon-state notification scheduling remains disabled.
 
 ## 2026-06-08
 

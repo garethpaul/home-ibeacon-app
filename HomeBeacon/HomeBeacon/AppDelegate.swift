@@ -62,24 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 }
 
 extension AppDelegate: CLLocationManagerDelegate {
-    func sendLocalNotificationWithMessage(message: String!, playSound: Bool) {
-        let notification:UILocalNotification = UILocalNotification()
-        notification.alertBody = message
-        
-        if(playSound) {
-            // classic star trek communicator beep
-            //	http://www.trekcore.com/audio/
-            //
-            // note: convert mp3 and wav formats into caf using:
-            //	"afconvert -f caff -d LEI16@44100 -c 1 in.wav out.caf"
-            // http://stackoverflow.com/a/10388263
-            
-            notification.soundName = "tos_beep.caf";
-        }
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-    }
-    
     func locationManager(manager: CLLocationManager!,
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {

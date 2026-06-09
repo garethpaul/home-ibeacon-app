@@ -77,17 +77,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 }
 
 extension AppDelegate: CLLocationManagerDelegate {
-    func sendLocalNotificationWithMessage(message: String!, playSound: Bool) {
-        let notification:UILocalNotification = UILocalNotification()
-        notification.alertBody = message
-        
-        if(playSound) {
-            notification.soundName = "tos_beep.caf";
-        }
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-    }
-    
     func locationManager(manager: CLLocationManager!,
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
