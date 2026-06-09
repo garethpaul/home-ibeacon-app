@@ -9,10 +9,12 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 PLAN = ROOT / "docs/plans/2026-06-08-ios-privacy-baseline.md"
+MAKE_GATES_PLAN = ROOT / "docs/plans/2026-06-09-make-gate-aliases.md"
 NOTIFICATION_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-privacy.md"
 NOTIFICATION_PERMISSION_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-permission.md"
 NOTIFICATION_CODE_PLAN = ROOT / "docs/plans/2026-06-09-location-notification-code-removal.md"
 LOCATION_STATE_PLAN = ROOT / "docs/plans/2026-06-09-location-state-memory-retention.md"
+VIEW_STATE_PLAN = ROOT / "docs/plans/2026-06-09-stale-view-location-state.md"
 
 
 def require(condition, message, failures):
@@ -80,12 +82,14 @@ def main():
         "Fabric.framework/Fabric",
         "TwitterKit.framework/TwitterKit",
         "docs/plans/2026-06-08-ios-privacy-baseline.md",
+        "docs/plans/2026-06-09-make-gate-aliases.md",
         "docs/plans/2026-06-08-location-log-privacy.md",
         "docs/plans/2026-06-08-hex-parser-invalid-input.md",
         "docs/plans/2026-06-09-location-notification-privacy.md",
         "docs/plans/2026-06-09-location-notification-permission.md",
         "docs/plans/2026-06-09-location-notification-code-removal.md",
         "docs/plans/2026-06-09-location-state-memory-retention.md",
+        "docs/plans/2026-06-09-stale-view-location-state.md",
     ]
 
     for relative_path in required_files:
@@ -96,6 +100,7 @@ def main():
     security = read("SECURITY.md")
     changes = read("CHANGES.md")
     gitignore = read(".gitignore")
+    makefile = read("Makefile")
     podfile = read("Podfile")
     podlock = read("Podfile.lock")
     project = read("HomeBeacon.xcodeproj/project.pbxproj")
@@ -103,16 +108,20 @@ def main():
     login = read("HomeBeacon/LoginViewController.swift")
     app_delegate = read("HomeBeacon/AppDelegate.swift")
     nested_app_delegate = read("HomeBeacon/HomeBeacon/AppDelegate.swift")
+    view_controller = read("HomeBeacon/ViewController.swift")
     active_login = strip_swift_line_comments(login)
     active_app_delegate = strip_swift_line_comments(app_delegate)
     active_delegates = strip_swift_line_comments(app_delegate + "\n" + nested_app_delegate)
+    active_view_controller = strip_swift_line_comments(view_controller)
     plan = PLAN.read_text(encoding="utf-8") if PLAN.exists() else ""
+    make_gates_plan = MAKE_GATES_PLAN.read_text(encoding="utf-8") if MAKE_GATES_PLAN.exists() else ""
     log_plan = read("docs/plans/2026-06-08-location-log-privacy.md")
     hex_plan = read("docs/plans/2026-06-08-hex-parser-invalid-input.md")
     notification_plan = NOTIFICATION_PLAN.read_text(encoding="utf-8") if NOTIFICATION_PLAN.exists() else ""
     notification_permission_plan = NOTIFICATION_PERMISSION_PLAN.read_text(encoding="utf-8") if NOTIFICATION_PERMISSION_PLAN.exists() else ""
     notification_code_plan = NOTIFICATION_CODE_PLAN.read_text(encoding="utf-8") if NOTIFICATION_CODE_PLAN.exists() else ""
     location_state_plan = LOCATION_STATE_PLAN.read_text(encoding="utf-8") if LOCATION_STATE_PLAN.exists() else ""
+    view_state_plan = VIEW_STATE_PLAN.read_text(encoding="utf-8") if VIEW_STATE_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -179,6 +188,10 @@ def main():
             "playSound" not in active_delegates,
             "Beacon region handlers must not retain unused home/away state or notification payload strings",
             failures)
+    require("appDelegate.currentLocation" not in active_view_controller and
+            "UIApplication.sharedApplication().delegate as! AppDelegate" not in active_view_controller,
+            "Top-level status UI must not read removed AppDelegate currentLocation state",
+            failures)
     for location_phrase in [
         "You are far away from the beacon",
         "You are near the beacon",
@@ -240,20 +253,26 @@ def main():
     require("*.local.xcconfig" in gitignore and "*.secrets.xcconfig" in gitignore and ".env" in gitignore,
             ".gitignore must exclude local secret configuration files",
             failures)
-    require("make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "memory-only location state" in readme and "invalid hex" in readme.lower(),
+    require(".PHONY: build check lint test" in makefile and "lint test build: check" in makefile,
+            "Makefile must expose lint, test, and build aliases for the local baseline",
+            failures)
+    require("make lint" in readme and "make test" in readme and "make build" in readme and "make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "memory-only location state" in readme and "stale status UI" in readme and "invalid hex" in readme.lower(),
             "README must document static verification, local credentials, and workspace usage",
             failures)
-    require("scripts/check-baseline.py" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "local notifications" in vision.lower() and "notification permission" in vision and "notification scheduling" in vision and "memory-only location state" in vision and "invalid hex" in vision.lower(),
+    require("scripts/check-baseline.py" in vision and "make lint" in vision and "make test" in vision and "make build" in vision and "credential" in vision.lower() and "logs" in vision.lower() and "local notifications" in vision.lower() and "notification permission" in vision and "notification scheduling" in vision and "memory-only location state" in vision and "stale status UI" in vision and "invalid hex" in vision.lower(),
             "VISION must describe the privacy baseline and credential guardrails",
             failures)
     require("FABRIC_API_KEY" in security and "TWITTER_CONSUMER_SECRET" in security,
             "SECURITY must document local Fabric/Twitter credential settings",
             failures)
-    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "notification permission" in changes and "notification scheduling" in changes and "memory-only location state" in changes and "invalid hex" in changes.lower(),
+    require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "notification permission" in changes and "notification scheduling" in changes and "memory-only location state" in changes and "stale status UI" in changes and "invalid hex" in changes.lower(),
             "CHANGES must record the credential and phone-number payload cleanup",
             failures)
     require("status: completed" in plan,
             "plan must be marked completed",
+            failures)
+    require("status: completed" in make_gates_plan,
+            "make gate aliases plan must be marked completed",
             failures)
     require("status: completed" in log_plan,
             "location log privacy plan must be marked completed",
@@ -272,6 +291,9 @@ def main():
             failures)
     require("status: completed" in location_state_plan,
             "location state memory-retention plan must be marked completed",
+            failures)
+    require("status: completed" in view_state_plan,
+            "stale view location-state plan must be marked completed",
             failures)
 
     if shutil.which("xcodebuild"):

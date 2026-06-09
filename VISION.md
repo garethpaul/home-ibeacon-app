@@ -23,7 +23,9 @@ Priority:
 - Keep `scripts/check-baseline.py` passing for credential placeholders, plist
   metadata, CocoaPods lockfiles, source inventory, disabled device logs, and
   removed notification scheduling code, disabled notification permission
-  prompts, memory-only location state, and network posts
+  prompts, memory-only location state, stale status UI reads, and network posts
+- Keep `make lint`, `make test`, `make build`, and `make check` available as
+  local verification gates
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -51,7 +53,8 @@ persist home/away data without explicit purpose and user control.
 
 Remote requests should use HTTPS and local configuration.
 
-Current baseline: `make check` runs `scripts/check-baseline.py` without Xcode.
+Current baseline: `make lint`, `make test`, `make build`, and `make check`
+run `scripts/check-baseline.py` without Xcode.
 It verifies that Fabric/Twitter credentials use local build-setting
 placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting
@@ -62,6 +65,7 @@ notifications are off. Local notification scheduling helpers should stay out of
 the delegates while notification scheduling is disabled.
 Memory-only location state and unused home/away message strings should stay out
 of active delegates while reporting and notifications are disabled.
+Stale status UI code must not read removed `AppDelegate.currentLocation` state.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 

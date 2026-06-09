@@ -3,12 +3,9 @@
 //
 
 import UIKit
-import CoreLocation
 
 class ViewController: UIViewController{
     
-    
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     @IBOutlet weak var imageLoc: UIImageView!
     var logoView: UIImageView!
@@ -16,7 +13,6 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNav()
-        findLocation()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -42,18 +38,4 @@ class ViewController: UIViewController{
         self.navigationController?.navigationBar.barTintColor = toColor("FF9800")
         self.navigationController?.navigationBar.shadowImage = UIImage()
     }
-    
-    func findLocation() {
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW,
-            Int64(3 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            if (self.appDelegate.currentLocation == "home") {
-                self.imageLoc.image = UIImage(named: "home.png")
-            } else {
-                self.imageLoc.image = UIImage(named: "out.png")
-            }
-        }
-    }
 }
-
-

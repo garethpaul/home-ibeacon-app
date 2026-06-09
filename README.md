@@ -46,6 +46,9 @@ Additional scan context:
 ```bash
 git clone https://github.com/garethpaul/home-ibeacon-app.git
 cd home-ibeacon-app
+make lint
+make test
+make build
 make check
 ```
 
@@ -66,13 +69,22 @@ The repository includes legacy CocoaPods output and lockfiles. Run `pod install`
 Run the local static baseline:
 
 ```bash
+make lint
+make test
+make build
 make check
 ```
+
+The `lint`, `test`, and `build` targets intentionally alias the static baseline
+on hosts without the legacy Xcode toolchain, so the standard local gate commands
+stay available while preserving the single source of truth.
 
 The baseline runs `scripts/check-baseline.py`, parses plist/storyboard/workspace XML, checks CocoaPods lockfile consistency, verifies the legacy Swift and vendor inventory, and guards against committed Fabric/Twitter credential literals, phone-number debug logging, dormant phone-number payload assembly, active location-state device logs, active lock-screen local notifications for beacon state, retained local notification scheduling code, unused local notification permission prompts, active home/away POST calls, and invalid hex color parser fallthrough.
 It also guards memory-only location state by keeping unused home/away strings
 and retained `currentLocation` state out of active beacon delegates while
 network reporting and notifications are disabled.
+The static baseline also rejects stale status UI reads of removed
+`AppDelegate.currentLocation` state.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -115,8 +127,10 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - See `docs/plans/2026-06-09-location-notification-code-removal.md` for the local notification scheduling guardrail.
 - See `docs/plans/2026-06-09-location-state-memory-retention.md` for the
   memory-only location state guardrail.
+- See `docs/plans/2026-06-09-stale-view-location-state.md` for the stale status UI guardrail.
+- See `docs/plans/2026-06-09-make-gate-aliases.md` for the local gate alias guardrail.
 - See `docs/plans/2026-06-08-hex-parser-invalid-input.md` for the UI hex parser invalid-input guardrail.
-- Run `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.
+- Run `make lint`, `make test`, `make build`, and `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.
 
 ## Contributing
 

@@ -2,6 +2,10 @@
 
 ## 2026-06-09
 
+- Added local `make lint`, `make test`, and `make build` gate aliases for the
+  static privacy baseline.
+- Removed a stale status UI read of the removed `AppDelegate.currentLocation`
+  state and added a static guardrail for it.
 - Disabled remaining beacon-state local notifications in the nested legacy app
   delegate so home/away and proximity state are not exposed on the lock screen.
 - Removed the unused local notification permission request while beacon-state
