@@ -128,7 +128,6 @@ extension AppDelegate: CLLocationManagerDelegate {
             // recording home/away presence in device logs.
             // Location-state notifications are also disabled to avoid
             // exposing home/away presence on the lock screen.
-            //sendLocalNotificationWithMessage(message, playSound: playSound)
     }
     
     func locationManager(manager: CLLocationManager!,
@@ -140,7 +139,6 @@ extension AppDelegate: CLLocationManagerDelegate {
             // recording home/away presence in device logs.
             // Location-state notifications are also disabled to avoid
             // exposing home/away presence on the lock screen.
-            //sendLocalNotificationWithMessage("You entered the region", playSound: false)
     }
     
     func locationManager(manager: CLLocationManager!,
@@ -152,6 +150,5 @@ extension AppDelegate: CLLocationManagerDelegate {
             // recording home/away presence in device logs.
             // Location-state notifications are also disabled to avoid
             // exposing home/away presence on the lock screen.
-            //sendLocalNotificationWithMessage("You exited the region", playSound: true)
     }
 }
