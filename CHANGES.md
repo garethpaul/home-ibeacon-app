@@ -2,6 +2,8 @@
 
 ## 2026-06-10
 
+- Removed unused continuous standard location updates from both app delegates
+  while preserving beacon monitoring and ranging.
 - Added pinned macOS GitHub Actions validation for the privacy baseline and
   current-Xcode project parsing.
 

@@ -19,6 +19,7 @@ VIEW_STATE_PLAN = ROOT / "docs/plans/2026-06-09-stale-view-location-state.md"
 BEACON_REGION_PLAN = ROOT / "docs/plans/2026-06-09-beacon-region-cast-guard.md"
 BEACON_PAYLOAD_PLAN = ROOT / "docs/plans/2026-06-09-beacon-payload-cast-guard.md"
 CI_PLAN = ROOT / "docs/plans/2026-06-10-hosted-project-validation.md"
+STANDARD_LOCATION_PLAN = ROOT / "docs/plans/2026-06-10-standard-location-update-removal.md"
 
 
 def require(condition, message, failures):
@@ -98,6 +99,7 @@ def main():
         "docs/plans/2026-06-09-beacon-region-cast-guard.md",
         "docs/plans/2026-06-09-beacon-payload-cast-guard.md",
         "docs/plans/2026-06-10-hosted-project-validation.md",
+        "docs/plans/2026-06-10-standard-location-update-removal.md",
     ]
 
     for relative_path in required_files:
@@ -132,6 +134,7 @@ def main():
     view_state_plan = VIEW_STATE_PLAN.read_text(encoding="utf-8") if VIEW_STATE_PLAN.exists() else ""
     beacon_region_plan = BEACON_REGION_PLAN.read_text(encoding="utf-8") if BEACON_REGION_PLAN.exists() else ""
     beacon_payload_plan = BEACON_PAYLOAD_PLAN.read_text(encoding="utf-8") if BEACON_PAYLOAD_PLAN.exists() else ""
+    standard_location_plan = STANDARD_LOCATION_PLAN.read_text(encoding="utf-8") if STANDARD_LOCATION_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -239,6 +242,16 @@ def main():
             "as? ViewController" in active_delegates,
             "App delegates must optional-cast ranged beacon payloads and status view controllers",
             failures)
+    require("startUpdatingLocation" not in active_delegates and
+            "stopUpdatingLocation" not in active_delegates and
+            "pausesLocationUpdatesAutomatically" not in active_delegates,
+            "Beacon-only delegates must not start continuous standard location updates",
+            failures)
+    require(active_delegates.count("startMonitoringForRegion(beaconRegion)") >= 2 and
+            active_delegates.count("startRangingBeaconsInRegion(beaconRegion)") >= 4 and
+            active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") >= 2,
+            "App delegates must preserve beacon monitoring and ranging behavior",
+            failures)
     require("let scanner = NSScanner(string: cString)" in hex_source and
             "scanner.scanHexInt(&rgbValue)" in hex_source and
             "scanner.atEnd" in hex_source and
@@ -289,6 +302,12 @@ def main():
     require("FABRIC_API_KEY" in security and "TWITTER_CONSUMER_SECRET" in security,
             "SECURITY must document local Fabric/Twitter credential settings",
             failures)
+    require("standard coordinate updates" in readme and
+            "standard coordinate updates" in vision and
+            "continuous standard coordinate" in security and
+            "continuous standard location updates" in changes,
+            "Docs must preserve the beacon-only location update boundary",
+            failures)
     require("credential" in changes.lower() and "phone-number" in changes and "payload" in changes and "device logs" in changes and "local notifications" in changes and "notification permission" in changes and "notification scheduling" in changes and "memory-only location state" in changes and "stale status UI" in changes and "beacon-region casts" in changes and "beacon payload casts" in changes and "invalid hex" in changes.lower(),
             "CHANGES must record the credential and phone-number payload cleanup",
             failures)
@@ -324,6 +343,9 @@ def main():
             failures)
     require("status: completed" in beacon_payload_plan,
             "beacon payload cast guard plan must be marked completed",
+            failures)
+    require("status: completed" in standard_location_plan and "make check" in standard_location_plan,
+            "standard location update removal plan must be completed and record verification",
             failures)
 
     ci_plan = CI_PLAN.read_text(errors="replace") if CI_PLAN.exists() else ""

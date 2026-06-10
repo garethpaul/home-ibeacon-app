@@ -92,6 +92,9 @@ It also keeps beacon-region casts guarded before enter/exit callbacks call
 beacon-only ranging APIs.
 It keeps beacon payload casts guarded before ranging callbacks update proximity
 state or status UI.
+It also keeps standard coordinate updates disabled: the app uses beacon
+monitoring and ranging without starting continuous `CLLocationManager`
+location updates that it never consumes.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -124,6 +127,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
   while network reporting and beacon-state notifications are disabled.
 - Keep beacon payload casts guarded so malformed ranging callbacks do not crash
   the app before privacy-sensitive location handling can be ignored.
+- Do not re-enable standard continuous location updates unless coordinate data
+  has a documented user-facing purpose and handling policy.
 
 ## Maintenance Notes
 
@@ -144,6 +149,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
   beacon-region casts in CoreLocation callbacks.
 - See `docs/plans/2026-06-09-beacon-payload-cast-guard.md` for guarded
   beacon payload casts in CoreLocation ranging callbacks.
+- See `docs/plans/2026-06-10-standard-location-update-removal.md` for the
+  beacon-only CoreLocation boundary.
 - See `docs/plans/2026-06-09-make-gate-aliases.md` for the local gate alias guardrail.
 - See `docs/plans/2026-06-08-hex-parser-invalid-input.md` for the UI hex parser invalid-input guardrail.
 - Run `make lint`, `make test`, `make build`, and `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.

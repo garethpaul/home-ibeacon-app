@@ -34,13 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         }
         
         locationManager!.delegate = self
-        locationManager!.pausesLocationUpdatesAutomatically = false
         beaconRegion.notifyOnEntry = true
         beaconRegion.notifyOnExit = true
         //beaconRegion.notifyEntryStateOnDisplay = true
         locationManager!.startMonitoringForRegion(beaconRegion)
         locationManager!.startRangingBeaconsInRegion(beaconRegion)
-        locationManager!.startUpdatingLocation()
         
         if Digits.sharedInstance().session() == nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -108,7 +106,6 @@ extension AppDelegate: CLLocationManagerDelegate {
         didEnterRegion region: CLRegion!) {
             if let beaconRegion = region as? CLBeaconRegion {
                 manager.startRangingBeaconsInRegion(beaconRegion)
-                manager.startUpdatingLocation()
             }
             
             // Location-state logging is intentionally disabled to avoid
@@ -121,7 +118,6 @@ extension AppDelegate: CLLocationManagerDelegate {
         didExitRegion region: CLRegion!) {
             if let beaconRegion = region as? CLBeaconRegion {
                 manager.stopRangingBeaconsInRegion(beaconRegion)
-                manager.stopUpdatingLocation()
             }
             
             // Location-state logging is intentionally disabled to avoid

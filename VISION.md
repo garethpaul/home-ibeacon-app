@@ -30,6 +30,8 @@ Priority:
   beacon-only ranging APIs
 - Keep beacon payload casts guarded before ranging callbacks update proximity
   state or status UI
+- Keep standard coordinate updates off while the app only consumes beacon
+  monitoring and ranging events
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -76,6 +78,8 @@ Beacon-region casts should stay guarded before enter/exit callbacks call
 beacon-only ranging APIs.
 Beacon payload casts should stay guarded before ranged beacon arrays update
 status UI or proximity state.
+Standard `CLLocationManager` coordinate updates should remain disabled until a
+documented feature consumes that data with an explicit privacy purpose.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 
