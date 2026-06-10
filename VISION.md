@@ -59,6 +59,8 @@ Remote requests should use HTTPS and local configuration.
 
 Current baseline: `make lint`, `make test`, `make build`, and `make check`
 run `scripts/check-baseline.py` without Xcode.
+GitHub Actions runs the privacy/credential baseline and current-Xcode project
+listing on macOS; functional beacon behavior remains device-only.
 It verifies that Fabric/Twitter credentials use local build-setting
 placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting

@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-10
+
+- Added pinned macOS GitHub Actions validation for the privacy baseline and
+  current-Xcode project parsing.
+
 ## 2026-06-09
 
 - Guarded beacon payload casts in ranging callbacks before updating proximity

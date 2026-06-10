@@ -3,6 +3,7 @@ from pathlib import Path
 import plistlib
 import re
 import shutil
+import subprocess
 import sys
 import xml.etree.ElementTree as ET
 
@@ -17,6 +18,7 @@ LOCATION_STATE_PLAN = ROOT / "docs/plans/2026-06-09-location-state-memory-retent
 VIEW_STATE_PLAN = ROOT / "docs/plans/2026-06-09-stale-view-location-state.md"
 BEACON_REGION_PLAN = ROOT / "docs/plans/2026-06-09-beacon-region-cast-guard.md"
 BEACON_PAYLOAD_PLAN = ROOT / "docs/plans/2026-06-09-beacon-payload-cast-guard.md"
+CI_PLAN = ROOT / "docs/plans/2026-06-10-hosted-project-validation.md"
 
 
 def require(condition, message, failures):
@@ -62,6 +64,7 @@ def main():
     failures = []
     required_files = [
         ".gitignore",
+        ".github/workflows/check.yml",
         "CHANGES.md",
         "Makefile",
         "Podfile",
@@ -94,6 +97,7 @@ def main():
         "docs/plans/2026-06-09-stale-view-location-state.md",
         "docs/plans/2026-06-09-beacon-region-cast-guard.md",
         "docs/plans/2026-06-09-beacon-payload-cast-guard.md",
+        "docs/plans/2026-06-10-hosted-project-validation.md",
     ]
 
     for relative_path in required_files:
@@ -322,8 +326,30 @@ def main():
             "beacon payload cast guard plan must be marked completed",
             failures)
 
+    ci_plan = CI_PLAN.read_text(errors="replace") if CI_PLAN.exists() else ""
+    require("status: completed" in ci_plan and "make check" in ci_plan,
+            "hosted project validation plan must be completed and record verification",
+            failures)
+    workflow = read(".github/workflows/check.yml")
+    require("permissions:\n  contents: read" in workflow and
+            "cancel-in-progress: true" in workflow and
+            "runs-on: macos-15" in workflow and
+            "timeout-minutes: 10" in workflow and
+            "actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10" in workflow and
+            "run: make check" in workflow,
+            "GitHub Actions must keep the bounded, least-privilege macOS project check",
+            failures)
+
     if shutil.which("xcodebuild"):
-        print("xcodebuild is available; run a scheme-specific Xcode test on macOS before release.")
+        result = subprocess.run(
+            ["xcodebuild", "-list", "-project", "HomeBeacon.xcodeproj"],
+            cwd=str(ROOT),
+            stdout=subprocess.DEVNULL,
+            check=False,
+        )
+        require(result.returncode == 0,
+                "HomeBeacon.xcodeproj must parse with installed Xcode",
+                failures)
     else:
         print("xcodebuild unavailable; static iOS baseline only.")
 
