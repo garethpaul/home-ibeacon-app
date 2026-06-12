@@ -56,6 +56,8 @@ updates while no feature consumes location coordinates.
 
 GitHub Actions runs the credential, privacy, dependency, and Xcode project
 checks with read-only repository permissions before changes land.
+Checkout credentials are not persisted, and the baseline rejects additional
+workflow steps that could expand the trusted execution surface.
 
 Dependency updates should come from trusted package managers and should keep lockfiles in sync when lockfiles exist. Do not commit credentials, private keys, tokens, generated secrets, or machine-local configuration. If a vulnerability depends on a compromised package, typosquatting risk, insecure transitive dependency, or unsafe build step, include the package name, affected version, and the path through which it is used.
 

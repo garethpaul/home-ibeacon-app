@@ -1,5 +1,12 @@
 # Changes
 
+## 2026-06-12
+
+- Hardened the hosted workflow contract against persisted checkout credentials
+  and unreviewed extra steps.
+- Fixed Swift comment stripping so plain-HTTP strings cannot evade the privacy
+  baseline by containing `//` inside a quoted URL.
+
 ## 2026-06-10
 
 - Documented and enforced the legacy SDK modernization boundary for the Swift

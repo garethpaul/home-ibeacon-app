@@ -67,7 +67,9 @@ The repository includes legacy CocoaPods output and lockfiles. Run `pod install`
 ## Testing and Verification
 
 GitHub Actions runs the privacy baseline and Xcode project parse on macOS
-without live credentials, beacon hardware, or location behavior.
+without live credentials, beacon hardware, or location behavior. Checkout uses
+read-only permissions without persisted credentials, and the baseline enforces
+the complete workflow shape rather than accepting extra steps.
 
 Run the local static baseline:
 
@@ -141,6 +143,8 @@ deployment target or replacing those dependencies.
 
 - See `docs/plans/2026-06-10-hosted-project-validation.md` for the hosted Xcode
   project parsing boundary.
+- See `docs/plans/2026-06-12-hosted-workflow-integrity.md` for the immutable,
+  credential-free hosted workflow contract.
 - This looks like an Apple platform project or sample. Xcode, Swift, CocoaPods, and deployment target versions may need to match the original project era.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
