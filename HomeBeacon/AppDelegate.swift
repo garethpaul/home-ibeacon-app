@@ -38,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         beaconRegion.notifyOnExit = true
         //beaconRegion.notifyEntryStateOnDisplay = true
         locationManager!.startMonitoringForRegion(beaconRegion)
-        locationManager!.startRangingBeaconsInRegion(beaconRegion)
         
         if Digits.sharedInstance().session() == nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

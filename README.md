@@ -97,6 +97,9 @@ state or status UI.
 It also keeps standard coordinate updates disabled: the app uses beacon
 monitoring and ranging without starting continuous `CLLocationManager`
 location updates that it never consumes.
+Region-scoped beacon ranging now starts only after a guarded beacon-region
+entry callback and stops on exit; launch keeps lower-cost region monitoring
+without unconditional proximity ranging.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
@@ -131,6 +134,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
   the app before privacy-sensitive location handling can be ignored.
 - Do not re-enable standard continuous location updates unless coordinate data
   has a documented user-facing purpose and handling policy.
+- Keep region-scoped beacon ranging limited to guarded enter/exit callbacks;
+  application launch should monitor the region without starting ranging.
 
 ## Maintenance Notes
 

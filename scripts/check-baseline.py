@@ -22,6 +22,7 @@ MODERNIZATION_PLAN = ROOT / "docs/plans/2026-06-10-legacy-sdk-modernization-boun
 CI_PLAN = ROOT / "docs/plans/2026-06-10-hosted-project-validation.md"
 STANDARD_LOCATION_PLAN = ROOT / "docs/plans/2026-06-10-standard-location-update-removal.md"
 WORKFLOW_INTEGRITY_PLAN = ROOT / "docs/plans/2026-06-12-hosted-workflow-integrity.md"
+REGION_RANGING_PLAN = ROOT / "docs/plans/2026-06-12-region-scoped-beacon-ranging.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -161,6 +162,7 @@ def main():
         "docs/plans/2026-06-10-hosted-project-validation.md",
         "docs/plans/2026-06-10-standard-location-update-removal.md",
         "docs/plans/2026-06-12-hosted-workflow-integrity.md",
+        "docs/plans/2026-06-12-region-scoped-beacon-ranging.md",
     ]
 
     for relative_path in required_files:
@@ -198,6 +200,7 @@ def main():
     modernization_plan = MODERNIZATION_PLAN.read_text(encoding="utf-8") if MODERNIZATION_PLAN.exists() else ""
     standard_location_plan = STANDARD_LOCATION_PLAN.read_text(encoding="utf-8") if STANDARD_LOCATION_PLAN.exists() else ""
     workflow_integrity_plan = WORKFLOW_INTEGRITY_PLAN.read_text(encoding="utf-8") if WORKFLOW_INTEGRITY_PLAN.exists() else ""
+    region_ranging_plan = REGION_RANGING_PLAN.read_text(encoding="utf-8") if REGION_RANGING_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -310,10 +313,10 @@ def main():
             "pausesLocationUpdatesAutomatically" not in active_delegates,
             "Beacon-only delegates must not start continuous standard location updates",
             failures)
-    require(active_delegates.count("startMonitoringForRegion(beaconRegion)") >= 2 and
-            active_delegates.count("startRangingBeaconsInRegion(beaconRegion)") >= 4 and
-            active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") >= 2,
-            "App delegates must preserve beacon monitoring and ranging behavior",
+    require(active_delegates.count("startMonitoringForRegion(beaconRegion)") == 2 and
+            active_delegates.count("startRangingBeaconsInRegion(beaconRegion)") == 2 and
+            active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") == 2,
+            "App delegates must monitor at launch and range only between region entry and exit",
             failures)
     require("let scanner = NSScanner(string: cString)" in hex_source and
             "scanner.scanHexInt(&rgbValue)" in hex_source and
@@ -434,6 +437,15 @@ def main():
             "persist-credentials: false" in workflow_integrity_plan and
             "hostile mutations" in workflow_integrity_plan,
             "hosted workflow integrity plan must record its completed contract",
+            failures)
+    require("status: completed" in region_ranging_plan and "make check" in region_ranging_plan,
+            "region-scoped beacon ranging plan must be completed and record verification",
+            failures)
+    require("region-scoped beacon ranging" in readme.lower() and
+            "region-scoped beacon ranging" in vision.lower() and
+            "region-scoped beacon ranging" in security.lower() and
+            "region-scoped beacon ranging" in changes.lower(),
+            "Docs must preserve the region-scoped beacon ranging boundary",
             failures)
     workflow = read(".github/workflows/check.yml")
     require(workflow == EXPECTED_WORKFLOW,
