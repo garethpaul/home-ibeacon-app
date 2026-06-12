@@ -2,6 +2,8 @@
 
 ## 2026-06-12
 
+- Limited both app delegates to region-scoped beacon ranging: launch monitors
+  the region, entry starts proximity ranging, and exit stops it.
 - Hardened the hosted workflow contract against persisted checkout credentials
   and unreviewed extra steps.
 - Fixed Swift comment stripping so plain-HTTP strings cannot evade the privacy

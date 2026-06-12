@@ -32,6 +32,8 @@ Priority:
   state or status UI
 - Keep standard coordinate updates off while the app only consumes beacon
   monitoring and ranging events
+- Keep region-scoped beacon ranging between guarded region entry and exit
+  callbacks instead of starting detailed ranging at launch
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -70,6 +72,8 @@ placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting
 remains disabled until privacy and consent are documented. Beacon proximity and
 home/away state must also stay out of device logs and local notifications.
+Region-scoped beacon ranging preserves launch-time monitoring while deferring
+detailed proximity scans until CoreLocation reports region entry.
 Unused local notification permission prompts stay disabled while those
 notifications are off. Local notification scheduling helpers should stay out of
 the delegates while notification scheduling is disabled.
