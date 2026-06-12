@@ -63,6 +63,8 @@ Current baseline: `make lint`, `make test`, `make build`, and `make check`
 run `scripts/check-baseline.py` without Xcode.
 GitHub Actions runs the privacy/credential baseline and current-Xcode project
 listing on macOS; functional beacon behavior remains device-only.
+The hosted workflow uses read-only permissions without persisted checkout
+credentials and is checked as a complete contract.
 It verifies that Fabric/Twitter credentials use local build-setting
 placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting
@@ -82,6 +84,14 @@ Standard `CLLocationManager` coordinate updates should remain disabled until a
 documented feature consumes that data with an explicit privacy purpose.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
+
+## Modernization Boundary
+
+The current repository preserves a Swift 1-era, iOS 8.3 application with an
+iOS 8.0 CocoaPods platform, Alamofire 1.2, and retired Fabric/TwitterKit
+artifacts. Modernization must replace retired integrations, migrate networking,
+then convert Swift and Core Location behavior in independently verifiable
+stages; it is not a single project-file upgrade.
 
 ## What We Will Not Merge (For Now)
 

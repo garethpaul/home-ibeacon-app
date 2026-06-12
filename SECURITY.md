@@ -24,6 +24,13 @@ Helpful reports include:
 
 ## Project Security Posture
 
+The project depends on retired Fabric/TwitterKit binaries and Alamofire 1.2 and
+targets an obsolete iOS runtime. A successful static baseline check is not
+evidence that these dependencies are supported or secure on a current SDK.
+Treat modernization as a security migration: replace retired identity and
+networking components before handling real credentials or household location
+data on a supported device.
+
 - This repository appears to be an Apple platform application or Swift sample. The active security scope is the code and documentation on the default branch.
 - Review found authentication, token, or session-related code paths; changes in those areas should receive security-focused review before merge.
 - Review found external API integrations or credential-adjacent configuration; changes in those areas should receive security-focused review before merge.
@@ -49,6 +56,8 @@ updates while no feature consumes location coordinates.
 
 GitHub Actions runs the credential, privacy, dependency, and Xcode project
 checks with read-only repository permissions before changes land.
+Checkout credentials are not persisted, and the baseline rejects additional
+workflow steps that could expand the trusted execution surface.
 
 Dependency updates should come from trusted package managers and should keep lockfiles in sync when lockfiles exist. Do not commit credentials, private keys, tokens, generated secrets, or machine-local configuration. If a vulnerability depends on a compromised package, typosquatting risk, insecure transitive dependency, or unsafe build step, include the package name, affected version, and the path through which it is used.
 

@@ -18,8 +18,43 @@ LOCATION_STATE_PLAN = ROOT / "docs/plans/2026-06-09-location-state-memory-retent
 VIEW_STATE_PLAN = ROOT / "docs/plans/2026-06-09-stale-view-location-state.md"
 BEACON_REGION_PLAN = ROOT / "docs/plans/2026-06-09-beacon-region-cast-guard.md"
 BEACON_PAYLOAD_PLAN = ROOT / "docs/plans/2026-06-09-beacon-payload-cast-guard.md"
+MODERNIZATION_PLAN = ROOT / "docs/plans/2026-06-10-legacy-sdk-modernization-boundary.md"
 CI_PLAN = ROOT / "docs/plans/2026-06-10-hosted-project-validation.md"
 STANDARD_LOCATION_PLAN = ROOT / "docs/plans/2026-06-10-standard-location-update-removal.md"
+WORKFLOW_INTEGRITY_PLAN = ROOT / "docs/plans/2026-06-12-hosted-workflow-integrity.md"
+EXPECTED_WORKFLOW = """name: Check
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+      - name: Run privacy and project baseline
+        run: make check
+"""
+EXPECTED_MAKEFILE = """.PHONY: build check lint test
+
+lint test build: check
+
+check:
+\tpython3 scripts/check-baseline.py
+"""
 
 
 def require(condition, message, failures):
@@ -32,7 +67,26 @@ def read(relative_path):
 
 
 def strip_swift_line_comments(text):
-    return "\n".join(line.split("//", 1)[0] for line in text.splitlines())
+    stripped_lines = []
+    for line in text.splitlines():
+        output = []
+        in_string = False
+        escaped = False
+        index = 0
+        while index < len(line):
+            character = line[index]
+            if not in_string and character == "/" and index + 1 < len(line) and line[index + 1] == "/":
+                break
+            output.append(character)
+            if character == '"' and not escaped:
+                in_string = not in_string
+            if character == "\\":
+                escaped = not escaped
+            else:
+                escaped = False
+            index += 1
+        stripped_lines.append("".join(output))
+    return "\n".join(stripped_lines)
 
 
 def active_notification_calls(text):
@@ -63,6 +117,11 @@ def parse_xml(relative_path, failures):
 
 def main():
     failures = []
+    swift_comment_fixture = 'let endpoint = "http://example.com/path" // trailing comment'
+    require(strip_swift_line_comments(swift_comment_fixture) ==
+            'let endpoint = "http://example.com/path" ',
+            "Swift comment stripping must preserve quoted URL strings",
+            failures)
     required_files = [
         ".gitignore",
         ".github/workflows/check.yml",
@@ -98,8 +157,10 @@ def main():
         "docs/plans/2026-06-09-stale-view-location-state.md",
         "docs/plans/2026-06-09-beacon-region-cast-guard.md",
         "docs/plans/2026-06-09-beacon-payload-cast-guard.md",
+        "docs/plans/2026-06-10-legacy-sdk-modernization-boundary.md",
         "docs/plans/2026-06-10-hosted-project-validation.md",
         "docs/plans/2026-06-10-standard-location-update-removal.md",
+        "docs/plans/2026-06-12-hosted-workflow-integrity.md",
     ]
 
     for relative_path in required_files:
@@ -134,7 +195,9 @@ def main():
     view_state_plan = VIEW_STATE_PLAN.read_text(encoding="utf-8") if VIEW_STATE_PLAN.exists() else ""
     beacon_region_plan = BEACON_REGION_PLAN.read_text(encoding="utf-8") if BEACON_REGION_PLAN.exists() else ""
     beacon_payload_plan = BEACON_PAYLOAD_PLAN.read_text(encoding="utf-8") if BEACON_PAYLOAD_PLAN.exists() else ""
+    modernization_plan = MODERNIZATION_PLAN.read_text(encoding="utf-8") if MODERNIZATION_PLAN.exists() else ""
     standard_location_plan = STANDARD_LOCATION_PLAN.read_text(encoding="utf-8") if STANDARD_LOCATION_PLAN.exists() else ""
+    workflow_integrity_plan = WORKFLOW_INTEGRITY_PLAN.read_text(encoding="utf-8") if WORKFLOW_INTEGRITY_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -290,8 +353,8 @@ def main():
     require("*.local.xcconfig" in gitignore and "*.secrets.xcconfig" in gitignore and ".env" in gitignore,
             ".gitignore must exclude local secret configuration files",
             failures)
-    require(".PHONY: build check lint test" in makefile and "lint test build: check" in makefile,
-            "Makefile must expose lint, test, and build aliases for the local baseline",
+    require(makefile == EXPECTED_MAKEFILE,
+            "Makefile must exactly preserve the local baseline aliases",
             failures)
     require("make lint" in readme and "make test" in readme and "make build" in readme and "make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "memory-only location state" in readme and "stale status UI" in readme and "beacon-region casts" in readme and "beacon payload casts" in readme and "invalid hex" in readme.lower(),
             "README must document static verification, local credentials, and workspace usage",
@@ -344,6 +407,21 @@ def main():
     require("status: completed" in beacon_payload_plan,
             "beacon payload cast guard plan must be marked completed",
             failures)
+    require("Swift 1-era" in readme and "iOS 8.3" in readme and "Alamofire 1.2" in readme and "current SDK" in readme,
+            "README must document the legacy SDK modernization boundary",
+            failures)
+    require("Swift 1-era" in vision and "Alamofire 1.2" in vision and "modernization" in vision.lower(),
+            "VISION must document the legacy SDK modernization sequence",
+            failures)
+    require("retired" in security and "TwitterKit" in security and "current SDK" in security,
+            "SECURITY must identify retired SDK and current-toolchain risk",
+            failures)
+    require("legacy SDK modernization boundary" in changes,
+            "CHANGES must record the legacy SDK modernization boundary",
+            failures)
+    require("status: completed" in modernization_plan and "Swift 1-era" in modernization_plan and "Alamofire 1.2" in modernization_plan,
+            "legacy SDK modernization boundary must be completed and version-specific",
+            failures)
     require("status: completed" in standard_location_plan and "make check" in standard_location_plan,
             "standard location update removal plan must be completed and record verification",
             failures)
@@ -352,14 +430,14 @@ def main():
     require("status: completed" in ci_plan and "make check" in ci_plan,
             "hosted project validation plan must be completed and record verification",
             failures)
+    require("status: completed" in workflow_integrity_plan and
+            "persist-credentials: false" in workflow_integrity_plan and
+            "hostile mutations" in workflow_integrity_plan,
+            "hosted workflow integrity plan must record its completed contract",
+            failures)
     workflow = read(".github/workflows/check.yml")
-    require("permissions:\n  contents: read" in workflow and
-            "cancel-in-progress: true" in workflow and
-            "runs-on: macos-15" in workflow and
-            "timeout-minutes: 10" in workflow and
-            "actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10" in workflow and
-            "run: make check" in workflow,
-            "GitHub Actions must keep the bounded, least-privilege macOS project check",
+    require(workflow == EXPECTED_WORKFLOW,
+            "GitHub Actions must exactly match the bounded, least-privilege macOS project check",
             failures)
 
     if shutil.which("xcodebuild"):
