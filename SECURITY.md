@@ -49,8 +49,13 @@ If this project requests device permissions such as location, camera, microphone
 Beacon enter/exit state can reveal whether someone is home. Any change that re-enables network reporting must document the endpoint, transport security, consent model, retention behavior, and whether phone numbers or Twitter/Digits identifiers are transmitted. Keep phone numbers and Digits user IDs out of dormant request payloads until that contract is explicit.
 Beacon payload casts should stay guarded so unexpected CoreLocation callback
 values do not crash the app while processing privacy-sensitive ranging events.
+Beacon monitoring and ranging should not start continuous standard coordinate
+updates while no feature consumes location coordinates.
 
 ## Dependency and Supply Chain Security
+
+GitHub Actions runs the credential, privacy, dependency, and Xcode project
+checks with read-only repository permissions before changes land.
 
 Dependency updates should come from trusted package managers and should keep lockfiles in sync when lockfiles exist. Do not commit credentials, private keys, tokens, generated secrets, or machine-local configuration. If a vulnerability depends on a compromised package, typosquatting risk, insecure transitive dependency, or unsafe build step, include the package name, affected version, and the path through which it is used.
 

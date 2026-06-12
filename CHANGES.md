@@ -4,7 +4,10 @@
 
 - Documented and enforced the legacy SDK modernization boundary for the Swift
   1-era, iOS 8.3, Alamofire 1.2, Fabric, and TwitterKit baseline.
-
+- Removed unused continuous standard location updates from both app delegates
+  while preserving beacon monitoring and ranging.
+- Added pinned macOS GitHub Actions validation for the privacy baseline and
+  current-Xcode project parsing.
 ## 2026-06-09
 
 - Guarded beacon payload casts in ranging callbacks before updating proximity

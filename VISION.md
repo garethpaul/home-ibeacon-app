@@ -30,6 +30,8 @@ Priority:
   beacon-only ranging APIs
 - Keep beacon payload casts guarded before ranging callbacks update proximity
   state or status UI
+- Keep standard coordinate updates off while the app only consumes beacon
+  monitoring and ranging events
 - Keep small UI helpers deterministic on malformed input
 
 Next priorities:
@@ -59,6 +61,8 @@ Remote requests should use HTTPS and local configuration.
 
 Current baseline: `make lint`, `make test`, `make build`, and `make check`
 run `scripts/check-baseline.py` without Xcode.
+GitHub Actions runs the privacy/credential baseline and current-Xcode project
+listing on macOS; functional beacon behavior remains device-only.
 It verifies that Fabric/Twitter credentials use local build-setting
 placeholders, phone-number debug logging and dormant phone-number payloads stay
 removed, CocoaPods lockfiles stay in sync, and home/away network reporting
@@ -74,6 +78,8 @@ Beacon-region casts should stay guarded before enter/exit callbacks call
 beacon-only ranging APIs.
 Beacon payload casts should stay guarded before ranged beacon arrays update
 status UI or proximity state.
+Standard `CLLocationManager` coordinate updates should remain disabled until a
+documented feature consumes that data with an explicit privacy purpose.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 
