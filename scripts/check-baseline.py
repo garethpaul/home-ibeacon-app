@@ -17,6 +17,7 @@ LOCATION_STATE_PLAN = ROOT / "docs/plans/2026-06-09-location-state-memory-retent
 VIEW_STATE_PLAN = ROOT / "docs/plans/2026-06-09-stale-view-location-state.md"
 BEACON_REGION_PLAN = ROOT / "docs/plans/2026-06-09-beacon-region-cast-guard.md"
 BEACON_PAYLOAD_PLAN = ROOT / "docs/plans/2026-06-09-beacon-payload-cast-guard.md"
+MODERNIZATION_PLAN = ROOT / "docs/plans/2026-06-10-legacy-sdk-modernization-boundary.md"
 
 
 def require(condition, message, failures):
@@ -94,6 +95,7 @@ def main():
         "docs/plans/2026-06-09-stale-view-location-state.md",
         "docs/plans/2026-06-09-beacon-region-cast-guard.md",
         "docs/plans/2026-06-09-beacon-payload-cast-guard.md",
+        "docs/plans/2026-06-10-legacy-sdk-modernization-boundary.md",
     ]
 
     for relative_path in required_files:
@@ -128,6 +130,7 @@ def main():
     view_state_plan = VIEW_STATE_PLAN.read_text(encoding="utf-8") if VIEW_STATE_PLAN.exists() else ""
     beacon_region_plan = BEACON_REGION_PLAN.read_text(encoding="utf-8") if BEACON_REGION_PLAN.exists() else ""
     beacon_payload_plan = BEACON_PAYLOAD_PLAN.read_text(encoding="utf-8") if BEACON_PAYLOAD_PLAN.exists() else ""
+    modernization_plan = MODERNIZATION_PLAN.read_text(encoding="utf-8") if MODERNIZATION_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -320,6 +323,21 @@ def main():
             failures)
     require("status: completed" in beacon_payload_plan,
             "beacon payload cast guard plan must be marked completed",
+            failures)
+    require("Swift 1-era" in readme and "iOS 8.3" in readme and "Alamofire 1.2" in readme and "current SDK" in readme,
+            "README must document the legacy SDK modernization boundary",
+            failures)
+    require("Swift 1-era" in vision and "Alamofire 1.2" in vision and "modernization" in vision.lower(),
+            "VISION must document the legacy SDK modernization sequence",
+            failures)
+    require("retired" in security and "TwitterKit" in security and "current SDK" in security,
+            "SECURITY must identify retired SDK and current-toolchain risk",
+            failures)
+    require("legacy SDK modernization boundary" in changes,
+            "CHANGES must record the legacy SDK modernization boundary",
+            failures)
+    require("status: completed" in modernization_plan and "Swift 1-era" in modernization_plan and "Alamofire 1.2" in modernization_plan,
+            "legacy SDK modernization boundary must be completed and version-specific",
             failures)
 
     if shutil.which("xcodebuild"):

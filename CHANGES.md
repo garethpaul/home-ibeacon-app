@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-10
+
+- Documented and enforced the legacy SDK modernization boundary for the Swift
+  1-era, iOS 8.3, Alamofire 1.2, Fabric, and TwitterKit baseline.
+
 ## 2026-06-09
 
 - Guarded beacon payload casts in ranging callbacks before updating proximity

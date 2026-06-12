@@ -24,6 +24,13 @@ Helpful reports include:
 
 ## Project Security Posture
 
+The project depends on retired Fabric/TwitterKit binaries and Alamofire 1.2 and
+targets an obsolete iOS runtime. A successful static baseline check is not
+evidence that these dependencies are supported or secure on a current SDK.
+Treat modernization as a security migration: replace retired identity and
+networking components before handling real credentials or household location
+data on a supported device.
+
 - This repository appears to be an Apple platform application or Swift sample. The active security scope is the code and documentation on the default branch.
 - Review found authentication, token, or session-related code paths; changes in those areas should receive security-focused review before merge.
 - Review found external API integrations or credential-adjacent configuration; changes in those areas should receive security-focused review before merge.

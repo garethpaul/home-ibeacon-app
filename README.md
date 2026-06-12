@@ -124,6 +124,13 @@ When the required SDK or runtime is unavailable, use static checks and source re
 
 ## Maintenance Notes
 
+This is an archival Swift 1-era baseline with an iOS 8.3 deployment target.
+Its CocoaPods configuration targets iOS 8.0 and pins Alamofire 1.2, while
+Fabric and TwitterKit are vendored retired SDKs. It is not expected to build
+unchanged with a current SDK. Follow the staged boundary in
+`docs/plans/2026-06-10-legacy-sdk-modernization-boundary.md` before raising the
+deployment target or replacing those dependencies.
+
 - This looks like an Apple platform project or sample. Xcode, Swift, CocoaPods, and deployment target versions may need to match the original project era.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.

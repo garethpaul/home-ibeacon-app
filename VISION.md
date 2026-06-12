@@ -77,6 +77,14 @@ status UI or proximity state.
 Invalid hex color strings must return the gray fallback instead of partially
 scanned colors.
 
+## Modernization Boundary
+
+The current repository preserves a Swift 1-era, iOS 8.3 application with an
+iOS 8.0 CocoaPods platform, Alamofire 1.2, and retired Fabric/TwitterKit
+artifacts. Modernization must replace retired integrations, migrate networking,
+then convert Swift and Core Location behavior in independently verifiable
+stages; it is not a single project-file upgrade.
+
 ## What We Will Not Merge (For Now)
 
 - Hardcoded private endpoints, beacon IDs, or credentials
