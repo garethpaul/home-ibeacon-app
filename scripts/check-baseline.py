@@ -438,8 +438,25 @@ def main():
             "hostile mutations" in workflow_integrity_plan,
             "hosted workflow integrity plan must record its completed contract",
             failures)
-    require("status: completed" in region_ranging_plan and "make check" in region_ranging_plan,
-            "region-scoped beacon ranging plan must be completed and record verification",
+    region_ranging_statuses = re.findall(
+        r"^status: .+$", region_ranging_plan, flags=re.MULTILINE
+    )
+    region_ranging_sections = region_ranging_plan.split("## Verification Completed\n", 1)
+    region_ranging_verification = (
+        region_ranging_sections[1] if len(region_ranging_sections) == 2 else ""
+    )
+    region_ranging_required_evidence = (
+        "All four Make gates",
+        "push run `27394030821`",
+        "pull-request run `27394033398`",
+        "push run `27394057050`",
+        "CodeQL setup run `27402322010`",
+        "Mutations restoring launch-time `startRangingBeaconsInRegion`",
+    )
+    require(region_ranging_statuses == ["status: completed"]
+            and all(item in region_ranging_verification for item in region_ranging_required_evidence)
+            and re.search(r"\b(?:pending|todo|tbd|not run)\b", region_ranging_verification, re.IGNORECASE) is None,
+            "region-scoped beacon ranging plan must record completed status and actual verification",
             failures)
     require("region-scoped beacon ranging" in readme.lower() and
             "region-scoped beacon ranging" in vision.lower() and
