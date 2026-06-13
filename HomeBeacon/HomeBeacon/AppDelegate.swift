@@ -71,8 +71,11 @@ extension AppDelegate: CLLocationManagerDelegate {
             // recording home/away presence in device logs.
             if(beacons != nil && beacons.count > 0) {
                 if let nearestBeacon = beacons[0] as? CLBeacon {
-                    if(nearestBeacon.proximity == lastProximity ||
-                        nearestBeacon.proximity == CLProximity.Unknown) {
+                    if(nearestBeacon.proximity == lastProximity) {
+                        return;
+                    }
+                    if(nearestBeacon.proximity == CLProximity.Unknown) {
+                        lastProximity = CLProximity.Unknown
                         return;
                     }
                     lastProximity = nearestBeacon.proximity;

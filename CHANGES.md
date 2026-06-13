@@ -2,6 +2,8 @@
 
 ## 2026-06-13
 
+- Record unknown beacon proximity in both delegates before returning so stale
+  known state cannot suppress the next valid callback at the same distance.
 - Reset cached proximity in both delegates and clear the nested beacon table
   after guarded beacon-region exits so stale in-region state does not survive
   after ranging stops.

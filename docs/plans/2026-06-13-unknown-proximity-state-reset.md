@@ -1,6 +1,6 @@
 # Reset Unknown Beacon Proximity State
 
-status: planned
+status: completed
 
 ## Context
 
@@ -76,8 +76,26 @@ the existing region-exit reset without changing the archival SDK boundary.
 
 ## Work Completed
 
-Pending implementation.
+- Split known duplicate suppression from unknown proximity handling in both
+  maintained `didRangeBeacons` callbacks.
+- Recorded `CLProximity.Unknown` before returning from each nearest-beacon
+  unknown branch while preserving the existing empty-list transition.
+- Added method-scoped static contracts for both delegates and documented the
+  transient state boundary without changing monitoring, ranging, project, or
+  dependency configuration.
 
 ## Verification Completed
 
-Pending implementation and verification.
+- All four Make gates passed locally and reported that `xcodebuild` was
+  unavailable, so only the static iOS privacy baseline ran on this host.
+- `python3 -m py_compile scripts/check-baseline.py` and `git diff --check`
+  passed.
+- Six isolated hostile mutations were rejected: removal of either delegate's
+  unknown-state assignment, restoration of the combined duplicate/unknown
+  condition, moving an assignment outside its unknown branch, stale plan
+  status, and missing verification evidence.
+- Exact-base comparison confirmed vendored frameworks, Pods, lockfiles, Xcode
+  project metadata, and hosted workflow configuration remained unchanged.
+- Intended-file generated-artifact and secret-pattern scans passed.
+- Hosted macOS project validation and CodeQL evidence is recorded separately
+  after push; this plan claims only the completed local static verification.
