@@ -2,6 +2,8 @@
 
 ## 2026-06-13
 
+- Clear cached beacon proximity and nested table rows when location
+  authorization becomes denied or restricted.
 - Record unknown beacon proximity in both delegates before returning so stale
   known state cannot suppress the next valid callback at the same distance.
 - Reset cached proximity in both delegates and clear the nested beacon table

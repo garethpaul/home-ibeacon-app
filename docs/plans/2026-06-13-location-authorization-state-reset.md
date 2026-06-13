@@ -1,6 +1,6 @@
 # Clear Beacon State After Location Authorization Revocation
 
-status: in_progress
+status: completed
 
 ## Context
 
@@ -39,3 +39,25 @@ CoreLocation access is unavailable.
 Only denied or restricted authorization transitions change. Authorized ranging
 and region callbacks retain their existing behavior. Rollback can leave stale
 presence state after revocation; no persisted data migration exists.
+
+## Work Completed
+
+- Added denied/restricted authorization callbacks to both app delegates.
+- Cleared cached proximity in both delegates and cleared/reloaded the nested
+  beacon table after revocation.
+- Added method-scoped source contracts, privacy guidance, and completed-plan
+  evidence requirements.
+
+## Verification Completed
+
+- All four Make gates passed the static iOS privacy baseline.
+- `xcodebuild` was unavailable locally; hosted macOS project validation remains
+  the project-parsing authority.
+- Python checker compilation, workflow YAML parsing, and `git diff --check`
+  passed.
+- The top-level authorization reset removal mutation failed.
+- The nested authorization reset removal mutation failed.
+- The nested table-clear removal mutation failed.
+- Intended-file artifact and secret-pattern scans passed.
+- The hosted macOS project validation and CodeQL snapshot is recorded after
+  push using bounded exact-head queries without polling.

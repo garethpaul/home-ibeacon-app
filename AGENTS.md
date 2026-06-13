@@ -51,6 +51,7 @@
 - The sample beacon UUID and identifier are still checked into `HomeBeacon/AppDelegate.swift`; treat them as demo configuration and move private beacon values to local configuration before production use.
 - Beacon enter/exit state can reveal home occupancy. Do not re-enable network reporting until the endpoint, consent model, retention behavior, and HTTPS transport are documented.
 - Do not re-enable home/away or proximity `NSLog` calls; device logs can expose occupancy during debugging or shared diagnostics.
+- Clear cached beacon proximity and displayed rows when location authorization becomes denied or restricted.
 - `Pods/` is vendored dependency code; do not hand-edit it unless intentionally updating dependencies.
 
 ## Agent workflow

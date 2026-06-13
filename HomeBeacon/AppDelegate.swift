@@ -74,6 +74,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
 extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager!,
+        didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+            if(status == CLAuthorizationStatus.Denied ||
+                status == CLAuthorizationStatus.Restricted) {
+                    lastProximity = nil
+            }
+    }
+
+    func locationManager(manager: CLLocationManager!,
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
             

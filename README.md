@@ -103,6 +103,8 @@ without unconditional proximity ranging. Guarded exits also reset cached
 proximity in both delegates and clear the nested beacon table so stale
 in-region state is not retained after ranging stops. During ranging, unknown proximity replaces the previous known state so
 a later valid callback is not suppressed as a stale duplicate.
+Denied or restricted location authorization also clears cached proximity and
+any displayed nested beacon rows.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 
