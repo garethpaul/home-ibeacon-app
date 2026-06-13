@@ -1,6 +1,6 @@
 # Location-Independent HomeBeacon Verification
 
-status: planned
+status: completed
 
 ## Context
 
@@ -29,8 +29,19 @@ recipe with no runtime state or migration.
 
 ## Work Completed
 
-Pending implementation.
+- Derived `ROOT` from the loaded Makefile and invoked the checker through its
+  absolute repository path.
+- Added exact Makefile, completed-plan, external-run, and guidance contracts.
+- Preserved Swift, project, pod, binary SDK, and workflow files.
 
 ## Verification Completed
 
-Pending implementation and validation.
+- Root and external-directory Make gates passed for `lint`, `test`, `build`,
+  and `check`; every target exercised the complete privacy baseline.
+- The root-derivation mutation failed.
+- The checker-invocation mutation failed.
+- The plan-status mutation failed.
+- The plan-evidence mutation failed.
+- The documentation mutation failed.
+- Checker compilation, maintained XML/plist parsing, diff hygiene, intended
+  path review, secret scanning, and generated-artifact inspection passed.
