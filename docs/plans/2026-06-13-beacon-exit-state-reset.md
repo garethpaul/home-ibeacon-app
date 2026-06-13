@@ -1,6 +1,6 @@
 # Beacon Exit State Reset
 
-status: planned
+status: completed
 
 ## Context
 
@@ -70,3 +70,24 @@ revive network reporting or modernize the archival SDK stack.
 - Hostile mutations removing either proximity reset, moving a reset outside the
   beacon guard, retaining the nested beacon list, weakening plan status, or
   removing verification evidence must be rejected.
+
+## Work Completed
+
+- Reset `lastProximity` inside both guarded beacon-region exit handlers after
+  ranging stops.
+- Cleared the nested sample's beacon array and reloaded its table inside the
+  same guarded exit boundary.
+- Added method-scoped static contracts so unrelated assignments elsewhere in a
+  delegate cannot satisfy the lifecycle guard.
+- Updated README, security, vision, and change documentation.
+
+## Verification Completed
+
+- All four Make gates passed locally and reported that `xcodebuild` was
+  unavailable, so only the static iOS privacy baseline ran on this host.
+- `python3 -m py_compile scripts/check-baseline.py` and `git diff --check`
+  passed.
+- Seven isolated hostile mutations were rejected: removal of either proximity
+  reset, removal of nested beacon clearing or table reload, moving a reset
+  outside the beacon guard, stale plan status, and missing verification
+  evidence.

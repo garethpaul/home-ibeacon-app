@@ -99,7 +99,9 @@ monitoring and ranging without starting continuous `CLLocationManager`
 location updates that it never consumes.
 Region-scoped beacon ranging now starts only after a guarded beacon-region
 entry callback and stops on exit; launch keeps lower-cost region monitoring
-without unconditional proximity ranging.
+without unconditional proximity ranging. Guarded exits also reset cached
+proximity in both delegates and clear the nested beacon table so stale
+in-region state is not retained after ranging stops.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 

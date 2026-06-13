@@ -74,6 +74,8 @@ remains disabled until privacy and consent are documented. Beacon proximity and
 home/away state must also stay out of device logs and local notifications.
 Region-scoped beacon ranging preserves launch-time monitoring while deferring
 detailed proximity scans until CoreLocation reports region entry.
+Guarded beacon exits clear cached proximity in both delegates and remove nested
+beacon-table rows so transient ranging state ends with the region lifecycle.
 Unused local notification permission prompts stay disabled while those
 notifications are off. Local notification scheduling helpers should stay out of
 the delegates while notification scheduling is disabled.

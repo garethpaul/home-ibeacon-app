@@ -49,6 +49,8 @@ If this project requests device permissions such as location, camera, microphone
 Beacon enter/exit state can reveal whether someone is home. Any change that re-enables network reporting must document the endpoint, transport security, consent model, retention behavior, and whether phone numbers or Twitter/Digits identifiers are transmitted. Keep phone numbers and Digits user IDs out of dormant request payloads until that contract is explicit.
 Keep region-scoped beacon ranging limited to the interval between guarded region
 entry and exit callbacks so launch does not begin unnecessary proximity scans.
+Guarded beacon exits should clear cached proximity and displayed beacon rows so
+occupancy-derived state does not remain visible after ranging stops.
 Beacon payload casts should stay guarded so unexpected CoreLocation callback
 values do not crash the app while processing privacy-sensitive ranging events.
 Beacon monitoring and ranging should not start continuous standard coordinate

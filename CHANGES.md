@@ -1,5 +1,11 @@
 # Changes
 
+## 2026-06-13
+
+- Reset cached proximity in both delegates and clear the nested beacon table
+  after guarded beacon-region exits so stale in-region state does not survive
+  after ranging stops.
+
 ## 2026-06-12
 
 - Limited both app delegates to region-scoped beacon ranging: launch monitors

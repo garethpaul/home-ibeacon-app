@@ -23,6 +23,7 @@ CI_PLAN = ROOT / "docs/plans/2026-06-10-hosted-project-validation.md"
 STANDARD_LOCATION_PLAN = ROOT / "docs/plans/2026-06-10-standard-location-update-removal.md"
 WORKFLOW_INTEGRITY_PLAN = ROOT / "docs/plans/2026-06-12-hosted-workflow-integrity.md"
 REGION_RANGING_PLAN = ROOT / "docs/plans/2026-06-12-region-scoped-beacon-ranging.md"
+EXIT_STATE_PLAN = ROOT / "docs/plans/2026-06-13-beacon-exit-state-reset.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -99,6 +100,24 @@ def active_notification_calls(text):
     return calls
 
 
+def extract_braced_block(source, marker):
+    marker_start = source.find(marker)
+    if marker_start < 0:
+        return None
+    brace_start = source.find("{", marker_start)
+    if brace_start < 0:
+        return None
+    depth = 0
+    for index in range(brace_start, len(source)):
+        if source[index] == "{":
+            depth += 1
+        elif source[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return source[marker_start:index + 1]
+    return None
+
+
 def parse_plist(relative_path, failures):
     path = ROOT / relative_path
     try:
@@ -163,6 +182,7 @@ def main():
         "docs/plans/2026-06-10-standard-location-update-removal.md",
         "docs/plans/2026-06-12-hosted-workflow-integrity.md",
         "docs/plans/2026-06-12-region-scoped-beacon-ranging.md",
+        "docs/plans/2026-06-13-beacon-exit-state-reset.md",
     ]
 
     for relative_path in required_files:
@@ -184,6 +204,7 @@ def main():
     view_controller = read("HomeBeacon/ViewController.swift")
     active_login = strip_swift_line_comments(login)
     active_app_delegate = strip_swift_line_comments(app_delegate)
+    active_nested_app_delegate = strip_swift_line_comments(nested_app_delegate)
     active_delegates = strip_swift_line_comments(app_delegate + "\n" + nested_app_delegate)
     active_view_controller = strip_swift_line_comments(view_controller)
     plan = PLAN.read_text(encoding="utf-8") if PLAN.exists() else ""
@@ -201,6 +222,7 @@ def main():
     standard_location_plan = STANDARD_LOCATION_PLAN.read_text(encoding="utf-8") if STANDARD_LOCATION_PLAN.exists() else ""
     workflow_integrity_plan = WORKFLOW_INTEGRITY_PLAN.read_text(encoding="utf-8") if WORKFLOW_INTEGRITY_PLAN.exists() else ""
     region_ranging_plan = REGION_RANGING_PLAN.read_text(encoding="utf-8") if REGION_RANGING_PLAN.exists() else ""
+    exit_state_plan = EXIT_STATE_PLAN.read_text(encoding="utf-8") if EXIT_STATE_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -318,6 +340,37 @@ def main():
             active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") == 2,
             "App delegates must monitor at launch and range only between region entry and exit",
             failures)
+    top_level_exit = extract_braced_block(
+        active_app_delegate, "didExitRegion region: CLRegion!)"
+    )
+    nested_exit = extract_braced_block(
+        active_nested_app_delegate, "didExitRegion region: CLRegion!)"
+    )
+    require(top_level_exit is not None and nested_exit is not None,
+            "Both app delegates must retain beacon exit handlers",
+            failures)
+    if top_level_exit is not None and nested_exit is not None:
+        top_level_beacon_exit = extract_braced_block(
+            top_level_exit, "if let beaconRegion = region as? CLBeaconRegion"
+        )
+        nested_beacon_exit = extract_braced_block(
+            nested_exit, "if let beaconRegion = region as? CLBeaconRegion"
+        )
+        require(top_level_beacon_exit is not None and nested_beacon_exit is not None,
+                "Beacon exit state resets must remain inside guarded region casts",
+                failures)
+        if top_level_beacon_exit is not None and nested_beacon_exit is not None:
+            require(top_level_beacon_exit.count("lastProximity = nil") == 1 and
+                    nested_beacon_exit.count("lastProximity = nil") == 1,
+                    "Both guarded beacon exits must reset cached proximity",
+                    failures)
+            require("viewController.beacons = nil" in nested_beacon_exit and
+                    "viewController.tableView?.reloadData()" in nested_beacon_exit,
+                    "Nested guarded beacon exit must clear and reload cached beacon UI",
+                    failures)
+            require("viewController.beacons = nil" not in top_level_beacon_exit,
+                    "Top-level beacon exit must not invent nested table state",
+                    failures)
     require("let scanner = NSScanner(string: cString)" in hex_source and
             "scanner.scanHexInt(&rgbValue)" in hex_source and
             "scanner.atEnd" in hex_source and
@@ -463,6 +516,31 @@ def main():
             "region-scoped beacon ranging" in security.lower() and
             "region-scoped beacon ranging" in changes.lower(),
             "Docs must preserve the region-scoped beacon ranging boundary",
+            failures)
+    require("reset cached" in readme and "clear the nested beacon table" in readme and
+            "clear cached proximity" in security and "displayed beacon rows" in security and
+            "clear cached proximity" in vision and "beacon-table rows" in vision and
+            "Reset cached proximity" in changes and "clear the nested beacon table" in changes,
+            "Docs must record the beacon exit state-reset boundary",
+            failures)
+    exit_state_statuses = re.findall(
+        r"^status: .+$", exit_state_plan, flags=re.MULTILINE
+    )
+    exit_state_sections = exit_state_plan.split("## Verification Completed\n", 1)
+    exit_state_verification = (
+        exit_state_sections[1] if len(exit_state_sections) == 2 else ""
+    )
+    exit_state_required_evidence = (
+        "All four Make gates",
+        "`xcodebuild` was",
+        "python3 -m py_compile scripts/check-baseline.py",
+        "git diff --check",
+        "Seven isolated hostile mutations",
+    )
+    require(exit_state_statuses == ["status: completed"]
+            and all(item in exit_state_verification for item in exit_state_required_evidence)
+            and re.search(r"\b(?:pending|todo|tbd|not run)\b", exit_state_verification, re.IGNORECASE) is None,
+            "beacon exit state-reset plan must record completed status and actual verification",
             failures)
     workflow = read(".github/workflows/check.yml")
     require(workflow == EXPECTED_WORKFLOW,
