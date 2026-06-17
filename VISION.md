@@ -81,6 +81,8 @@ callbacks are evaluated after the indeterminate interval.
 Denied or restricted authorization clears cached and displayed beacon state.
 Beacon-ranging failures clear cached and displayed beacon state instead of
 retaining the last observation after CoreLocation reports an error.
+Region-monitoring failures stop active beacon ranging before clearing cached
+and displayed state so scans cannot continue without a reliable exit boundary.
 Unused local notification permission prompts stay disabled while those
 notifications are off. Local notification scheduling helpers should stay out of
 the delegates while notification scheduling is disabled.

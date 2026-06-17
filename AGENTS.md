@@ -53,6 +53,7 @@
 - Do not re-enable home/away or proximity `NSLog` calls; device logs can expose occupancy during debugging or shared diagnostics.
 - Clear cached beacon proximity and displayed rows when location authorization becomes denied or restricted.
 - Clear cached beacon proximity and displayed rows when beacon ranging fails; do not log the failure or occupancy-derived state.
+- Stop active beacon ranging and clear cached/displayed state when region monitoring fails; do not log the error or occupancy-derived state.
 - `Pods/` is vendored dependency code; do not hand-edit it unless intentionally updating dependencies.
 
 ## Agent workflow

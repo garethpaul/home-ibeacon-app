@@ -28,6 +28,7 @@ UNKNOWN_PROXIMITY_PLAN = ROOT / "docs/plans/2026-06-13-unknown-proximity-state-r
 AUTHORIZATION_RESET_PLAN = ROOT / "docs/plans/2026-06-13-location-authorization-state-reset.md"
 LOCATION_INDEPENDENT_MAKE_PLAN = ROOT / "docs/plans/2026-06-13-location-independent-make.md"
 RANGING_FAILURE_PLAN = ROOT / "docs/plans/2026-06-17-ranging-failure-state-reset.md"
+MONITORING_FAILURE_PLAN = ROOT / "docs/plans/2026-06-17-monitoring-failure-state-reset.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -193,6 +194,7 @@ def main():
         "docs/plans/2026-06-13-location-authorization-state-reset.md",
         "docs/plans/2026-06-13-location-independent-make.md",
         "docs/plans/2026-06-17-ranging-failure-state-reset.md",
+        "docs/plans/2026-06-17-monitoring-failure-state-reset.md",
     ]
 
     for relative_path in required_files:
@@ -237,6 +239,7 @@ def main():
     authorization_reset_plan = AUTHORIZATION_RESET_PLAN.read_text(encoding="utf-8") if AUTHORIZATION_RESET_PLAN.exists() else ""
     location_independent_make_plan = LOCATION_INDEPENDENT_MAKE_PLAN.read_text(encoding="utf-8") if LOCATION_INDEPENDENT_MAKE_PLAN.exists() else ""
     ranging_failure_plan = RANGING_FAILURE_PLAN.read_text(encoding="utf-8") if RANGING_FAILURE_PLAN.exists() else ""
+    monitoring_failure_plan = MONITORING_FAILURE_PLAN.read_text(encoding="utf-8") if MONITORING_FAILURE_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -351,8 +354,8 @@ def main():
             failures)
     require(active_delegates.count("startMonitoringForRegion(beaconRegion)") == 2 and
             active_delegates.count("startRangingBeaconsInRegion(beaconRegion)") == 2 and
-            active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") == 2,
-            "App delegates must monitor at launch and range only between region entry and exit",
+            active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") == 4,
+            "App delegates must monitor at launch and stop ranging on region exit or monitoring failure",
             failures)
     top_level_authorization = extract_braced_block(
         active_app_delegate,
@@ -442,6 +445,52 @@ def main():
     require(top_level_ranging_failure is not None and
             "viewController.beacons = nil" not in top_level_ranging_failure,
             "Top-level ranging failure must not invent nested table state",
+            failures)
+    top_level_monitoring_failure = extract_braced_block(
+        active_app_delegate,
+        "monitoringDidFailForRegion region: CLRegion!"
+    )
+    nested_monitoring_failure = extract_braced_block(
+        active_nested_app_delegate,
+        "monitoringDidFailForRegion region: CLRegion!"
+    )
+    require(top_level_monitoring_failure is not None and
+            nested_monitoring_failure is not None,
+            "Both app delegates must handle region-monitoring failures",
+            failures)
+    for label, failure_handler in [
+        ("Top-level", top_level_monitoring_failure),
+        ("Nested", nested_monitoring_failure),
+    ]:
+        if failure_handler is None:
+            continue
+        beacon_failure = extract_braced_block(
+            failure_handler,
+            "if let beaconRegion = region as? CLBeaconRegion"
+        )
+        require(beacon_failure is not None,
+                f"{label} monitoring failure must guard beacon-only ranging shutdown",
+                failures)
+        if beacon_failure is not None:
+            stop_index = beacon_failure.find(
+                "manager.stopRangingBeaconsInRegion(beaconRegion)"
+            )
+            reset_index = beacon_failure.find("lastProximity = nil")
+            require(stop_index >= 0 and reset_index > stop_index,
+                    f"{label} monitoring failure must stop ranging before clearing cached proximity",
+                    failures)
+        require("NSLog" not in failure_handler and
+                "println" not in failure_handler,
+                f"{label} monitoring failure must not log location-sensitive errors",
+                failures)
+    require(nested_monitoring_failure is not None and
+            "viewController.beacons = nil" in nested_monitoring_failure and
+            "viewController.tableView?.reloadData()" in nested_monitoring_failure,
+            "Nested monitoring failure must clear displayed beacon rows",
+            failures)
+    require(top_level_monitoring_failure is not None and
+            "viewController.beacons = nil" not in top_level_monitoring_failure,
+            "Top-level monitoring failure must not invent nested table state",
             failures)
     top_level_exit = extract_braced_block(
         active_app_delegate, "didExitRegion region: CLRegion!)"
@@ -753,6 +802,35 @@ def main():
                       re.IGNORECASE) is None,
             "ranging failure plan must record completed status and actual verification",
             failures)
+    monitoring_failure_statuses = re.findall(
+        r"^status: .+$", monitoring_failure_plan, flags=re.MULTILINE
+    )
+    monitoring_failure_sections = monitoring_failure_plan.split(
+        "## Verification Completed\n", 1
+    )
+    monitoring_failure_verification = (
+        monitoring_failure_sections[1]
+        if len(monitoring_failure_sections) == 2 else ""
+    )
+    normalized_monitoring_failure_verification = " ".join(
+        monitoring_failure_verification.split()
+    )
+    monitoring_failure_required = (
+        "All four Make gates passed",
+        "External-directory `make check` passed",
+        "Six isolated implementation mutations were rejected",
+        "no actionable findings",
+        "`xcodebuild` and Core Location were unavailable on Linux",
+        "no simulator, callback-delivery, table-rendering, signing, or physical-beacon behavior is claimed",
+    )
+    require(monitoring_failure_statuses == ["status: completed"] and
+            all(item in normalized_monitoring_failure_verification
+                    for item in monitoring_failure_required) and
+            re.search(r"\b(?:pending|todo|tbd|not run|not yet)\b",
+                      monitoring_failure_verification,
+                      re.IGNORECASE) is None,
+            "monitoring failure plan must record completed status, actual verification, and the runtime boundary",
+            failures)
     require("denied or restricted location authorization" in readme.lower() and
             "denied or restricted location authorization" in security.lower() and
             "denied or restricted authorization" in vision.lower() and
@@ -766,6 +844,13 @@ def main():
             "beacon-ranging failures clear cached proximity" in changes.lower() and
             "clear cached beacon proximity and displayed rows when beacon ranging fails" in read("AGENTS.md").lower(),
             "Docs must record beacon-ranging failure state clearing",
+            failures)
+    require("region-monitoring failures also stop active beacon ranging" in readme.lower() and
+            "region-monitoring failures must stop beacon ranging" in security.lower() and
+            "region-monitoring failures stop active beacon ranging" in vision.lower() and
+            "region-monitoring failures stop active beacon ranging" in changes.lower() and
+            "stop active beacon ranging and clear cached/displayed state when region monitoring fails" in read("AGENTS.md").lower(),
+            "Docs must record monitoring-failure ranging shutdown and state clearing",
             failures)
     workflow = read(".github/workflows/check.yml")
     require(workflow == EXPECTED_WORKFLOW,

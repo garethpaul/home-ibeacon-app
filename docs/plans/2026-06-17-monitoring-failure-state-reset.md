@@ -2,7 +2,7 @@
 title: "fix: Fail closed after beacon monitoring failures"
 type: fix
 date: 2026-06-17
-status: planned
+status: completed
 ---
 
 # fix: Fail closed after beacon monitoring failures
@@ -98,3 +98,32 @@ project authority because Linux cannot execute Core Location.
 
 - Apple `CLLocationManagerDelegate` documentation:
   `https://developer.apple.com/documentation/corelocation/cllocationmanagerdelegate`
+
+## Work Completed
+
+- Added Swift 1-compatible region-monitoring failure callbacks to both active
+  app delegates.
+- Guarded each failed region as a `CLBeaconRegion`, stopped ranging before
+  clearing cached proximity, and kept nested table clearing isolated to the
+  nested sample.
+- Extended the maintained checker and synchronized privacy guidance without
+  adding error logging, network reporting, dependency churn, or project-file
+  changes.
+
+## Verification Completed
+
+- All four Make gates passed: `make lint`, `make test`, `make build`, and
+  `make check`.
+- External-directory `make check` passed through the absolute Makefile path.
+- Python checker execution, workflow parsing, project/plist/XML validation,
+  and `git diff --check` passed.
+- Six isolated implementation mutations were rejected: callback removal,
+  guarded-cast removal, ranging-stop removal, stop/reset reordering, nested UI
+  clearing removal, and top-level table coupling.
+- Plan-aware correctness, testing, maintainability, repository-standards,
+  privacy/security, and Swift/Core Location review found no actionable
+  findings; artifact:
+  `/tmp/compound-engineering/ce-code-review/home-ibeacon-monitoring-failure-20260617T210100Z`.
+- `xcodebuild` and Core Location were unavailable on Linux, so no simulator,
+  callback-delivery, table-rendering, signing, or physical-beacon behavior is
+  claimed.
