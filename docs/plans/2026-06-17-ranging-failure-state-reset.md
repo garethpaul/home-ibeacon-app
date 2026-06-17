@@ -2,7 +2,7 @@
 title: "fix: Clear stale beacon state after ranging failures"
 type: fix
 date: 2026-06-17
-status: planned
+status: completed
 ---
 
 # fix: Clear stale beacon state after ranging failures
@@ -63,3 +63,25 @@ monitoring and ranging lifecycle.
 - [Apple CLLocationManagerDelegate documentation](https://developer.apple.com/documentation/corelocation/cllocationmanagerdelegate?language=objc)
   states that applications should implement potential failure handlers and
   lists `locationManager:rangingBeaconsDidFailForRegion:withError:`.
+
+## Work Completed
+
+- Added Swift 1-compatible beacon-ranging failure callbacks to both active app
+  delegates.
+- Cleared cached proximity in both callbacks and cleared/reloaded displayed
+  beacon rows only in the nested table sample.
+- Extended the maintained privacy baseline and lifecycle documentation without
+  adding failure logging or changing region monitoring and ranging behavior.
+
+## Verification Completed
+
+- All four Make gates passed: `make lint`, `make test`, `make build`, and
+  `make check`.
+- The external-directory absolute-Makefile check passed from `/tmp`.
+- `xcodebuild` was unavailable locally, so the maintained checker completed
+  static project, source, plist, lockfile, workflow, privacy, and plan checks.
+- Python checker compilation, workflow YAML parsing, and `git diff --check`
+  passed.
+- Six isolated hostile mutations were rejected for top-level callback removal,
+  top-level reset weakening, nested UI-clear removal, top-level table coupling,
+  stale plan status, and removed plan evidence.

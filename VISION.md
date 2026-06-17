@@ -79,6 +79,8 @@ beacon-table rows so transient ranging state ends with the region lifecycle.
 Unknown proximity replaces stale known state during ranging so later valid
 callbacks are evaluated after the indeterminate interval.
 Denied or restricted authorization clears cached and displayed beacon state.
+Beacon-ranging failures clear cached and displayed beacon state instead of
+retaining the last observation after CoreLocation reports an error.
 Unused local notification permission prompts stay disabled while those
 notifications are off. Local notification scheduling helpers should stay out of
 the delegates while notification scheduling is disabled.

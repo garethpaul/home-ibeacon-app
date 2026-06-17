@@ -105,6 +105,9 @@ in-region state is not retained after ranging stops. During ranging, unknown pro
 a later valid callback is not suppressed as a stale duplicate.
 Denied or restricted location authorization also clears cached proximity and
 any displayed nested beacon rows.
+Beacon-ranging failures clear cached proximity in both delegates and remove
+displayed nested beacon rows so a failed scan cannot leave stale presence
+visible.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 

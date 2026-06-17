@@ -111,6 +111,12 @@ extension AppDelegate: CLLocationManagerDelegate {
             // Location-state logging is intentionally disabled to avoid
             // recording home/away presence in device logs.
     }
+
+    func locationManager(manager: CLLocationManager!,
+        rangingBeaconsDidFailForRegion region: CLBeaconRegion!,
+        withError error: NSError!) {
+            lastProximity = nil
+    }
     
     func locationManager(manager: CLLocationManager!,
         didEnterRegion region: CLRegion!) {

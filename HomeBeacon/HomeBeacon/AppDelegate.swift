@@ -108,6 +108,16 @@ extension AppDelegate: CLLocationManagerDelegate {
             // Location-state notifications are also disabled to avoid
             // exposing home/away presence on the lock screen.
     }
+
+    func locationManager(manager: CLLocationManager!,
+        rangingBeaconsDidFailForRegion region: CLBeaconRegion!,
+        withError error: NSError!) {
+            lastProximity = nil
+            if let viewController = window?.rootViewController as? ViewController {
+                viewController.beacons = nil
+                viewController.tableView?.reloadData()
+            }
+    }
     
     func locationManager(manager: CLLocationManager!,
         didEnterRegion region: CLRegion!) {
