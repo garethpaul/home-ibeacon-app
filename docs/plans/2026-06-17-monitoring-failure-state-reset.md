@@ -127,3 +127,7 @@ project authority because Linux cannot execute Core Location.
 - `xcodebuild` and Core Location were unavailable on Linux, so no simulator,
   callback-delivery, table-rendering, signing, or physical-beacon behavior is
   claimed.
+- Exact implementation commit
+  `5adbc5ac6394f4e773873cf6a819b1cdc34b0eb9` passed canonical push run
+  `27719268536` and pull-request run `27719276229` on hosted macOS.
+- PR #9 remained open and mergeable; no predecessor PR was merged or closed.

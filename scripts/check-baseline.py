@@ -822,6 +822,10 @@ def main():
         "no actionable findings",
         "`xcodebuild` and Core Location were unavailable on Linux",
         "no simulator, callback-delivery, table-rendering, signing, or physical-beacon behavior is claimed",
+        "`5adbc5ac6394f4e773873cf6a819b1cdc34b0eb9`",
+        "push run `27719268536`",
+        "pull-request run `27719276229`",
+        "PR #9 remained open and mergeable",
     )
     require(monitoring_failure_statuses == ["status: completed"] and
             all(item in normalized_monitoring_failure_verification
