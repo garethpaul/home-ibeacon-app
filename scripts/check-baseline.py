@@ -26,6 +26,7 @@ REGION_RANGING_PLAN = ROOT / "docs/plans/2026-06-12-region-scoped-beacon-ranging
 EXIT_STATE_PLAN = ROOT / "docs/plans/2026-06-13-beacon-exit-state-reset.md"
 UNKNOWN_PROXIMITY_PLAN = ROOT / "docs/plans/2026-06-13-unknown-proximity-state-reset.md"
 AUTHORIZATION_RESET_PLAN = ROOT / "docs/plans/2026-06-13-location-authorization-state-reset.md"
+LOCATION_INDEPENDENT_MAKE_PLAN = ROOT / "docs/plans/2026-06-13-location-independent-make.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -54,10 +55,12 @@ jobs:
 """
 EXPECTED_MAKEFILE = """.PHONY: build check lint test
 
+ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+
 lint test build: check
 
 check:
-\tpython3 scripts/check-baseline.py
+\t@python3 "$(ROOT)/scripts/check-baseline.py"
 """
 
 
@@ -187,6 +190,7 @@ def main():
         "docs/plans/2026-06-13-beacon-exit-state-reset.md",
         "docs/plans/2026-06-13-unknown-proximity-state-reset.md",
         "docs/plans/2026-06-13-location-authorization-state-reset.md",
+        "docs/plans/2026-06-13-location-independent-make.md",
     ]
 
     for relative_path in required_files:
@@ -229,6 +233,7 @@ def main():
     exit_state_plan = EXIT_STATE_PLAN.read_text(encoding="utf-8") if EXIT_STATE_PLAN.exists() else ""
     unknown_proximity_plan = UNKNOWN_PROXIMITY_PLAN.read_text(encoding="utf-8") if UNKNOWN_PROXIMITY_PLAN.exists() else ""
     authorization_reset_plan = AUTHORIZATION_RESET_PLAN.read_text(encoding="utf-8") if AUTHORIZATION_RESET_PLAN.exists() else ""
+    location_independent_make_plan = LOCATION_INDEPENDENT_MAKE_PLAN.read_text(encoding="utf-8") if LOCATION_INDEPENDENT_MAKE_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -475,6 +480,12 @@ def main():
     require(makefile == EXPECTED_MAKEFILE,
             "Makefile must exactly preserve the local baseline aliases",
             failures)
+    require("absolute Makefile path" in readme and "any working directory" in readme,
+            "README must document location-independent Make verification",
+            failures)
+    require("Make verification target derive the checkout root" in changes and "external directories" in changes,
+            "CHANGES must record location-independent Make verification",
+            failures)
     require("make lint" in readme and "make test" in readme and "make build" in readme and "make check" in readme and "FABRIC_API_KEY" in readme and "HomeBeacon.xcworkspace" in readme and "device logs" in readme and "local notifications" in readme and "notification permission" in readme and "notification scheduling" in readme and "memory-only location state" in readme and "stale status UI" in readme and "beacon-region casts" in readme and "beacon payload casts" in readme and "invalid hex" in readme.lower(),
             "README must document static verification, local credentials, and workspace usage",
             failures)
@@ -663,6 +674,22 @@ def main():
                           authorization_reset_verification,
                           re.IGNORECASE) is None,
             "authorization reset plan must record completed status and actual local verification",
+            failures)
+    location_independent_statuses = re.findall(r"^status: .+$", location_independent_make_plan, flags=re.MULTILINE)
+    location_independent_sections = location_independent_make_plan.split("## Verification Completed\n", 1)
+    location_independent_verification = location_independent_sections[1] if len(location_independent_sections) == 2 else ""
+    location_independent_required = (
+        "Root and external-directory Make gates passed",
+        "root-derivation mutation failed",
+        "checker-invocation mutation failed",
+        "plan-status mutation failed",
+        "plan-evidence mutation failed",
+        "documentation mutation failed",
+    )
+    require(location_independent_statuses == ["status: completed"] and
+            all(item in location_independent_verification for item in location_independent_required) and
+            re.search(r"\b(?:pending|todo|tbd|not run)\b", location_independent_verification, re.IGNORECASE) is None,
+            "location-independent Make plan must record completed status and actual verification",
             failures)
     require("denied or restricted location authorization" in readme.lower() and
             "denied or restricted location authorization" in security.lower() and

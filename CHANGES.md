@@ -2,6 +2,8 @@
 
 ## 2026-06-13
 
+- Made every Make verification target derive the checkout root so the privacy
+  baseline works from external directories.
 - Clear cached beacon proximity and nested table rows when location
   authorization becomes denied or restricted.
 - Record unknown beacon proximity in both delegates before returning so stale
