@@ -58,6 +58,8 @@ Denied or restricted location authorization must clear cached proximity and
 displayed beacon rows so revoked access cannot leave stale presence visible.
 Beacon-ranging failures must clear cached proximity and displayed beacon rows
 without logging the error or occupancy-derived state.
+Region-monitoring failures must stop beacon ranging before clearing cached and
+displayed state, and must not log the error or occupancy-derived state.
 Beacon payload casts should stay guarded so unexpected CoreLocation callback
 values do not crash the app while processing privacy-sensitive ranging events.
 Beacon monitoring and ranging should not start continuous standard coordinate

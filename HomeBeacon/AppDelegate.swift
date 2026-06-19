@@ -117,6 +117,15 @@ extension AppDelegate: CLLocationManagerDelegate {
         withError error: NSError!) {
             lastProximity = nil
     }
+
+    func locationManager(manager: CLLocationManager!,
+        monitoringDidFailForRegion region: CLRegion!,
+        withError error: NSError!) {
+            if let beaconRegion = region as? CLBeaconRegion {
+                manager.stopRangingBeaconsInRegion(beaconRegion)
+                lastProximity = nil
+            }
+    }
     
     func locationManager(manager: CLLocationManager!,
         didEnterRegion region: CLRegion!) {

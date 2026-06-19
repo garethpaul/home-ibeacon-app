@@ -108,6 +108,9 @@ any displayed nested beacon rows.
 Beacon-ranging failures clear cached proximity in both delegates and remove
 displayed nested beacon rows so a failed scan cannot leave stale presence
 visible.
+Region-monitoring failures also stop active beacon ranging before clearing
+cached and displayed state, preventing proximity scans from outliving the
+boundary that normally stops them on exit.
 
 For full legacy verification on macOS, use Xcode's test action or `xcodebuild test` with the appropriate scheme and destination.
 

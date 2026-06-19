@@ -4,6 +4,8 @@
 
 - Beacon-ranging failures clear cached proximity in both delegates and remove
   nested table rows so Core Location errors cannot leave stale presence state.
+- Region-monitoring failures stop active beacon ranging before clearing cached
+  proximity and nested table rows, without logging occupancy-derived state.
 
 ## 2026-06-13
 

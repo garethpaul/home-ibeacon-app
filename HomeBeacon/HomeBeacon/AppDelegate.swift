@@ -118,6 +118,19 @@ extension AppDelegate: CLLocationManagerDelegate {
                 viewController.tableView?.reloadData()
             }
     }
+
+    func locationManager(manager: CLLocationManager!,
+        monitoringDidFailForRegion region: CLRegion!,
+        withError error: NSError!) {
+            if let beaconRegion = region as? CLBeaconRegion {
+                manager.stopRangingBeaconsInRegion(beaconRegion)
+                lastProximity = nil
+                if let viewController = window?.rootViewController as? ViewController {
+                    viewController.beacons = nil
+                    viewController.tableView?.reloadData()
+                }
+            }
+    }
     
     func locationManager(manager: CLLocationManager!,
         didEnterRegion region: CLRegion!) {
