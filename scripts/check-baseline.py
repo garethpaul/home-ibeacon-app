@@ -24,6 +24,7 @@ STANDARD_LOCATION_PLAN = ROOT / "docs/plans/2026-06-10-standard-location-update-
 WORKFLOW_INTEGRITY_PLAN = ROOT / "docs/plans/2026-06-12-hosted-workflow-integrity.md"
 REGION_RANGING_PLAN = ROOT / "docs/plans/2026-06-12-region-scoped-beacon-ranging.md"
 EXIT_STATE_PLAN = ROOT / "docs/plans/2026-06-13-beacon-exit-state-reset.md"
+UNKNOWN_PROXIMITY_PLAN = ROOT / "docs/plans/2026-06-13-unknown-proximity-state-reset.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -183,6 +184,7 @@ def main():
         "docs/plans/2026-06-12-hosted-workflow-integrity.md",
         "docs/plans/2026-06-12-region-scoped-beacon-ranging.md",
         "docs/plans/2026-06-13-beacon-exit-state-reset.md",
+        "docs/plans/2026-06-13-unknown-proximity-state-reset.md",
     ]
 
     for relative_path in required_files:
@@ -223,6 +225,7 @@ def main():
     workflow_integrity_plan = WORKFLOW_INTEGRITY_PLAN.read_text(encoding="utf-8") if WORKFLOW_INTEGRITY_PLAN.exists() else ""
     region_ranging_plan = REGION_RANGING_PLAN.read_text(encoding="utf-8") if REGION_RANGING_PLAN.exists() else ""
     exit_state_plan = EXIT_STATE_PLAN.read_text(encoding="utf-8") if EXIT_STATE_PLAN.exists() else ""
+    unknown_proximity_plan = UNKNOWN_PROXIMITY_PLAN.read_text(encoding="utf-8") if UNKNOWN_PROXIMITY_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -340,6 +343,36 @@ def main():
             active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") == 2,
             "App delegates must monitor at launch and range only between region entry and exit",
             failures)
+    top_level_range = extract_braced_block(
+        active_app_delegate, "didRangeBeacons beacons: [AnyObject]!"
+    )
+    nested_range = extract_braced_block(
+        active_nested_app_delegate, "didRangeBeacons beacons: [AnyObject]!"
+    )
+    require(top_level_range is not None and nested_range is not None,
+            "Both app delegates must retain beacon ranging handlers",
+            failures)
+    for label, range_handler in [
+        ("Top-level", top_level_range),
+        ("Nested", nested_range),
+    ]:
+        if range_handler is None:
+            continue
+        unknown_branch = extract_braced_block(
+            range_handler,
+            "if(nearestBeacon.proximity == CLProximity.Unknown)"
+        )
+        require("nearestBeacon.proximity == lastProximity ||" not in range_handler,
+                f"{label} beacon duplicate handling must not bypass unknown-state recording",
+                failures)
+        require(range_handler.count("lastProximity = CLProximity.Unknown") == 2,
+                f"{label} beacon ranging must record unknown state for nearest and empty callbacks",
+                failures)
+        require(unknown_branch is not None and
+                unknown_branch.count("lastProximity = CLProximity.Unknown") == 1 and
+                "return;" in unknown_branch,
+                f"{label} nearest-beacon unknown branch must record unknown state before returning",
+                failures)
     top_level_exit = extract_braced_block(
         active_app_delegate, "didExitRegion region: CLRegion!)"
     )
@@ -523,6 +556,12 @@ def main():
             "Reset cached proximity" in changes and "clear the nested beacon table" in changes,
             "Docs must record the beacon exit state-reset boundary",
             failures)
+    require("unknown proximity replaces the previous known state" in readme.lower() and
+            "unknown proximity must replace stale known state" in security.lower() and
+            "unknown proximity replaces stale known state" in vision.lower() and
+            "Record unknown beacon proximity" in changes,
+            "Docs must record the unknown beacon proximity state-reset boundary",
+            failures)
     exit_state_statuses = re.findall(
         r"^status: .+$", exit_state_plan, flags=re.MULTILINE
     )
@@ -541,6 +580,32 @@ def main():
             and all(item in exit_state_verification for item in exit_state_required_evidence)
             and re.search(r"\b(?:pending|todo|tbd|not run)\b", exit_state_verification, re.IGNORECASE) is None,
             "beacon exit state-reset plan must record completed status and actual verification",
+            failures)
+    unknown_proximity_statuses = re.findall(
+        r"^status: .+$", unknown_proximity_plan, flags=re.MULTILINE
+    )
+    unknown_proximity_sections = unknown_proximity_plan.split(
+        "## Verification Completed\n", 1
+    )
+    unknown_proximity_verification = (
+        unknown_proximity_sections[1]
+        if len(unknown_proximity_sections) == 2 else ""
+    )
+    unknown_proximity_required_evidence = (
+        "All four Make gates",
+        "`xcodebuild` was",
+        "python3 -m py_compile scripts/check-baseline.py",
+        "git diff --check",
+        "Six isolated hostile mutations",
+        "Hosted macOS project validation and CodeQL evidence",
+    )
+    require(unknown_proximity_statuses == ["status: completed"]
+            and all(item in unknown_proximity_verification
+                    for item in unknown_proximity_required_evidence)
+            and re.search(r"\b(?:pending|todo|tbd|not run)\b",
+                          unknown_proximity_verification,
+                          re.IGNORECASE) is None,
+            "unknown proximity state-reset plan must record completed status and actual local verification",
             failures)
     workflow = read(".github/workflows/check.yml")
     require(workflow == EXPECTED_WORKFLOW,

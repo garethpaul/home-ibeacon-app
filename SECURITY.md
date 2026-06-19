@@ -51,6 +51,9 @@ Keep region-scoped beacon ranging limited to the interval between guarded region
 entry and exit callbacks so launch does not begin unnecessary proximity scans.
 Guarded beacon exits should clear cached proximity and displayed beacon rows so
 occupancy-derived state does not remain visible after ranging stops.
+Unknown proximity must replace stale known state before callback processing
+returns, preventing occupancy-derived state from surviving an indeterminate
+ranging interval.
 Beacon payload casts should stay guarded so unexpected CoreLocation callback
 values do not crash the app while processing privacy-sensitive ranging events.
 Beacon monitoring and ranging should not start continuous standard coordinate
