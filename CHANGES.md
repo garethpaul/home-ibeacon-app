@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-17
+
+- Beacon-ranging failures clear cached proximity in both delegates and remove
+  nested table rows so Core Location errors cannot leave stale presence state.
+
 ## 2026-06-13
 
 - Made every Make verification target derive the checkout root so the privacy

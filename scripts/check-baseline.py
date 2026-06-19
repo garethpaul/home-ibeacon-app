@@ -27,6 +27,7 @@ EXIT_STATE_PLAN = ROOT / "docs/plans/2026-06-13-beacon-exit-state-reset.md"
 UNKNOWN_PROXIMITY_PLAN = ROOT / "docs/plans/2026-06-13-unknown-proximity-state-reset.md"
 AUTHORIZATION_RESET_PLAN = ROOT / "docs/plans/2026-06-13-location-authorization-state-reset.md"
 LOCATION_INDEPENDENT_MAKE_PLAN = ROOT / "docs/plans/2026-06-13-location-independent-make.md"
+RANGING_FAILURE_PLAN = ROOT / "docs/plans/2026-06-17-ranging-failure-state-reset.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -191,6 +192,7 @@ def main():
         "docs/plans/2026-06-13-unknown-proximity-state-reset.md",
         "docs/plans/2026-06-13-location-authorization-state-reset.md",
         "docs/plans/2026-06-13-location-independent-make.md",
+        "docs/plans/2026-06-17-ranging-failure-state-reset.md",
     ]
 
     for relative_path in required_files:
@@ -234,6 +236,7 @@ def main():
     unknown_proximity_plan = UNKNOWN_PROXIMITY_PLAN.read_text(encoding="utf-8") if UNKNOWN_PROXIMITY_PLAN.exists() else ""
     authorization_reset_plan = AUTHORIZATION_RESET_PLAN.read_text(encoding="utf-8") if AUTHORIZATION_RESET_PLAN.exists() else ""
     location_independent_make_plan = LOCATION_INDEPENDENT_MAKE_PLAN.read_text(encoding="utf-8") if LOCATION_INDEPENDENT_MAKE_PLAN.exists() else ""
+    ranging_failure_plan = RANGING_FAILURE_PLAN.read_text(encoding="utf-8") if RANGING_FAILURE_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -408,6 +411,38 @@ def main():
                 "return;" in unknown_branch,
                 f"{label} nearest-beacon unknown branch must record unknown state before returning",
                 failures)
+    top_level_ranging_failure = extract_braced_block(
+        active_app_delegate,
+        "rangingBeaconsDidFailForRegion region: CLBeaconRegion!"
+    )
+    nested_ranging_failure = extract_braced_block(
+        active_nested_app_delegate,
+        "rangingBeaconsDidFailForRegion region: CLBeaconRegion!"
+    )
+    require(top_level_ranging_failure is not None and nested_ranging_failure is not None,
+            "Both app delegates must handle beacon-ranging failures",
+            failures)
+    for label, failure_handler in [
+        ("Top-level", top_level_ranging_failure),
+        ("Nested", nested_ranging_failure),
+    ]:
+        if failure_handler is None:
+            continue
+        require(failure_handler.count("lastProximity = nil") == 1,
+                f"{label} ranging failure must clear cached proximity inside the callback",
+                failures)
+        require("NSLog" not in failure_handler and "println" not in failure_handler,
+                f"{label} ranging failure must not log location-sensitive errors",
+                failures)
+    require(nested_ranging_failure is not None and
+            "viewController.beacons = nil" in nested_ranging_failure and
+            "viewController.tableView?.reloadData()" in nested_ranging_failure,
+            "Nested ranging failure must clear displayed beacon rows",
+            failures)
+    require(top_level_ranging_failure is not None and
+            "viewController.beacons = nil" not in top_level_ranging_failure,
+            "Top-level ranging failure must not invent nested table state",
+            failures)
     top_level_exit = extract_braced_block(
         active_app_delegate, "didExitRegion region: CLRegion!)"
     )
@@ -691,12 +726,46 @@ def main():
             re.search(r"\b(?:pending|todo|tbd|not run)\b", location_independent_verification, re.IGNORECASE) is None,
             "location-independent Make plan must record completed status and actual verification",
             failures)
+    ranging_failure_statuses = re.findall(
+        r"^status: .+$", ranging_failure_plan, flags=re.MULTILINE
+    )
+    ranging_failure_sections = ranging_failure_plan.split(
+        "## Verification Completed\n", 1
+    )
+    ranging_failure_verification = (
+        ranging_failure_sections[1]
+        if len(ranging_failure_sections) == 2 else ""
+    )
+    ranging_failure_required = (
+        "All four Make gates passed",
+        "external-directory absolute-Makefile check passed",
+        "`xcodebuild` was unavailable locally",
+        "Python checker compilation",
+        "workflow YAML parsing",
+        "git diff --check",
+        "Six isolated hostile mutations were rejected",
+    )
+    require(ranging_failure_statuses == ["status: completed"] and
+            all(item in ranging_failure_verification
+                    for item in ranging_failure_required) and
+            re.search(r"\b(?:pending|todo|tbd|not run)\b",
+                      ranging_failure_verification,
+                      re.IGNORECASE) is None,
+            "ranging failure plan must record completed status and actual verification",
+            failures)
     require("denied or restricted location authorization" in readme.lower() and
             "denied or restricted location authorization" in security.lower() and
             "denied or restricted authorization" in vision.lower() and
             "authorization becomes denied or restricted" in changes.lower() and
             "authorization becomes denied or restricted" in read("AGENTS.md").lower(),
             "Docs must record authorization-revocation beacon state clearing",
+            failures)
+    require("beacon-ranging failures clear cached proximity" in readme.lower() and
+            "beacon-ranging failures must clear cached proximity" in security.lower() and
+            "beacon-ranging failures clear cached and displayed beacon state" in vision.lower() and
+            "beacon-ranging failures clear cached proximity" in changes.lower() and
+            "clear cached beacon proximity and displayed rows when beacon ranging fails" in read("AGENTS.md").lower(),
+            "Docs must record beacon-ranging failure state clearing",
             failures)
     workflow = read(".github/workflows/check.yml")
     require(workflow == EXPECTED_WORKFLOW,
