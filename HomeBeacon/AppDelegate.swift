@@ -117,6 +117,7 @@ extension AppDelegate: CLLocationManagerDelegate {
         didExitRegion region: CLRegion!) {
             if let beaconRegion = region as? CLBeaconRegion {
                 manager.stopRangingBeaconsInRegion(beaconRegion)
+                lastProximity = nil
             }
             
             // Location-state logging is intentionally disabled to avoid
