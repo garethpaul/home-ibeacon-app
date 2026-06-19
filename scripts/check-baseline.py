@@ -25,6 +25,7 @@ WORKFLOW_INTEGRITY_PLAN = ROOT / "docs/plans/2026-06-12-hosted-workflow-integrit
 REGION_RANGING_PLAN = ROOT / "docs/plans/2026-06-12-region-scoped-beacon-ranging.md"
 EXIT_STATE_PLAN = ROOT / "docs/plans/2026-06-13-beacon-exit-state-reset.md"
 UNKNOWN_PROXIMITY_PLAN = ROOT / "docs/plans/2026-06-13-unknown-proximity-state-reset.md"
+AUTHORIZATION_RESET_PLAN = ROOT / "docs/plans/2026-06-13-location-authorization-state-reset.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -185,6 +186,7 @@ def main():
         "docs/plans/2026-06-12-region-scoped-beacon-ranging.md",
         "docs/plans/2026-06-13-beacon-exit-state-reset.md",
         "docs/plans/2026-06-13-unknown-proximity-state-reset.md",
+        "docs/plans/2026-06-13-location-authorization-state-reset.md",
     ]
 
     for relative_path in required_files:
@@ -226,6 +228,7 @@ def main():
     region_ranging_plan = REGION_RANGING_PLAN.read_text(encoding="utf-8") if REGION_RANGING_PLAN.exists() else ""
     exit_state_plan = EXIT_STATE_PLAN.read_text(encoding="utf-8") if EXIT_STATE_PLAN.exists() else ""
     unknown_proximity_plan = UNKNOWN_PROXIMITY_PLAN.read_text(encoding="utf-8") if UNKNOWN_PROXIMITY_PLAN.exists() else ""
+    authorization_reset_plan = AUTHORIZATION_RESET_PLAN.read_text(encoding="utf-8") if AUTHORIZATION_RESET_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -342,6 +345,33 @@ def main():
             active_delegates.count("startRangingBeaconsInRegion(beaconRegion)") == 2 and
             active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") == 2,
             "App delegates must monitor at launch and range only between region entry and exit",
+            failures)
+    top_level_authorization = extract_braced_block(
+        active_app_delegate,
+        "didChangeAuthorizationStatus status: CLAuthorizationStatus"
+    )
+    nested_authorization = extract_braced_block(
+        active_nested_app_delegate,
+        "didChangeAuthorizationStatus status: CLAuthorizationStatus"
+    )
+    require(top_level_authorization is not None and nested_authorization is not None,
+            "Both app delegates must handle location authorization changes",
+            failures)
+    for label, authorization_handler in [
+        ("Top-level", top_level_authorization),
+        ("Nested", nested_authorization),
+    ]:
+        if authorization_handler is None:
+            continue
+        require("CLAuthorizationStatus.Denied" in authorization_handler and
+                "CLAuthorizationStatus.Restricted" in authorization_handler and
+                "lastProximity = nil" in authorization_handler,
+                f"{label} authorization revocation must clear cached proximity",
+                failures)
+    require(nested_authorization is not None and
+            "viewController.beacons = nil" in nested_authorization and
+            "viewController.tableView?.reloadData()" in nested_authorization,
+            "Nested authorization revocation must clear displayed beacon rows",
             failures)
     top_level_range = extract_braced_block(
         active_app_delegate, "didRangeBeacons beacons: [AnyObject]!"
@@ -606,6 +636,40 @@ def main():
                           unknown_proximity_verification,
                           re.IGNORECASE) is None,
             "unknown proximity state-reset plan must record completed status and actual local verification",
+            failures)
+    authorization_reset_statuses = re.findall(
+        r"^status: .+$", authorization_reset_plan, flags=re.MULTILINE
+    )
+    authorization_reset_sections = authorization_reset_plan.split(
+        "## Verification Completed\n", 1
+    )
+    authorization_reset_verification = (
+        authorization_reset_sections[1]
+        if len(authorization_reset_sections) == 2 else ""
+    )
+    authorization_reset_required_evidence = (
+        "All four Make gates passed",
+        "`xcodebuild` was unavailable locally",
+        "Python checker compilation",
+        "top-level authorization reset removal mutation failed",
+        "nested authorization reset removal mutation failed",
+        "nested table-clear removal mutation failed",
+        "hosted macOS project validation and CodeQL snapshot",
+    )
+    require(authorization_reset_statuses == ["status: completed"]
+            and all(item in authorization_reset_verification
+                    for item in authorization_reset_required_evidence)
+            and re.search(r"\b(?:pending|todo|tbd|not run)\b",
+                          authorization_reset_verification,
+                          re.IGNORECASE) is None,
+            "authorization reset plan must record completed status and actual local verification",
+            failures)
+    require("denied or restricted location authorization" in readme.lower() and
+            "denied or restricted location authorization" in security.lower() and
+            "denied or restricted authorization" in vision.lower() and
+            "authorization becomes denied or restricted" in changes.lower() and
+            "authorization becomes denied or restricted" in read("AGENTS.md").lower(),
+            "Docs must record authorization-revocation beacon state clearing",
             failures)
     workflow = read(".github/workflows/check.yml")
     require(workflow == EXPECTED_WORKFLOW,
