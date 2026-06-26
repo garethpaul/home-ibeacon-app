@@ -79,6 +79,8 @@ beacon-table rows so transient ranging state ends with the region lifecycle.
 Unknown proximity replaces stale known state during ranging so later valid
 callbacks are evaluated after the indeterminate interval.
 Denied or restricted authorization clears cached and displayed beacon state.
+Location manager delegates are installed before authorization is requested or
+monitoring starts so the privacy-state reset handlers receive lifecycle events.
 Beacon-ranging failures clear cached and displayed beacon state instead of
 retaining the last observation after CoreLocation reports an error.
 Region-monitoring failures stop active beacon ranging before clearing cached

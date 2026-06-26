@@ -56,6 +56,8 @@ returns, preventing occupancy-derived state from surviving an indeterminate
 ranging interval.
 Denied or restricted location authorization must clear cached proximity and
 displayed beacon rows so revoked access cannot leave stale presence visible.
+Install the location manager delegate before requesting authorization or
+starting monitoring so authorization callbacks cannot bypass that cleanup.
 Beacon-ranging failures must clear cached proximity and displayed beacon rows
 without logging the error or occupancy-derived state.
 Region-monitoring failures must stop beacon ranging before clearing cached and

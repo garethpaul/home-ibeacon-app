@@ -1,5 +1,27 @@
 # Changes
 
+## 2026-06-26 11:35 PDT - P1 - Receive authorization lifecycle callbacks
+
+- **Summary:** Installed each active `CLLocationManager` delegate before
+  requesting location authorization or starting beacon monitoring. Apple notes
+  that a manager reports authorization state to its delegate after
+  initialization, so the previous order could bypass stale-state cleanup.
+- **Files:** Updated both active app delegates, the maintained static checker,
+  repository guidance, and the implementation plan.
+- **Tests:** The new contract failed against both previous launch paths, passed
+  after the reorder, and rejected isolated ordering regressions in each
+  delegate. Python syntax, all Make aliases, the external-directory Make gate,
+  and diff hygiene are recorded in the plan after execution.
+- **Findings:** Network reporting and occupancy notifications remain disabled;
+  no beacon identifiers, permission scope, dependencies, or monitoring policy
+  changed.
+- **Blockers:** Local `xcodebuild` and Core Location runtime validation are
+  unavailable; hosted macOS validates project parsing and physical beacon
+  behavior remains device-only.
+- **Next action:** Require the exact pull-request head to pass hosted checks,
+  attempt Codex review once, merge only that green SHA, and verify the
+  post-merge workflow.
+
 ## 2026-06-17
 
 - Beacon-ranging failures clear cached proximity in both delegates and remove

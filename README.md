@@ -105,6 +105,9 @@ in-region state is not retained after ranging stops. During ranging, unknown pro
 a later valid callback is not suppressed as a stale duplicate.
 Denied or restricted location authorization also clears cached proximity and
 any displayed nested beacon rows.
+Both app delegates install their location manager delegate before requesting
+authorization or starting monitoring, so Core Location can deliver the initial
+and subsequent authorization state to the handlers that clear stale presence.
 Beacon-ranging failures clear cached proximity in both delegates and remove
 displayed nested beacon rows so a failed scan cannot leave stale presence
 visible.
@@ -179,6 +182,8 @@ deployment target or replacing those dependencies.
   beacon payload casts in CoreLocation ranging callbacks.
 - See `docs/plans/2026-06-10-standard-location-update-removal.md` for the
   beacon-only CoreLocation boundary.
+- See `docs/plans/2026-06-26-location-manager-delegate-order.md` for the
+  delegate-first authorization and monitoring contract.
 - See `docs/plans/2026-06-09-make-gate-aliases.md` for the local gate alias guardrail.
 - See `docs/plans/2026-06-08-hex-parser-invalid-input.md` for the UI hex parser invalid-input guardrail.
 - Run `make lint`, `make test`, `make build`, and `make check` before pushing changes to plist files, Swift sources, CocoaPods metadata, credential handling, or location behavior.
