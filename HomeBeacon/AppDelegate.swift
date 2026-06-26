@@ -29,11 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             identifier: beaconIdentifier)
         
         locationManager = CLLocationManager()
+        locationManager!.delegate = self
         if(locationManager!.respondsToSelector("requestAlwaysAuthorization")) {
             locationManager!.requestAlwaysAuthorization()
         }
         
-        locationManager!.delegate = self
         beaconRegion.notifyOnEntry = true
         beaconRegion.notifyOnExit = true
         //beaconRegion.notifyEntryStateOnDisplay = true

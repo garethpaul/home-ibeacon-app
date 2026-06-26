@@ -29,6 +29,7 @@ AUTHORIZATION_RESET_PLAN = ROOT / "docs/plans/2026-06-13-location-authorization-
 LOCATION_INDEPENDENT_MAKE_PLAN = ROOT / "docs/plans/2026-06-13-location-independent-make.md"
 RANGING_FAILURE_PLAN = ROOT / "docs/plans/2026-06-17-ranging-failure-state-reset.md"
 MONITORING_FAILURE_PLAN = ROOT / "docs/plans/2026-06-17-monitoring-failure-state-reset.md"
+DELEGATE_ORDER_PLAN = ROOT / "docs/plans/2026-06-26-location-manager-delegate-order.md"
 EXPECTED_WORKFLOW = """name: Check
 
 on:
@@ -240,6 +241,7 @@ def main():
     location_independent_make_plan = LOCATION_INDEPENDENT_MAKE_PLAN.read_text(encoding="utf-8") if LOCATION_INDEPENDENT_MAKE_PLAN.exists() else ""
     ranging_failure_plan = RANGING_FAILURE_PLAN.read_text(encoding="utf-8") if RANGING_FAILURE_PLAN.exists() else ""
     monitoring_failure_plan = MONITORING_FAILURE_PLAN.read_text(encoding="utf-8") if MONITORING_FAILURE_PLAN.exists() else ""
+    delegate_order_plan = DELEGATE_ORDER_PLAN.read_text(encoding="utf-8") if DELEGATE_ORDER_PLAN.exists() else ""
 
     for xml_file in [
         "HomeBeacon.xcworkspace/contents.xcworkspacedata",
@@ -357,6 +359,19 @@ def main():
             active_delegates.count("stopRangingBeaconsInRegion(beaconRegion)") == 4,
             "App delegates must monitor at launch and stop ranging on region exit or monitoring failure",
             failures)
+    for label, app_delegate_source in [
+        ("Top-level", active_app_delegate),
+        ("Nested", active_nested_app_delegate),
+    ]:
+        delegate_assignment = app_delegate_source.find("locationManager!.delegate = self")
+        authorization_request = app_delegate_source.find("locationManager!.requestAlwaysAuthorization()")
+        monitoring_start = app_delegate_source.find("locationManager!.startMonitoringForRegion(beaconRegion)")
+        require(delegate_assignment >= 0 and
+                authorization_request >= 0 and
+                monitoring_start >= 0 and
+                delegate_assignment < authorization_request < monitoring_start,
+                f"{label} location manager must install its delegate before authorization and monitoring",
+                failures)
     top_level_authorization = extract_braced_block(
         active_app_delegate,
         "didChangeAuthorizationStatus status: CLAuthorizationStatus"
@@ -855,6 +870,18 @@ def main():
             "region-monitoring failures stop active beacon ranging" in changes.lower() and
             "stop active beacon ranging and clear cached/displayed state when region monitoring fails" in read("AGENTS.md").lower(),
             "Docs must record monitoring-failure ranging shutdown and state clearing",
+            failures)
+    require("both app delegates install their location manager delegate before requesting" in readme.lower() and
+            "install the location manager delegate before requesting authorization" in security.lower() and
+            "location manager delegates are installed before authorization" in vision.lower() and
+            "delegate before\n  requesting location authorization" in changes.lower() and
+            "install each location manager delegate before requesting authorization" in read("AGENTS.md").lower(),
+            "Docs must record delegate-first location authorization setup",
+            failures)
+    require("status: completed" in delegate_order_plan and
+            "https://developer.apple.com/documentation/corelocation/cllocationmanager" in delegate_order_plan and
+            "Both isolated ordering mutations were rejected" in delegate_order_plan,
+            "Delegate ordering plan must record completion, primary evidence, and mutation verification",
             failures)
     workflow = read(".github/workflows/check.yml")
     require(workflow == EXPECTED_WORKFLOW,
