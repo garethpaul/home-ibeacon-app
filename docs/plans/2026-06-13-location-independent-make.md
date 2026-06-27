@@ -4,15 +4,14 @@ status: completed
 
 ## Context
 
-The maintained privacy baseline passes from the checkout, but an absolute
-Makefile invocation from another directory resolves the checker relative to
-the caller.
+Rooted recipes support external callers, but GNU Make still split an absolute
+Makefile path containing spaces before deriving the checkout root.
 
 ## Scope
 
-1. Derive the repository root from `MAKEFILE_LIST`.
+1. Derive the repository root from the single loaded Makefile path while preserving spaces.
 2. Invoke the Python checker through its rooted path.
-3. Add completed-plan, external-run, guidance, and mutation contracts.
+3. Add a recursive-safe spaced-path full gate and synchronized contracts.
 4. Preserve Swift, project, pod, binary SDK, and workflow files.
 
 ## Verification Plan
@@ -29,8 +28,8 @@ recipe with no runtime state or migration.
 
 ## Work Completed
 
-- Derived `ROOT` from the loaded Makefile and invoked the checker through its
-  absolute repository path.
+- Derived `ROOT` from the sole loaded Makefile path, rejected ambiguous Makefile inputs,
+  and invoked the checker through its absolute repository path.
 - Added exact Makefile, completed-plan, external-run, and guidance contracts.
 - Preserved Swift, project, pod, binary SDK, and workflow files.
 
@@ -38,6 +37,8 @@ recipe with no runtime state or migration.
 
 - Root and external-directory Make gates passed for `lint`, `test`, `build`,
   and `check`; every target exercised the complete privacy baseline.
+- Spaced-checkout checks passed under GNU Make 4.2 and 4.4.
+- Preloaded, overridden, and additional Makefiles failed closed.
 - The root-derivation mutation failed.
 - The checker-invocation mutation failed.
 - The plan-status mutation failed.

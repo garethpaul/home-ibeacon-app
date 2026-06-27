@@ -166,7 +166,8 @@ deployment target or replacing those dependencies.
   credential-free hosted workflow contract.
 - This looks like an Apple platform project or sample. Xcode, Swift, CocoaPods, and deployment target versions may need to match the original project era.
 - Every Make verification target derives the checkout root from the loaded
-  Makefile, so an absolute Makefile path works from any working directory.
+  Makefile, so an absolute Makefile path works from any working directory,
+  including checkout paths containing spaces.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 - See `docs/plans/2026-06-08-location-log-privacy.md` for the location-state device log guardrail.
