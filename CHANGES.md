@@ -3,6 +3,7 @@
 ## 2026-06-27
 
 - Preserved absolute Makefile roots containing spaces and added a recursive-safe full-baseline regression.
+- Rejected preloaded, overridden, and additional Makefiles so verification recipes cannot be replaced.
 
 ## 2026-06-26 11:35 PDT - P1 - Receive authorization lifecycle callbacks
 
