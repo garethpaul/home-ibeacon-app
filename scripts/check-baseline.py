@@ -58,12 +58,17 @@ jobs:
 """
 EXPECTED_MAKEFILE = """.PHONY: build check lint test
 
-override ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+override empty :=
+override space := $(empty) $(empty)
+override makefile_space := __HOME_IBEACON_MAKEFILE_SPACE__
+override encoded_makefile_list := $(patsubst $(makefile_space)%,%,$(subst $(space),$(makefile_space),$(MAKEFILE_LIST)))
+override ROOT := $(subst $(makefile_space),$(space),$(abspath $(dir $(lastword $(encoded_makefile_list)))))
 
 lint test build: check
 
 check:
 \t@python3 "$(ROOT)/scripts/check-baseline.py"
+\t@python3 "$(ROOT)/scripts/test-make-spaced-path.py"
 """
 
 
@@ -194,6 +199,7 @@ def main():
         "docs/plans/2026-06-13-unknown-proximity-state-reset.md",
         "docs/plans/2026-06-13-location-authorization-state-reset.md",
         "docs/plans/2026-06-13-location-independent-make.md",
+        "scripts/test-make-spaced-path.py",
         "docs/plans/2026-06-17-ranging-failure-state-reset.md",
         "docs/plans/2026-06-17-monitoring-failure-state-reset.md",
     ]
